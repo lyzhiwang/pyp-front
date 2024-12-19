@@ -54,13 +54,6 @@ export function getkuaishou({id}) {
 }
 
 // 快手发视频
-// export function postkuaishou({params,id}) {
-//     return request({
-//         url: `/kuaishou/publish/video/${id}`,
-//         method: "post",
-//         params
-//     })
-// }
 export function postkuaishou(id, data){
     return request({
         url: `/kuaishou/publish/video/${id}`,
@@ -73,6 +66,22 @@ export function postkuaishou(id, data){
 export function getscheme({ id }) {
     return request({
         url: `/get/xhs/data/${id}`,
+        method: "get",
+    })
+}
+
+// 抖音获取视频
+export function getvideo({ id }) {
+    return request({
+        url: `/get/douyin/video/${id}`,
+        method: "get",
+    })
+}
+
+// 抖音获取评论
+export function getcontent({ id }) {
+    return request({
+        url: `/get/douyin/content/${id}`,
         method: "get",
     })
 }
@@ -97,14 +106,20 @@ export function getJsSdk() {
     });
 }
 
-//  获取地区信息
-export function setLocation(data) {
+//  下载
+export function postDownload(id) {
     return request({
-        url: "/set/location",
+        url: `/download/video/${id}`,
         method: "Post",
-        data
     });
 }
+// export function postkuaishou(data,id){
+//     return request({
+//         url: `/kuaishou/publish/video/${id}`,
+//         method: 'post',
+//         data
+//     })
+//   }
 
 // 修改用户信息
 export function postUser(data) {

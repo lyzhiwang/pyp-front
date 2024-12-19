@@ -1,32 +1,21 @@
 <template>
-  <div
-    v-if="!isGzh"
-    :class="[
-      features.length > 4
-        ? 'about_max'
-        : features.length <= 2
-        ? 'about'
-        : 'multiple',
-    ]"
-  >
-    <div class="with">
-      <img class="headline" :src="list.store.logo.path" />
-      <div class="font">{{ list.store.name }}</div>
-    </div>
-    <img
-      v-if="features.length > 4 || features.length <= 2"
-      class="name"
-      src="@/assets/mode/name.png"
-    />
-    <img
-      v-else
-      class="name_big"
-      src="@/assets/mode/big_name.png"
-      style="width: 257px; height: 120px; margin: 90px 0"
-    />
-    <div :class="['', features.length <= 2 ? 'features_t' : '']">
+  <div v-if="!isGzh" class="bg_s">
+    <img :src="imgData" alt="" class="ty_ty" />
+    <div class="font_size">
+      <div class="with">
+        <img class="headline" :src="list.store.logo.path" />
+        <div class="font">{{ list.store.name }}</div>
+      </div>
+      <img class="name" src="@/assets/mode/name.png" />
+      <!-- <img
+        v-else
+        class="name_big"
+        src="@/assets/mode/big_name.png"
+        style="width: 257px; height: 120px; margin: 90px 0"
+      /> -->
       <!-- 功能表 -->
-      <div class="function">
+      <div v-if="Video.length > 0" class="headline_title">发视频/种草</div>
+      <div :class="Video.length != 2 ? 'function' : 'function_s'">
         <div class="txt" v-show="list.douyin_switch" @click="douyin()">
           <img class="icon" src="@/assets/mode/dy.png" />
           <div class="title">发抖音</div>
@@ -35,14 +24,15 @@
           <img class="icon" src="@/assets/mode/xhs.png" />
           <div class="title">发小红书</div>
         </div>
-        <div class="txt" v-show="list.wechat_switch" @click="wx()">
-          <img class="icon" src="@/assets/mode/wx.png" />
-          <div class="title">加微信</div>
+        <div class="txt" v-show="list.kuaishou_switch" @click="kuaishou()">
+          <div>
+            <img class="icon" src="@/assets/mode/kuaishou.png" />
+            <div class="title">发快手</div>
+          </div>
         </div>
-        <div class="txt" v-show="list.friend_switch" @click="showPopup()">
-          <img class="icon" src="@/assets/mode/pyq.png" />
-          <div class="title">发朋友圈</div>
-        </div>
+      </div>
+      <div v-if="Clock.length > 0" class="headline_title">打卡点评</div>
+      <div :class="Clock.length != 2 ? 'function' : 'function_s'">
         <div class="txt" v-show="list.dianping_switch" @click="dianping()">
           <img class="icon" src="@/assets/mode/dzdp.png" />
           <div class="title">去点评+打卡</div>
@@ -51,10 +41,49 @@
           <img class="icon" src="@/assets/mode/dy.png" />
           <div class="title">去点评+收藏</div>
         </div>
+        <div class="txt" v-show="list.gaode_switch" @click="gaode()">
+          <img class="icon" src="@/assets/mode/gaode.png" />
+          <div class="title">点评+收藏</div>
+        </div>
+      </div>
+      <div v-if="focus.length > 0" class="headline_title">关注/加微信</div>
+      <div :class="focus.length != 2 ? 'function' : 'function_s'">
         <div class="txt" v-show="list.home_switch" @click="home_dy()">
           <img class="icon" src="@/assets/mode/dy.png" />
           <div class="title">关注抖音</div>
         </div>
+        <div class="txt" v-show="list.wechat_switch" @click="wx()">
+          <img class="icon" src="@/assets/mode/wx.png" />
+          <div class="title">加微信</div>
+        </div>
+      </div>
+      <div v-if="business.length > 0" class="headline_title">
+        商家团购/朋友圈/小程序
+      </div>
+      <div :class="business.length != 2 ? 'function' : 'function_s'">
+        <!-- <div class="txt" v-show="list.home_switch" @click="home_dy()">
+          <img class="icon" src="@/assets/mode/dy.png" />
+          <div class="title">抖音团购</div>
+        </div> -->
+        <div class="txt" v-show="list.meituan_switch" @click="meituan()">
+          <img class="icon" src="@/assets/mode/meituan.png" />
+          <div class="title">美团团购</div>
+        </div>
+        <div class="txt" v-show="list.friend_switch" @click="showPopup()">
+          <img class="icon" src="@/assets/mode/pyq.png" />
+          <div class="title">发朋友圈</div>
+        </div>
+        <div
+          class="txt"
+          v-show="list.mini_program_switch === 1"
+          @click="Customize()"
+        >
+          <img class="icon" :src="list.mini_program_icon_path" />
+          <div class="title">{{ list.mini_program_name }}</div>
+        </div>
+      </div>
+      <div v-if="other.length > 0" class="headline_title">其它</div>
+      <div :class="other.length != 2 ? 'function' : 'function_s'">
         <div class="txt" v-show="list.share_switch" @click="adddsp()">
           <img class="icon" src="@/assets/mode/dsp.png" />
           <div class="title">分享短视频</div>
@@ -66,14 +95,6 @@
         <div class="txt" v-show="list.wifi_switch" @click="wifi()">
           <img class="icon" src="@/assets/mode/WIFI.png" />
           <div class="title">连WIFI</div>
-        </div>
-        <div class="txt" v-show="list.kuaishou_switch" @click="kuaishou()">
-          <img class="icon" src="@/assets/mode/kuaishou.png" />
-          <div class="title">快手</div>
-        </div>
-        <div class="txt" v-show="list.meituan_switch" @click="meituan()">
-          <img class="icon" src="@/assets/mode/meituan.png" />
-          <div class="title">美团</div>
         </div>
       </div>
       <!-- 套餐详情 -->
@@ -114,12 +135,12 @@
       </div>
     </div>
   </div>
-  <!-- <div v-else-if="!list" class="centerRH"></div> -->
 </template>
 <script src="https://fe-static.xhscdn.com/biz-static/goten/xhs-1.0.1.js"></script>
 <script>
 import ClipboardJS from "clipboard";
 import { MessageBox, Indicator } from "mint-ui";
+import bgimg from "@/assets/mode/bg_s.png";
 // import { mapState, mapMutations } from "vuex";
 import "mint-ui/lib/style.css";
 import checkBrower from "@/utils/checkBrower";
@@ -142,6 +163,11 @@ export default {
       isShow: false,
       list_length: [],
       features: [],
+      Video: [],
+      Clock: [], // 打卡
+      focus: [], // 关注
+      business: [], // 商家
+      other: [], //其他
       list: [],
       xhs_data: [],
       signature: [],
@@ -149,6 +175,7 @@ export default {
       // kuaishouurl: "",
       trial: "trial",
       id: null,
+      imgData: null,
     };
   },
   computed: {
@@ -195,27 +222,36 @@ export default {
               act_switch,
               home_switch,
               poi_switch,
-              // set_meal_switch,
+              gaode_switch,
               share_switch,
               wechat_switch,
               wifi_switch,
               kuaishou_switch,
               meituan_switch,
               xhs_switch,
+              mini_program_switch,
             } = res.data;
+            if (res.data.custom_bg === 1) {
+              this.imgData = require("@/assets/mode/bg_s.png");
+            } else {
+              this.imgData = res.data.bg_image_path;
+            }
             // 统计功能为true的时候的数量长度
-            if (douyin_switch) this.features.push({ douyin_switch });
-            if (dianping_switch) this.features.push({ dianping_switch });
-            if (friend_switch) this.features.push({ friend_switch });
-            if (act_switch) this.features.push({ act_switch });
-            if (home_switch) this.features.push({ home_switch });
-            if (poi_switch) this.features.push({ poi_switch });
-            if (share_switch) this.features.push({ share_switch });
-            if (wifi_switch) this.features.push({ wifi_switch });
-            if (kuaishou_switch) this.features.push({ kuaishou_switch });
-            if (meituan_switch) this.features.push({ meituan_switch });
-            if (xhs_switch) this.features.push({ xhs_switch });
-            if (wechat_switch) this.features.push({ wechat_switch });
+            if (douyin_switch) this.Video.push({ douyin_switch });
+            if (kuaishou_switch) this.Video.push({ kuaishou_switch });
+            if (xhs_switch) this.Video.push({ xhs_switch });
+            if (friend_switch) this.business.push({ friend_switch });
+            if (dianping_switch) this.Clock.push({ dianping_switch });
+            if (poi_switch) this.Clock.push({ poi_switch });
+            if (gaode_switch) this.Clock.push({ gaode_switch });
+            if (home_switch) this.focus.push({ home_switch });
+            if (wechat_switch) this.focus.push({ wechat_switch });
+            if (act_switch) this.other.push({ act_switch });
+            if (share_switch) this.other.push({ share_switch });
+            if (wifi_switch) this.other.push({ wifi_switch });
+            if (meituan_switch) this.business.push({ meituan_switch });
+            if (mini_program_switch === 1)
+              this.business.push({ mini_program_switch });
           }
         })
         .catch((err) => {
@@ -285,6 +321,66 @@ export default {
     },
     adddsp() {
       window.location.href = `weixin://dl/business/?appid=${this.list.appid}&path=pages/home/index&query=activity_id=${this.list.share_activity_id}`;
+    },
+    Customize() {
+      let result = "";
+      let sub = "";
+      var str = this.list.mini_program_path;
+      var fdStart = str.indexOf("/");
+      if (fdStart === 0) {
+        sub = str.slice(1);
+      } else {
+        sub = str;
+      }
+      var substr = str.substring(0, str.indexOf("?"));
+      if (!substr) {
+        result = sub;
+      } else {
+        if (substr.indexOf("/") == 0) {
+          result = substr.slice(1);
+        } else {
+          result = substr;
+        }
+      }
+      var id = str.split("?");
+      var id_id = id[1]; // 参数
+      console.log(result, id_id, "sss");
+      if (id_id === undefined) {
+        console.log(1222);
+        console.log(
+          `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}`
+        );
+        window.location.href = `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}`;
+      } else {
+        console.log(777);
+        console.log(
+          `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`
+        );
+        window.location.href = `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`;
+      }
+      // console.log(substr, str, "result");
+      // var fdStart = substr.indexOf("/");
+      // if (fdStart === 0) {
+      //   if (!substr) {
+      //     // result = str;
+      //     result = str.slice(1);
+      //   } else {
+      //     result = substr.slice(1);
+      //   }
+      // } else {
+      //   if (!substr) {
+      //     result = str;
+      //   } else {
+      //     result = substr;
+      //   }
+      // }
+      // var id = str.split("?");
+      // var id_id = id[1]; // 参数
+      // console.log(result, "result444444");
+      // console.log(
+      //   `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`
+      // );
+      // window.location.href = `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`;
     },
     //朋友圈
     showPopup() {
@@ -390,6 +486,7 @@ export default {
       return value;
     },
     douyin() {
+      // this.$router.push({ path: "/about", query: { id: this.list.id } });
       Indicator.open({
         text: "加载中...",
         spinnerType: "snake",
@@ -422,6 +519,14 @@ export default {
         });
       }
     },
+    gaode() {
+      this.cope(this.list.gaode_content);
+      if (this.cope(this.list.gaode_content)) {
+        MessageBox.confirm("允许复制文案到剪切板").then(() => {
+          window.location.href = this.list.gaode_scheme;
+        });
+      }
+    },
     home_dy() {
       window.location.href = this.list.home_scheme;
     },
@@ -446,15 +551,43 @@ export default {
   },
 };
 </script>
-<style lang="css">
+<style lang="css" scoped>
 .about {
   min-height: 100vh;
   background-image: url("@/assets/mode/max.png");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 0 21.5px 18px;
-  /* position: relative; */
 }
+.font_size {
+  z-index: 1024;
+  padding: 0 21.5px 18px;
+}
+
+.bg_s {
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.ty_ty {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  filter: blur(2.35px);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+}
+.yt {
+  position: absolute;
+}
+
 .with {
   display: flex;
   align-items: center;
@@ -473,7 +606,6 @@ export default {
   min-height: 100vh;
   background-image: url("@/assets/mode/bg.png");
   padding: 0 21.5px 18px;
-  /* position: relative; */
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -483,36 +615,64 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   padding: 0 21.5px 18px;
-  /* position: relative; */
 }
 .headline {
   width: auto;
   height: 9.13333vw;
 }
+.headline_title {
+  color: #ffffff;
+  font-size: 13px;
+  text-align: left;
+  margin: 6px 0 2px 0;
+}
 .name {
   width: 250.5px;
   height: 35px;
 }
-
 .icon {
-  width: 38px;
-  height: 38px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 .function {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
+.function_s {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-right: 2px;
+  width: 67%;
+  /* .txt {
+    width: 108.5px;
+    height: 53px;
+    background-image: url("@/assets/mode/btn_bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  } */
+}
 .txt {
-  width: 159px;
-  height: 77px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  margin: 10px 0;
-  padding: 6px 0;
+  width: 106px;
+  height: 74px;
+  background-image: url("@/assets/mode/btn_bg.png");
+  background-repeat: round;
+  background-size: cover;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .title {
-  font-size: 18px;
+  font-size: 14px;
   color: #000000;
   font-weight: bold;
 }
@@ -653,7 +813,6 @@ export default {
   height: 80.5px;
   font-size: 20px;
   padding-left: 50px;
-
   text-align: left;
   color: #ffffff;
   line-height: 60.5px;

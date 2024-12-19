@@ -4,6 +4,7 @@ module.exports = defineConfig({
     publicPath: "./",
     devServer: {
         allowedHosts: "all",
+        historyApiFallback: true,
         proxy: {
             '/api': {
               target: 'http://localhost:8080',
