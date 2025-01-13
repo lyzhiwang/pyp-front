@@ -4,6 +4,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import '@/styles/globe.css'
+import { Popup } from 'mint-ui';
 
 
 import Vant from "vant"
@@ -12,6 +13,7 @@ import { Lazyload } from "vant"
 
 Vue.use(Vant)
 Vue.use(Lazyload)
+Vue.component(Popup.name, Popup);
 // 引入微信的js SDK
 import wx from 'weixin-js-sdk'
 Vue.prototype.wx = wx

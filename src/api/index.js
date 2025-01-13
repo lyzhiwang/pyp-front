@@ -70,10 +70,10 @@ export function getscheme({ id }) {
     })
 }
 
-// 抖音获取视频
+// 视频号获取视频
 export function getvideo({ id }) {
     return request({
-        url: `/get/douyin/video/${id}`,
+        url: `/get/shipinhao/video/${id}`,
         method: "get",
     })
 }
@@ -81,7 +81,7 @@ export function getvideo({ id }) {
 // 抖音获取评论
 export function getcontent({ id }) {
     return request({
-        url: `/get/douyin/content/${id}`,
+        url: `/get/shipinhao/content/${id}`,
         method: "get",
     })
 }
@@ -107,9 +107,9 @@ export function getJsSdk() {
 }
 
 //  下载
-export function postDownload(id) {
+export function postDownload(video_id) {
     return request({
-        url: `/download/video/${id}`,
+        url: `/download/shipinhao/video/${video_id}`,
         method: "Post",
     });
 }

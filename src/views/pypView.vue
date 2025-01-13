@@ -1,4 +1,5 @@
 <template>
+  <!-- 浏览器打开 -->
   <div v-if="!isGzh" class="bg_s">
     <img :src="imgData" alt="" class="ty_ty" />
     <div class="font_size">
@@ -7,12 +8,6 @@
         <div class="font">{{ list.store.name }}</div>
       </div>
       <img class="name" src="@/assets/mode/name.png" />
-      <!-- <img
-        v-else
-        class="name_big"
-        src="@/assets/mode/big_name.png"
-        style="width: 257px; height: 120px; margin: 90px 0"
-      /> -->
       <!-- 功能表 -->
       <div v-if="Video.length > 0" class="headline_title">发视频/种草</div>
       <div :class="Video.length != 2 ? 'function' : 'function_s'">
@@ -55,6 +50,10 @@
         <div class="txt" v-show="list.wechat_switch" @click="wx()">
           <img class="icon" src="@/assets/mode/wx.png" />
           <div class="title">加微信</div>
+        </div>
+        <div class="txt" v-show="list.shipinhao_switch" @click="sph()">
+          <img class="icon" src="@/assets/mode/sph.png" />
+          <div class="title">视频号</div>
         </div>
       </div>
       <div v-if="business.length > 0" class="headline_title">
@@ -116,9 +115,36 @@
         </div>
       </div>
     </div>
+    <mt-popup v-model="popupVisible" :closeOnClickModal="false" class="Popup">
+      <div class="Popup_box" v-if="publish_type == 1">
+        <div class="load">
+          <img
+            src="@/assets/mode/load.gif"
+            style="width: 100%; margin-top: -27%"
+          />
+        </div>
+        <div class="Popup_title">视频正在发送中，请稍后····</div>
+      </div>
+      <div class="Popup_box" v-else>
+        <div class="load" v-if="publish_type == 2">
+          <img
+            src="@/assets/mode/yes.png"
+            style="width: 45rpx; height: 35rpx"
+          />
+        </div>
+        <div v-if="publish_type == 3" class="load_3">
+          <img src="@/assets/mode/cole.png" style="width: 100%" />
+        </div>
+        <div class="Popup_title" v-if="publish_type == 2">
+          恭喜您，视频已发送成功!
+        </div>
+        <div class="Popup_title" v-else>{{ defeat }}</div>
+      </div>
+    </mt-popup>
   </div>
+  <!-- 微信打开 -->
   <div v-else class="mask">
-    <div>
+    <div v-if="isshow" style="z-index: 999">
       <img class="arrow" src="@/assets/mode/arrow.png" alt="" width="100px" />
       <div class="text">
         <div class="tip1">
@@ -134,12 +160,133 @@
         </div>
       </div>
     </div>
+    <!-- 首页 -->
+    <div v-else class="bg_s">
+      <img :src="imgData" alt="" class="ty_ty" />
+      <div class="font_size">
+        <div class="with">
+          <img class="headline" :src="list.store.logo.path" />
+          <div class="font">{{ list.store.name }}</div>
+        </div>
+        <img class="name" src="@/assets/mode/name.png" />
+        <!-- 功能表 -->
+        <div v-if="Video.length > 0" class="headline_title">发视频/种草</div>
+        <div :class="Video.length != 2 ? 'function' : 'function_s'">
+          <div class="txt" v-show="list.douyin_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/dy.png" />
+            <div class="title">发抖音</div>
+          </div>
+          <div class="txt" v-show="list.xhs_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/xhs.png" />
+            <div class="title">发小红书</div>
+          </div>
+          <div class="txt" v-show="list.kuaishou_switch" @click="isshow = true">
+            <div>
+              <img class="icon" src="@/assets/mode/kuaishou.png" />
+              <div class="title">发快手</div>
+            </div>
+          </div>
+        </div>
+        <div v-if="Clock.length > 0" class="headline_title">打卡点评</div>
+        <div :class="Clock.length != 2 ? 'function' : 'function_s'">
+          <div class="txt" v-show="list.dianping_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/dzdp.png" />
+            <div class="title">去点评+打卡</div>
+          </div>
+          <div class="txt" v-show="list.poi_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/dy.png" />
+            <div class="title">去点评+收藏</div>
+          </div>
+          <div class="txt" v-show="list.gaode_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/gaode.png" />
+            <div class="title">点评+收藏</div>
+          </div>
+        </div>
+        <div v-if="focus.length > 0" class="headline_title">关注/加微信</div>
+        <div :class="focus.length != 2 ? 'function' : 'function_s'">
+          <div class="txt" v-show="list.home_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/dy.png" />
+            <div class="title">关注抖音</div>
+          </div>
+          <div class="txt" v-show="list.wechat_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/wx.png" />
+            <div class="title">加微信</div>
+          </div>
+          <div
+            class="txt"
+            v-show="list.shipinhao_switch"
+            @click="isshow = true"
+          >
+            <img class="icon" src="@/assets/mode/sph.png" />
+            <div class="title">视频号</div>
+          </div>
+        </div>
+        <div v-if="business.length > 0" class="headline_title">
+          商家团购/朋友圈/小程序
+        </div>
+        <div :class="business.length != 2 ? 'function' : 'function_s'">
+          <!-- <div class="txt" v-show="list.home_switch" @click="home_dy()">
+            <img class="icon" src="@/assets/mode/dy.png" />
+            <div class="title">抖音团购</div>
+          </div> -->
+          <div class="txt" v-show="list.meituan_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/meituan.png" />
+            <div class="title">美团团购</div>
+          </div>
+          <div class="txt" v-show="list.friend_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/pyq.png" />
+            <div class="title">发朋友圈</div>
+          </div>
+          <div
+            class="txt"
+            v-show="list.mini_program_switch === 1"
+            @click="isshow = true"
+          >
+            <img class="icon" :src="list.mini_program_icon_path" />
+            <div class="title">{{ list.mini_program_name }}</div>
+          </div>
+        </div>
+        <div v-if="other.length > 0" class="headline_title">其它</div>
+        <div :class="other.length != 2 ? 'function' : 'function_s'">
+          <div class="txt" v-show="list.share_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/dsp.png" />
+            <div class="title">分享短视频</div>
+          </div>
+          <div class="txt" v-show="list.act_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/yhq.png" />
+            <div class="title">领劵活动</div>
+          </div>
+          <div class="txt" v-show="list.wifi_switch" @click="isshow = true">
+            <img class="icon" src="@/assets/mode/WIFI.png" />
+            <div class="title">连WIFI</div>
+          </div>
+        </div>
+        <!-- 套餐详情 -->
+        <div class="starBoxCard" v-if="list.set_meal_switch">
+          <img class="mealImg" :src="list.set_meal.icon_path" />
+          <div class="BoxCard_info">
+            <div class="s_title">{{ list.set_meal.title }}</div>
+            <div class="tagRow flex">
+              <div class="tag fcenter">周末节假日通用</div>
+              <div class="tag fcenter">免费预约</div>
+              <div class="tag fcenter">过期自动退</div>
+              <!-- <div class="tag fcenter">已售3022</div> -->
+            </div>
+            <div class="bottom_btn">
+              <div class="money">￥{{ list.set_meal.price }}</div>
+              <div class="receive" @click="isshow = true">抢购</div>
+              <!-- <a href="https://weixin://dl/business/page?param1=value1&param2=value2"></a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script src="https://fe-static.xhscdn.com/biz-static/goten/xhs-1.0.1.js"></script>
 <script>
 import ClipboardJS from "clipboard";
-import { MessageBox, Indicator } from "mint-ui";
+import { MessageBox, Indicator, Popup } from "mint-ui";
 import bgimg from "@/assets/mode/bg_s.png";
 // import { mapState, mapMutations } from "vuex";
 import "mint-ui/lib/style.css";
@@ -159,54 +306,66 @@ import {
 export default {
   data() {
     return {
-      isGzh: false,
-      isShow: false,
-      list_length: [],
-      features: [],
-      Video: [],
+      isGzh: false, //微信还是浏览器
+      isshow: false, //微信中点击打开引导
+      popupVisible: false, //快手发布等待中弹窗
+      publish_type: 1, //快手发布 1，发布等待 2，成功 3,失败
+      defeat: "", // 失败原因
+      Video: [], //每一项列表的长度集合
       Clock: [], // 打卡
       focus: [], // 关注
       business: [], // 商家
       other: [], //其他
-      list: [],
-      xhs_data: [],
+      list: [], //列表数据
+      xhs_data: [], //小红书数据
       signature: [],
       info: {},
-      // kuaishouurl: "",
-      trial: "trial",
       id: null,
       imgData: null,
     };
   },
-  computed: {
-    // ...mapState({
-    //   activity: (state) => state.activity,
-    // }),
-  },
   created() {
     this.isGzh = checkBrower() === 1 ? true : false;
-    if (!this.isGzh) {
-      console.log(this.$route);
-      if (this.$route.query.code && !this.$route.query.state) {
-        getCode({ code: this.$route.query.code })
-          .then((res) => {
-            if (res.data) {
-              this.id = res.data.touch_activity_id;
-              this.getList();
-            }
-          })
-          .catch((err) => {
-            const msg = err && err.message ? err.message : "网络错误";
-            MessageBox("提示", msg);
-          });
-      } else if (this.$route.query.code && this.$route.query.state) {
-        //跳转新页面
-        this.url();
-      } else {
-        this.id = this.$route.query.touch_activity_id;
-        this.getList();
-      }
+    // if (this.isGzh) {
+    //   //微信打开
+    //   this.id = this.$route.query.touch_activity_id;
+    //   this.getList();
+    // } else {
+    //浏览器打开
+    console.log(this.$route);
+    if (this.$route.query.code && !this.$route.query.state) {
+      console.log(1);
+      //获取code  绑定码
+      getCode({ code: this.$route.query.code })
+        .then((res) => {
+          if (res.data) {
+            this.id = res.data.touch_activity_id;
+            this.getList();
+          }
+        })
+        .catch((err) => {
+          const msg = err && err.message ? err.message : "网络错误";
+          MessageBox("提示", msg);
+        });
+    } else if (this.$route.query.code && this.$route.query.state) {
+      //快手授权完成拿到code后
+      this.id = JSON.parse(this.$route.query.state).touch_activity_id;
+      this.getList();
+      this.url();
+      console.log(2);
+    } else if (this.$route.query.from) {
+      console.log(3);
+      //跳快手授权
+      this.id = this.$route.query.touch_activity_id;
+      this.getList();
+      this.getkuaishou();
+    } else {
+      console.log(4);
+      //正常打开页面
+      this.id = this.$route.query.touch_activity_id;
+      this.getList();
     }
+    // }
   },
   methods: {
     getList() {
@@ -225,6 +384,7 @@ export default {
               gaode_switch,
               share_switch,
               wechat_switch,
+              shipinhao_switch,
               wifi_switch,
               kuaishou_switch,
               meituan_switch,
@@ -232,9 +392,26 @@ export default {
               mini_program_switch,
             } = res.data;
             if (res.data.custom_bg === 1) {
+              // if (res.data.custom_image === 0) {
+              //   this.imgData = require("@/assets/mode/bg_s.png");
+              // }
+              // if (res.data.custom_image === 1) {
               this.imgData = require("@/assets/mode/bg_s.png");
+              // }
+              // if (res.data.custom_image === 2) {
+              //   this.imgData = require("@/assets/mode/bg.png");
+              // }
+              // if (res.data.custom_image === 3) {
+              //   this.imgData = require("@/assets/mode/bg_s.png");
+              // }
+              // if (res.data.custom_image === 4) {
+              //   this.imgData = require("@/assets/mode/bg_s.png");
+              // }
+              // if (res.data.custom_image === 5) {
+              //   this.imgData = require("@/assets/mode/bg_s.png");
+              // }
             } else {
-              this.imgData = res.data.bg_image_path;
+              this.imgData = res.data.custom_image;
             }
             // 统计功能为true的时候的数量长度
             if (douyin_switch) this.Video.push({ douyin_switch });
@@ -246,6 +423,7 @@ export default {
             if (gaode_switch) this.Clock.push({ gaode_switch });
             if (home_switch) this.focus.push({ home_switch });
             if (wechat_switch) this.focus.push({ wechat_switch });
+            if (shipinhao_switch) this.focus.push({ shipinhao_switch });
             if (act_switch) this.other.push({ act_switch });
             if (share_switch) this.other.push({ share_switch });
             if (wifi_switch) this.other.push({ wifi_switch });
@@ -259,58 +437,21 @@ export default {
           MessageBox("提示", msg);
         });
     },
-    //加微信
+    //快手授权成功之后
     url() {
-      // this.$store.state.activity.base.detail = "11222";
+      this.popupVisible = true;
       this.id = JSON.parse(this.$route.query.state).touch_activity_id;
-      this.getList();
-      Indicator.open({
-        text: "加载中...",
-        spinnerType: "snake",
-      });
+      // this.getList();
+      // 快手发视频
       postkuaishou(JSON.parse(this.$route.query.state).touch_activity_id, {
         code: this.$route.query.code,
       })
         .then((res) => {
-          MessageBox({
-            title: "提示",
-            message: res.message,
-            // showCancelButton: true,
-          }).then((res) => {
-            if (res === "confirm") {
-              //点击确定
-              var str = window.location.href;
-              let substr = str.substring(0, str.indexOf("?"));
-              const touch_activity_id = JSON.parse(
-                this.$route.query.state
-              ).touch_activity_id;
-              console.log(substr, str, "pp");
-              window.location.href = `${substr}?touch_activity_id=${touch_activity_id}`;
-            }
-          });
-        })
+          this.publish_type = 2;
+        }) //发布失败
         .catch((err) => {
-          const msg = err && err.message ? err.message : "网络错误";
-          MessageBox({
-            title: "提示",
-            message: err.message,
-            // showCancelButton: true,
-          }).then((res) => {
-            if (res === "confirm") {
-              //点击确定
-              var str = window.location.href;
-              let substr = str.substring(0, str.indexOf("?"));
-              const touch_activity_id = JSON.parse(
-                this.$route.query.state
-              ).touch_activity_id;
-              console.log(substr, str, "pp");
-              window.location.href = `${substr}?touch_activity_id=${touch_activity_id}`;
-            }
-          });
-          // MessageBox("提示", msg);
-        })
-        .finally(() => {
-          Indicator.close();
+          this.publish_type = 3;
+          this.defeat = err.message;
         });
     },
     wx() {
@@ -322,7 +463,11 @@ export default {
     adddsp() {
       window.location.href = `weixin://dl/business/?appid=${this.list.appid}&path=pages/home/index&query=activity_id=${this.list.share_activity_id}`;
     },
+    sph() {
+      this.$router.push({ path: "/about", query: { id: this.list.id } });
+    },
     Customize() {
+      // 自定义小程序
       let result = "";
       let sub = "";
       var str = this.list.mini_program_path;
@@ -352,35 +497,8 @@ export default {
         );
         window.location.href = `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}`;
       } else {
-        console.log(777);
-        console.log(
-          `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`
-        );
         window.location.href = `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`;
       }
-      // console.log(substr, str, "result");
-      // var fdStart = substr.indexOf("/");
-      // if (fdStart === 0) {
-      //   if (!substr) {
-      //     // result = str;
-      //     result = str.slice(1);
-      //   } else {
-      //     result = substr.slice(1);
-      //   }
-      // } else {
-      //   if (!substr) {
-      //     result = str;
-      //   } else {
-      //     result = substr;
-      //   }
-      // }
-      // var id = str.split("?");
-      // var id_id = id[1]; // 参数
-      // console.log(result, "result444444");
-      // console.log(
-      //   `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`
-      // );
-      // window.location.href = `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`;
     },
     //朋友圈
     showPopup() {
@@ -530,28 +648,53 @@ export default {
     home_dy() {
       window.location.href = this.list.home_scheme;
     },
-    kuaishou() {
-      Indicator.open({
-        text: "加载中...",
-        spinnerType: "snake",
+    getkuaishou() {
+      MessageBox.alert("即将发布视频，请点击确定", "提示").then((res) => {
+        if (res === "confirm") {
+          //快手授权页
+          getkuaishou({ id: this.list.id })
+            .then((res) => {
+              sessionStorage.setItem("kuaishouurl", res.data.url);
+              window.location.href = res.data.url;
+            })
+            .catch((err) => {
+              const msg = err && err.message ? err.message : "网络错误";
+              MessageBox("提示", msg);
+            });
+        }
       });
-      getkuaishou({ id: this.list.id })
-        .then((res) => {
-          sessionStorage.setItem("kuaishouurl", res.data.url);
-          window.location.href = res.data.url;
-        })
-        .catch((err) => {
-          const msg = err && err.message ? err.message : "网络错误";
-          MessageBox("提示", msg);
-        })
-        .finally(() => {
-          Indicator.close();
-        });
+    },
+    kuaishou() {
+      window.location.href = this.list.kuaishou_url;
     },
   },
 };
 </script>
 <style lang="css" scoped>
+.Popup {
+  width: 350px;
+  height: 100px;
+  border-radius: 10px;
+}
+.Popup_box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.Popup_title {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(177, 117, 226);
+}
+.load {
+  width: 72.5px;
+  height: 74px;
+}
+.load_3 {
+  width: 66px;
+  height: 68px;
+}
 .about {
   min-height: 100vh;
   background-image: url("@/assets/mode/max.png");
@@ -646,18 +789,6 @@ export default {
   flex-wrap: wrap;
   margin-right: 2px;
   width: 67%;
-  /* .txt {
-    width: 108.5px;
-    height: 53px;
-    background-image: url("@/assets/mode/btn_bg.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 3px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  } */
 }
 .txt {
   width: 106px;
