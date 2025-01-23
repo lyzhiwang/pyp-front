@@ -38,7 +38,10 @@
       <div class="steps">
         <div>① 下载视频到手机相册</div>
         <div>② 点击复制推荐文案</div>
-        <div>③ 打开抖音APP，点击+号发布视频</div>
+        <div>
+          ③
+          打开微信视频号，点击发表视频，相册选择下载好的视频点击下一步，粘贴复制好的文案发布即可；
+        </div>
       </div>
     </div>
   </div>
@@ -310,6 +313,7 @@ export default {
   height: 12px;
 }
 .steps {
+  /* width: 1050px; */
   text-align: left;
   margin-left: 16px;
   color: #333333;

@@ -66,7 +66,7 @@
         </div> -->
         <div class="txt" v-show="list.meituan_switch" @click="meituan()">
           <img class="icon" src="@/assets/mode/meituan.png" />
-          <div class="title">美团团购</div>
+          <div class="title">团购+好评</div>
         </div>
         <div class="txt" v-show="list.friend_switch" @click="showPopup()">
           <img class="icon" src="@/assets/mode/pyq.png" />
@@ -231,7 +231,7 @@
           </div> -->
           <div class="txt" v-show="list.meituan_switch" @click="isshow = true">
             <img class="icon" src="@/assets/mode/meituan.png" />
-            <div class="title">美团团购</div>
+            <div class="title">团购+好评</div>
           </div>
           <div class="txt" v-show="list.friend_switch" @click="isshow = true">
             <img class="icon" src="@/assets/mode/pyq.png" />
@@ -539,7 +539,10 @@ export default {
             this.xhs_data = res.data;
             getsignature().then((res) => {
               this.signature = res.data;
-              if (this.xhs_data.xhs_type === 1) {
+              if (
+                this.xhs_data.xhs_type === 1 ||
+                this.xhs_data.xhs_type === 3
+              ) {
                 this.info = {
                   type: "video", // 必填，笔记类型 'video' | 'normal'
                   // images: this.xhs_data.xhs_media,
