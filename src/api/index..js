@@ -1,24 +1,5 @@
 import request from '@/utils/request'
 
-// 登录
-export function login(params) {
-    return request({
-        // eslint-disable-next-line prettier/prettier
-        url: "/user/login",
-        method: "get",
-        params,
-    });
-}
-
-// 刷新token
-export function refreshToken() {
-    return request({
-        url: "/user/refresh",
-        method: "get",
-    });
-}
-
-
 //   获取活动信息
 export function getActivityDetail({ id }) {
     return request({
@@ -36,15 +17,16 @@ export function getCode(params) {
     });
 }
 
-// douyin接口
-export function getdouyin({ id }) {
+// 抖音接口
+export function getDouYin({ id }) {
     return request({
         url: `/get/douyin/scheme/${id}`,
         method: "get",
     })
 }
+
 // 快手授权
-export function getkuaishou({ id }) {
+export function getKS({ id }) {
     return request({
         url: `/get/kuaishou/authorize/link/${id}`,
         method: "get",
@@ -52,7 +34,7 @@ export function getkuaishou({ id }) {
 }
 
 // 快手发视频
-export function postkuaishou(id, data) {
+export function postKS(id, data) {
     return request({
         url: `/kuaishou/publish/video/${id}`,
         method: 'post',
@@ -61,7 +43,7 @@ export function postkuaishou(id, data) {
 }
 
 // 小红书跳转接口
-export function getscheme({ id }) {
+export function getXhs({ id }) {
     return request({
         url: `/get/xhs/data/${id}`,
         method: "get",
@@ -69,7 +51,7 @@ export function getscheme({ id }) {
 }
 
 // 视频号获取视频
-export function getvideo({ id }) {
+export function getVideo({ id }) {
     return request({
         url: `/get/shipinhao/video/${id}`,
         method: "get",
@@ -77,7 +59,7 @@ export function getvideo({ id }) {
 }
 
 // 抖音获取评论
-export function getcontent({ id }) {
+export function getContent({ id }) {
     return request({
         url: `/get/shipinhao/content/${id}`,
         method: "get",
@@ -85,7 +67,7 @@ export function getcontent({ id }) {
 }
 
 // 小红书签名接口
-export function getsignature() {
+export function getSignature() {
     return request({
         url: `/get/xhs/signature`,
         method: "get",
@@ -93,7 +75,7 @@ export function getsignature() {
 }
 
 
-//  获取JSsdk
+//  获取JSSdk
 export function getJsSdk() {
     return request({
         url: "/wechat/jssdk",

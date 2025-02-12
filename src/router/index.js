@@ -24,27 +24,9 @@ export default new Router({
           path: '',
           components: { default: () => import('@/views/home/index') },
           props: { default: true, sidebar: false },
-          name: '素材库',
+          name: '拓客王',
           meta: {
-            title: '素材库'
-          }
-        },
-        {
-          path: '/expand',
-          components: { default: () => import('@/views/home/expand') },
-          props: { default: true, sidebar: false },
-          name: '素材库',
-          meta: {
-            title: '素材库1'
-          }
-        },
-        {
-          path: '/detail',
-          components: { default: () => import('@/views/home/detail') },
-          props: { default: true, sidebar: false },
-          name: '素材库',
-          meta: {
-            title: '素材库2'
+            title: '拓客王'
           }
         }
       ]

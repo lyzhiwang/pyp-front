@@ -1,4 +1,4 @@
-import { CommonUploadToken, GetAliToken, getInfo } from '@/api/index'
+// import { } from '@/api/index'
 import { setToken, removeToken } from '@/utils/auth'
 
 const state = {
@@ -8,13 +8,13 @@ const state = {
   info: { avatar: '', nickname: '' }, // 登陆用户信息
   link: '',
   copyRight: '',
-  aliOss:  {},
-  userId:''
+  aliOss: {},
+  userId: ''
 }
 
 const mutations = {
   SET_PROJECT: (state, data) => {
-    if (data.act_rule)state.act_rule = data.act_rule
+    if (data.act_rule) state.act_rule = data.act_rule
     state.project_name = data.project_name
     state.service = data.weapp_d_service
     state.copyRight = 'Copyright 2014-' + new Date().getFullYear() + data.project_support + '. All Rights Reserved'
@@ -36,22 +36,22 @@ const mutations = {
   },
   SET_USER_ID: (state, userId) => {
     state.userId = userId
-},
+  },
 }
 
 const actions = {
   // 登陆
   login({ commit }, data) {
     return new Promise((resolve, reject) => {
-      CommonUploadToken(data)
-        .then(res => {
-          commit('SET_TOKEN', res.data)
-          resolve(res)
-        }).catch((err) => {
-          console.log(err)
-          alert('err')
-          reject()
-        })
+      // CommonUploadToken(data)
+      //   .then(res => {
+      //     commit('SET_TOKEN', res.data)
+      //     resolve(res)
+      //   }).catch((err) => {
+      //     console.log(err)
+      //     alert('err')
+      //     reject()
+      //   })
     })
   },
 
@@ -67,25 +67,25 @@ const actions = {
   // 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-        getInfo().then(response => {
-            const { data } = response
-            commit('SET_USER_ID', data.userId)
-            resolve(response)
-        }).catch(error => {
-            reject(error)
-        })
+      // getInfo().then(response => {
+      //   const { data } = response
+      //   commit('SET_USER_ID', data.userId)
+      //   resolve(response)
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
-},
+  },
 
   // 获取阿里token
   getAli({ commit }, data) {
     return new Promise((resolve, reject) => {
-      GetAliToken(data).then((res) => {
-        commit('SET_AL_TOKEN', res.data)
-        resolve(res.data)
-      }).catch((err) => {
-        reject(err)
-      })
+      // GetAliToken(data).then((res) => {
+      //   commit('SET_AL_TOKEN', res.data)
+      //   resolve(res.data)
+      // }).catch((err) => {
+      //   reject(err)
+      // })
     })
   }
 
