@@ -8,6 +8,7 @@
         <div class="font">{{ list.store.name }}</div>
       </div>
       <img class="name" src="@/assets/mode/name.png" />
+
       <!-- 功能表 -->
       <div v-if="Video.length > 0" class="headline_title">发视频/种草</div>
       <div :class="Video.length != 2 ? 'function' : 'function_s'">
@@ -26,6 +27,8 @@
           </div>
         </div>
       </div>
+
+      <!--  -->
       <div v-if="Clock.length > 0" class="headline_title">打卡点评</div>
       <div :class="Clock.length != 2 ? 'function' : 'function_s'">
         <div class="txt" v-show="list.dianping_switch" @click="dianping()">
@@ -41,6 +44,8 @@
           <div class="title">点评+收藏</div>
         </div>
       </div>
+
+      <!--  -->
       <div v-if="focus.length > 0" class="headline_title">关注/加微信</div>
       <div :class="focus.length != 2 ? 'function' : 'function_s'">
         <div class="txt" v-show="list.home_switch" @click="home_dy()">
@@ -56,6 +61,8 @@
           <div class="title">视频号</div>
         </div>
       </div>
+
+      <!--  -->
       <div v-if="business.length > 0" class="headline_title">
         商家团购/朋友圈/小程序
       </div>
@@ -81,6 +88,8 @@
           <div class="title">{{ list.mini_program_name }}</div>
         </div>
       </div>
+
+      <!--  -->
       <div v-if="other.length > 0" class="headline_title">其它</div>
       <div :class="other.length != 2 ? 'function' : 'function_s'">
         <div class="txt" v-show="list.share_switch" @click="adddsp()">
@@ -96,6 +105,7 @@
           <div class="title">连WIFI</div>
         </div>
       </div>
+
       <!-- 套餐详情 -->
       <div class="starBoxCard" v-if="list.set_meal_switch">
         <img class="mealImg" :src="list.set_meal.icon_path" />
@@ -115,6 +125,8 @@
         </div>
       </div>
     </div>
+
+    <!--  -->
     <mt-popup v-model="popupVisible" :closeOnClickModal="false" class="Popup">
       <div class="Popup_box" v-if="publish_type == 1">
         <div class="load">
@@ -142,6 +154,7 @@
       </div>
     </mt-popup>
   </div>
+
   <!-- 微信打开 -->
   <div v-else class="mask">
     <div v-if="isshow" style="z-index: 999">
@@ -160,6 +173,7 @@
         </div>
       </div>
     </div>
+
     <!-- 首页 -->
     <div v-else class="bg_s">
       <img :src="imgData" alt="" class="ty_ty" />
@@ -169,6 +183,7 @@
           <div class="font">{{ list.store.name }}</div>
         </div>
         <img class="name" src="@/assets/mode/name.png" />
+
         <!-- 功能表 -->
         <div v-if="Video.length > 0" class="headline_title">发视频/种草</div>
         <div :class="Video.length != 2 ? 'function' : 'function_s'">
@@ -187,6 +202,8 @@
             </div>
           </div>
         </div>
+
+        <!--  -->
         <div v-if="Clock.length > 0" class="headline_title">打卡点评</div>
         <div :class="Clock.length != 2 ? 'function' : 'function_s'">
           <div class="txt" v-show="list.dianping_switch" @click="isshow = true">
@@ -202,6 +219,8 @@
             <div class="title">点评+收藏</div>
           </div>
         </div>
+
+        <!--  -->
         <div v-if="focus.length > 0" class="headline_title">关注/加微信</div>
         <div :class="focus.length != 2 ? 'function' : 'function_s'">
           <div class="txt" v-show="list.home_switch" @click="isshow = true">
@@ -221,6 +240,8 @@
             <div class="title">视频号</div>
           </div>
         </div>
+
+        <!--  -->
         <div v-if="business.length > 0" class="headline_title">
           商家团购/朋友圈/小程序
         </div>
@@ -246,6 +267,8 @@
             <div class="title">{{ list.mini_program_name }}</div>
           </div>
         </div>
+
+        <!--  -->
         <div v-if="other.length > 0" class="headline_title">其它</div>
         <div :class="other.length != 2 ? 'function' : 'function_s'">
           <div class="txt" v-show="list.share_switch" @click="isshow = true">
@@ -261,6 +284,7 @@
             <div class="title">连WIFI</div>
           </div>
         </div>
+
         <!-- 套餐详情 -->
         <div class="starBoxCard" v-if="list.set_meal_switch">
           <img class="mealImg" :src="list.set_meal.icon_path" />
@@ -283,6 +307,7 @@
     </div>
   </div>
 </template>
+
 <script src="https://fe-static.xhscdn.com/biz-static/goten/xhs-1.0.1.js"></script>
 <script>
 import ClipboardJS from "clipboard";
@@ -324,6 +349,7 @@ export default {
       imgData: null,
     };
   },
+
   created() {
     this.isGzh = checkBrower() === 1 ? true : false;
     // if (this.isGzh) {
@@ -367,7 +393,9 @@ export default {
     }
     // }
   },
+
   methods: {
+    //
     getList() {
       console.log("this.id", this.id);
       getActivityDetail({ id: this.id })
@@ -454,18 +482,28 @@ export default {
           this.defeat = err.message;
         });
     },
+
+    //
     wx() {
       window.location.href = `weixin://dl/business/?appid=${this.list.appid}&path=pagesub/touch/wixin&query=id=${this.list.id}`;
     },
+
+    //
     addcard() {
       window.location.href = `weixin://dl/business/?appid=${this.list.appid}&path=pages/home/index&query=activity_id=${this.list.act_activity_id}`;
     },
+
+    //
     adddsp() {
       window.location.href = `weixin://dl/business/?appid=${this.list.appid}&path=pages/home/index&query=activity_id=${this.list.share_activity_id}`;
     },
+
+    //
     sph() {
       this.$router.push({ path: "/about", query: { id: this.list.id } });
     },
+
+    //
     Customize() {
       // 自定义小程序
       let result = "";
@@ -500,6 +538,7 @@ export default {
         window.location.href = `weixin://dl/business/?appid=${this.list.mini_program_appid}&path=${result}&query=${id_id}`;
       }
     },
+
     //朋友圈
     showPopup() {
       this.cope(this.list.friend_content);
@@ -509,6 +548,8 @@ export default {
         });
       }
     },
+
+    //
     meituan() {
       this.cope(this.list.meituan_content);
       if (this.cope(this.list.meituan_content)) {
@@ -517,9 +558,13 @@ export default {
         });
       }
     },
+
+    //
     wifi() {
       window.location.href = `weixin://dl/business/?appid=${this.list.appid}&path=pagesub/touch/wifi&query=id=${this.list.id}`;
     },
+
+    //
     set_meal() {
       const { activity_id, set_meal_id } = this.list.set_meal;
       // let meal_id = set_meal_id;
@@ -528,6 +573,8 @@ export default {
       let activity = encodeURIComponent(que);
       window.location.href = `weixin://dl/business/?appid=${this.list.appid}&path=pagesub/seller/detail&query=${activity}`;
     },
+
+    //
     xhs() {
       Indicator.open({
         text: "加载中...",
@@ -588,6 +635,8 @@ export default {
           Indicator.close();
         });
     },
+
+    //
     cope(value) {
       // 剪切板
       var clipboard = new ClipboardJS("body", {
@@ -606,6 +655,8 @@ export default {
       });
       return value;
     },
+
+    //
     douyin() {
       // this.$router.push({ path: "/about", query: { id: this.list.id } });
       Indicator.open({
@@ -624,6 +675,8 @@ export default {
           Indicator.close();
         });
     },
+
+    //
     dianping() {
       this.cope(this.list.dianping_content);
       if (this.cope(this.list.dianping_content)) {
@@ -632,6 +685,8 @@ export default {
         });
       }
     },
+
+    //
     poi() {
       this.cope(this.list.poi_content);
       if (this.cope(this.list.poi_content)) {
@@ -640,6 +695,8 @@ export default {
         });
       }
     },
+
+    //
     gaode() {
       this.cope(this.list.gaode_content);
       if (this.cope(this.list.gaode_content)) {
@@ -648,9 +705,13 @@ export default {
         });
       }
     },
+
+    //
     home_dy() {
       window.location.href = this.list.home_scheme;
     },
+
+    //
     getkuaishou() {
       MessageBox.alert("即将发布视频，请点击确定", "提示").then((res) => {
         if (res === "confirm") {
@@ -667,6 +728,8 @@ export default {
         }
       });
     },
+
+    //
     kuaishou() {
       window.location.href = this.list.kuaishou_url;
     },
@@ -679,25 +742,30 @@ export default {
   height: 100px;
   border-radius: 10px;
 }
+
 .Popup_box {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
+
 .Popup_title {
   font-size: 15px;
   font-weight: 500;
   color: rgb(177, 117, 226);
 }
+
 .load {
   width: 72.5px;
   height: 74px;
 }
+
 .load_3 {
   width: 66px;
   height: 68px;
 }
+
 .about {
   min-height: 100vh;
   background-image: url("@/assets/mode/max.png");
@@ -705,6 +773,7 @@ export default {
   background-size: cover;
   padding: 0 21.5px 18px;
 }
+
 .font_size {
   z-index: 1024;
   padding: 0 21.5px 18px;
@@ -716,6 +785,7 @@ export default {
   background-size: cover;
   position: relative;
 }
+
 .ty_ty {
   width: 100%;
   height: 100%;
@@ -730,6 +800,7 @@ export default {
   background-size: cover;
   position: absolute;
 }
+
 .yt {
   position: absolute;
 }
@@ -741,6 +812,7 @@ export default {
   padding-top: 20px;
   padding-bottom: 10pt;
 }
+
 .font {
   display: flex;
   align-items: center;
@@ -748,6 +820,7 @@ export default {
   color: #ffffff;
   font-size: 4.6vw;
 }
+
 .about_max {
   min-height: 100vh;
   background-image: url("@/assets/mode/bg.png");
@@ -755,6 +828,7 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 .multiple {
   min-height: 100vh;
   background-image: url("@/assets/mode/multiple.png");
@@ -762,30 +836,36 @@ export default {
   background-size: cover;
   padding: 0 21.5px 18px;
 }
+
 .headline {
   width: auto;
   height: 9.13333vw;
 }
+
 .headline_title {
   color: #ffffff;
   font-size: 13px;
   text-align: left;
   margin: 6px 0 2px 0;
 }
+
 .name {
   width: 250.5px;
   height: 35px;
 }
+
 .icon {
   width: 35px;
   height: 35px;
   border-radius: 50%;
 }
+
 .function {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
 .function_s {
   display: flex;
   justify-content: space-between;
@@ -793,6 +873,7 @@ export default {
   margin-right: 2px;
   width: 67%;
 }
+
 .txt {
   width: 106px;
   height: 74px;
@@ -805,11 +886,13 @@ export default {
   justify-content: center;
   flex-direction: column;
 }
+
 .title {
   font-size: 14px;
   color: #000000;
   font-weight: bold;
 }
+
 .starBoxCard {
   width: 331px;
   display: flex;
@@ -819,24 +902,29 @@ export default {
   padding: 8px 9px;
   align-items: center;
 }
+
 .mealImg {
   width: 72.5px;
   height: 72.5px;
   margin-right: 8px;
 }
+
 .money {
   color: #fe3234;
   font-weight: 500;
 }
+
 .BoxCard_info {
   text-align: left;
   flex: 1;
   height: 72.5px;
 }
+
 .tagRow {
   flex-wrap: wrap;
   margin: 6px 0;
 }
+
 .tag {
   padding: 0px 4px;
   border: solid 0.5px #e2e0e1;
@@ -846,21 +934,26 @@ export default {
   flex-wrap: wrap;
   border-radius: 3px;
 }
+
 .s_title {
   font-size: 13px;
   color: #222;
 }
+
 .flex {
   display: flex;
 }
+
 .features_t {
   margin-top: 380px;
 }
+
 .fcenter {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .receive {
   width: 52.5px;
   height: 25.5px;
@@ -873,20 +966,24 @@ export default {
   font-weight: bold;
   font-size: 12px;
 }
+
 .bottom_btn {
   display: flex;
   justify-content: space-between;
 }
+
 .friends_title {
   font-size: 16px;
   margin-top: 20.5px;
   color: #333333;
   font-weight: bold;
 }
+
 .copywriter {
   padding: 12px 22px;
   font-size: 12px;
 }
+
 .part {
   text-align: left;
   color: #333333;
@@ -894,14 +991,17 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .cope_title {
   width: 286px;
   margin: 10px;
 }
+
 .btn {
   width: 34.5px;
   color: #ff2a48;
 }
+
 .info_btn {
   width: 168px;
   height: 32.5px;
@@ -917,6 +1017,7 @@ export default {
   left: 28%;
   margin-bottom: 21px;
 }
+
 /* zhezhao */
 .mask {
   position: fixed;
@@ -928,16 +1029,20 @@ export default {
   background-color: rgba(41, 37, 37, 0.9);
   /* pointer-events: none; */
 }
+
 .mask .arrow {
   margin-left: 264px;
 }
+
 .mask .arrowhead {
   margin-left: 204px;
 }
+
 .mask .tip1 {
   display: flex;
   align-items: center;
 }
+
 .mask .tip2 {
   padding-top: 100px;
 }
@@ -951,15 +1056,18 @@ export default {
   color: #ffffff;
   line-height: 60.5px;
 }
+
 .mar20 {
   margin: 0 12px;
 }
+
 .authPop {
   width: 85%;
   min-height: 344px;
   background: #ffffff;
   border-radius: 10px;
 }
+
 /* .cl {
   
 } */

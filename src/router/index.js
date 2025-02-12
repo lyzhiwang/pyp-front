@@ -16,18 +16,15 @@ const routes = [
         path: '/about',
         name: "AboutView",
         components: { default: () => import('@/views/AboutView') },
-      },
-
-    // {
-    //     path: "/about",
-    //     name: "about",
-    //     // component: AboutView,
-    //     // route level code-splitting
-    //     // this generates a separate chunk (about.[hash].js) for this route
-    //     // which is lazy-loaded when the route is visited.
-    //     component: () =>
-    //         import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-    // },
+    },
+    {
+        path: '/510',
+        component: () => import('@/views/510'),
+        meta: {
+            title: ''
+        },
+        hidden: true
+    }
 ];
 
 const router = new VueRouter({

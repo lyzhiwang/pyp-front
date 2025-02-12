@@ -60,7 +60,7 @@ export function postkuaishou(id, data){
         method: 'post',
         data
     })
-  }
+}
 
 // 小红书跳转接口
 export function getscheme({ id }) {
@@ -113,6 +113,8 @@ export function postDownload(video_id) {
         method: "Post",
     });
 }
+
+// 
 // export function postkuaishou(data,id){
 //     return request({
 //         url: `/kuaishou/publish/video/${id}`,

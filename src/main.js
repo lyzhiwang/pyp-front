@@ -7,12 +7,11 @@ import '@/styles/globe.css'
 import { Popup } from 'mint-ui';
 
 
-import Vant from "vant"
-import "vant/lib/index.css"
-import { Lazyload } from "vant"
+import VantGreen from 'vant-green';
+import 'vant-green/lib/index.css';
 
-Vue.use(Vant)
-Vue.use(Lazyload)
+Vue.use(VantGreen);
+
 Vue.component(Popup.name, Popup);
 // 引入微信的js SDK
 import wx from 'weixin-js-sdk'

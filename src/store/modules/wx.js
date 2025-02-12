@@ -2,7 +2,6 @@
 /* eslint-disable indent */
 import wx from "weixin-js-sdk";
 
-
 import { getJsSdk } from "@/api/index";
 
 const state = {
@@ -21,7 +20,7 @@ const actions = {
             getJsSdk()
                 .then((res) => {
                     res.data.jsApiList.push('showMenuItems')
-                    console.log('res.data.jsApiList', res.data.jsApiList)
+                    // console.log('res.data.jsApiList', res.data.jsApiList)
                     commit("SET_SDK", res.data);
                     // console.log(res, 'SET_SDK')
                     const obj = {
@@ -67,7 +66,7 @@ const actions = {
                     resolve();
                 }
             });
-            wx.error(function(err) {
+            wx.error(function (err) {
                 console.log("config", err);
                 reject(err);
             });
@@ -78,7 +77,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             wx.getLocation({
                 type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                success: function(res) {
+                success: function (res) {
                     const obj = {
                         latitude: res.latitude,
                         longitude: res.longitude,
