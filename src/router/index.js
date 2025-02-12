@@ -1,39 +1,109 @@
-/* eslint-disable prettier/prettier */
-import Vue from "vue";
-import VueRouter from "vue-router";
-import HomeView from "../views/pypView.vue";
-// import AboutView from "../views/AboutView.vue";
+import Vue from 'vue'
+import Router from 'vue-router'
 
-Vue.use(VueRouter);
+Vue.use(Router)
 
-const routes = [
+export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes: [
     {
-        path: "/",
-        name: "home",
-        component: HomeView,
+      path: '/redirect',
+      component: () => import('@/views/home/index'),
+      hidden: true,
+      children: [{
+        path: '/redirect/:path*',
+        component: () => import('@/views/redirect/index')
+      }]
     },
     {
-        path: '/about',
-        name: "AboutView",
-        components: { default: () => import('@/views/AboutView') },
+      path: '/',
+      component: () => import('@/App'),
+      children: [
+        {
+          path: '',
+          components: { default: () => import('@/views/home/index') },
+          props: { default: true, sidebar: false },
+          name: '素材库',
+          meta: {
+            title: '素材库'
+          }
+        },
+        {
+          path: '/expand',
+          components: { default: () => import('@/views/home/expand') },
+          props: { default: true, sidebar: false },
+          name: '素材库',
+          meta: {
+            title: '素材库1'
+          }
+        },
+        {
+          path: '/detail',
+          components: { default: () => import('@/views/home/detail') },
+          props: { default: true, sidebar: false },
+          name: '素材库',
+          meta: {
+            title: '素材库2'
+          }
+        }
+      ]
+    },
+    {
+      path: '/video',
+      components: { default: () => import('@/views/video/index') },
+      props: { default: true, sidebar: false },
+      name: 'Video',
+      meta: {
+        title: '视频详情'
+      }
+    },
+    {
+      path: '/404',
+      component: () => import('@/views/404'),
+      // component: () => import('@/views/ceshi/index'),
+      meta: {
+        title: '页面找不到了'
       },
+      hidden: true
+    },
+    {
+      path: '/408',
+      component: () => import('@/views/408'),
+      // component: () => import('@/views/ceshi/index'),
+      meta: {
+        title: '网络超时'
+      },
+      hidden: true
+    },
+    {
+      path: '/500',
+      component: () => import('@/views/500'),
+      // component: () => import('@/views/ceshi/index'),
+      meta: {
+        title: ''
+      },
+      hidden: true
+    },
+    {
+      path: '/510',
+      component: () => import('@/views/510'),
+      // component: () => import('@/views/ceshi/index'),
+      meta: {
+        title: ''
+      },
+      hidden: true
+    },
+    {
+      path: '/503',
+      component: () => import('@/views/503'),
+      // component: () => import('@/views/ceshi/index'),
+      meta: {
+        title: '系统维护中'
+      },
+      hidden: true
+    },
+    { path: '*', redirect: '/404', hidden: true }
+  ]
+})
 
-    // {
-    //     path: "/about",
-    //     name: "about",
-    //     // component: AboutView,
-    //     // route level code-splitting
-    //     // this generates a separate chunk (about.[hash].js) for this route
-    //     // which is lazy-loaded when the route is visited.
-    //     component: () =>
-    //         import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-    // },
-];
-
-const router = new VueRouter({
-    mode: "history",
-    base: process.env.BASE_URL,
-    routes,
-});
-
-export default router;
