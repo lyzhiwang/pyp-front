@@ -1,7 +1,8 @@
+/* eslint-disable indent */
 import request from '@/utils/request'
 
 //   获取活动信息
-export function getActivityDetail({ id }) {
+export function getActivityInfo(id) {
     return request({
         url: `/touch/activity/info/${id}`,
         method: "get",

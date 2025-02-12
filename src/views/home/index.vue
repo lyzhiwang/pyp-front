@@ -1,32 +1,72 @@
 <template>
   <div class="home">
     <!-- 背景 -->
-    <img :src="imgData" alt="" class="ty_ty" />
+    <img :src="pageBg" alt="" class="home_bg" />
 
-    <!--  -->
-    <div>
-      <div class="">
-        <img class="" src="" />
-        <div class="">{{}}</div>
-      </div>
-      <img class="name" src="@/assets/home/name.png" />
+    <div class="home_content">
+      <!--  -->
+      <Header />
+
+      <!--  -->
+      <ModuleOne />
+
+      <!--  -->
+      <ModuleTwo />
+
+      <!--  -->
+      <ModuleThree />
+
+      <!--  -->
+      <ModuleFour />
+
+      <!--  -->
+      <ModuleFive />
+
+      <!--  -->
+      <ModuleSix />
     </div>
   </div>
 </template>
 
 <script>
-import { 
-  getCode, 
-  getActivityDetail, 
-  postKS, 
-  getXhs, 
-  getSignature,
-  getDouYin,
-  getKS
-} from '@/api/index';
+import { mapState, mapMutations, mapActions } from 'vuex';
+
+import Header from '@/components/TemplateOne/Header';
+import ModuleOne from '@/components/TemplateOne/ModuleOne';
+import ModuleTwo from '@/components/TemplateOne/ModuleTwo';
+import ModuleThree from '@/components/TemplateOne/ModuleThree';
+import ModuleFour from '@/components/TemplateOne/ModuleFour';
+import ModuleFive from '@/components/TemplateOne/ModuleFive';
+import ModuleSix from '@/components/TemplateOne/ModuleSix';
+
+import bgOne from '@/assets/home/bg.png';
+
+// import {
+//   // getCode,
+//   getActivityDetail,
+//   // postKS,
+//   // getXhs,
+//   // getSignature,
+//   // getDouYin,
+//   // getKS
+// } from '@/api/index';
+
 export default {
+  components: {
+    Header,
+    ModuleOne,
+    ModuleTwo,
+    ModuleThree,
+    ModuleFour,
+    ModuleFive,
+    ModuleSix,
+  },
+
   data() {
     return {
+      pageBg: bgOne, //默认背景图
+
+      //
       isGzh: false, //微信还是浏览器
       isshow: false, //微信中点击打开引导
       popupVisible: false, //快手发布等待中弹窗
@@ -46,7 +86,14 @@ export default {
     };
   },
 
-  created() {},
+  computed: {
+    ...mapState({}),
+    ...mapActions('activity', ['getActivityDetail']),
+  },
+
+  created() {
+    // this.getDetail();
+  },
 
   methods: {
     //初始化
@@ -87,56 +134,58 @@ export default {
 
     // 获取数据详情
     getDetail() {
-      getActivityDetail({ id: this.id })
-        .then((res) => {
-          if (res.data) {
-            // 背景图
-            if (res.data.custom_bg === 1) {
-              // if (res.data.custom_image === 0) {
-              //   this.imgData = require("@/assets/mode/bg_s.png");
-              // }
-              // if (res.data.custom_image === 1) {
-              // this.imgData = require('@/assets/mode/bg_s.png');
-              // }
-              // if (res.data.custom_image === 2) {
-              //   this.imgData = require("@/assets/mode/bg.png");
-              // }
-              // if (res.data.custom_image === 3) {
-              //   this.imgData = require("@/assets/mode/bg_s.png");
-              // }
-              // if (res.data.custom_image === 4) {
-              //   this.imgData = require("@/assets/mode/bg_s.png");
-              // }
-              // if (res.data.custom_image === 5) {
-              //   this.imgData = require("@/assets/mode/bg_s.png");
-              // }
-            } else {
-              this.imgData = res.data.custom_image;
-            }
-            // 统计功能为true的时候的数量长度
-            // if (douyin_switch) this.Video.push({ douyin_switch });
-            // if (kuaishou_switch) this.Video.push({ kuaishou_switch });
-            // if (xhs_switch) this.Video.push({ xhs_switch });
-            // if (friend_switch) this.business.push({ friend_switch });
-            // if (dianping_switch) this.Clock.push({ dianping_switch });
-            // if (poi_switch) this.Clock.push({ poi_switch });
-            // if (gaode_switch) this.Clock.push({ gaode_switch });
-            // if (home_switch) this.focus.push({ home_switch });
-            // if (wechat_switch) this.focus.push({ wechat_switch });
-            // if (shipinhao_switch) this.focus.push({ shipinhao_switch });
-            // if (act_switch) this.other.push({ act_switch });
-            // if (share_switch) this.other.push({ share_switch });
-            // if (wifi_switch) this.other.push({ wifi_switch });
-            // if (meituan_switch) this.business.push({ meituan_switch });
-            // if (mini_program_switch === 1) this.business.push({ mini_program_switch });
-            //
-            // }
-          }
-        })
-        .catch((err) => {
-          const msg = err && err.message ? err.message : '网络错误';
-          // MessageBox("提示", msg);
-        });
+      this.getActivityDetail(15);
+      // // https://touch.mudanma.com/?touch_activity_id=15
+      // getActivityDetail({ id: this.id })
+      //   .then((res) => {
+      //     if (res.data) {
+      //       // 背景图
+      //       if (res.data.custom_bg === 1) {
+      //         // if (res.data.custom_image === 0) {
+      //         //   this.imgData = require("@/assets/mode/bg_s.png");
+      //         // }
+      //         // if (res.data.custom_image === 1) {
+      //         // this.imgData = require('@/assets/mode/bg_s.png');
+      //         // }
+      //         // if (res.data.custom_image === 2) {
+      //         //   this.imgData = require("@/assets/mode/bg.png");
+      //         // }
+      //         // if (res.data.custom_image === 3) {
+      //         //   this.imgData = require("@/assets/mode/bg_s.png");
+      //         // }
+      //         // if (res.data.custom_image === 4) {
+      //         //   this.imgData = require("@/assets/mode/bg_s.png");
+      //         // }
+      //         // if (res.data.custom_image === 5) {
+      //         //   this.imgData = require("@/assets/mode/bg_s.png");
+      //         // }
+      //       } else {
+      //         this.imgData = res.data.custom_image;
+      //       }
+      //       // 统计功能为true的时候的数量长度
+      //       // if (douyin_switch) this.Video.push({ douyin_switch });
+      //       // if (kuaishou_switch) this.Video.push({ kuaishou_switch });
+      //       // if (xhs_switch) this.Video.push({ xhs_switch });
+      //       // if (friend_switch) this.business.push({ friend_switch });
+      //       // if (dianping_switch) this.Clock.push({ dianping_switch });
+      //       // if (poi_switch) this.Clock.push({ poi_switch });
+      //       // if (gaode_switch) this.Clock.push({ gaode_switch });
+      //       // if (home_switch) this.focus.push({ home_switch });
+      //       // if (wechat_switch) this.focus.push({ wechat_switch });
+      //       // if (shipinhao_switch) this.focus.push({ shipinhao_switch });
+      //       // if (act_switch) this.other.push({ act_switch });
+      //       // if (share_switch) this.other.push({ share_switch });
+      //       // if (wifi_switch) this.other.push({ wifi_switch });
+      //       // if (meituan_switch) this.business.push({ meituan_switch });
+      //       // if (mini_program_switch === 1) this.business.push({ mini_program_switch });
+      //       //
+      //       // }
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     const msg = err && err.message ? err.message : '网络错误';
+      //     // MessageBox("提示", msg);
+      //   });
     },
 
     //快手授权成功之后
@@ -321,7 +370,6 @@ export default {
       //   e.clearSelection();
       //   return e.text;
       // });
-
       // clipboard.on("error", function () {
       //   console.log("复制失败");
       // });
@@ -340,7 +388,7 @@ export default {
           window.location.href = res.data.scheme;
         })
         .catch((err) => {
-          const msg = err && err.message ? err.message : "网络错误";
+          const msg = err && err.message ? err.message : '网络错误';
           // MessageBox("提示", msg);
         })
         .finally(() => {
@@ -357,7 +405,6 @@ export default {
       //   });
       // }
     },
-
 
     // 去点评+收藏
     poi() {
@@ -384,11 +431,10 @@ export default {
       window.location.href = this.list.home_scheme;
     },
 
-
     // 发布快手
     ks() {
-      MessageBox.alert("即将发布视频，请点击确定", "提示").then((res) => {
-        if (res === "confirm") {
+      MessageBox.alert('即将发布视频，请点击确定', '提示').then((res) => {
+        if (res === 'confirm') {
           // 快手授权页
           getKS({ id: this.list.id })
             .then((res) => {
@@ -396,14 +442,14 @@ export default {
               window.location.href = res.data.url;
             })
             .catch((err) => {
-              const msg = err && err.message ? err.message : "网络错误";
+              const msg = err && err.message ? err.message : '网络错误';
               // MessageBox("提示", msg);
             });
         }
       });
     },
 
-    // 
+    //
     toKs() {
       window.location.href = this.list.kuaishou_url;
     },
@@ -414,5 +460,21 @@ export default {
 <style lang="scss" scoped>
 .home {
   position: relative;
+  .home_bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    filter: blur(2.35px);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    // z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .home_content{
+    position: relative;
+  }
 }
 </style>
