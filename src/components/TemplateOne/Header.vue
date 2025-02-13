@@ -1,23 +1,30 @@
 <template>
   <div class="header">
-    <div>
-      <div class="">
-        <img class="" src="" />
-        <div class="">测试</div>
-      </div>
-      <img class="name_bg" :src="name_bg" />
+    <div class="header_top">
+      <img class="logo" :src="activity.store.logo.path" />
+      <div class="name">{{ activity.store.name }}</div>
     </div>
+    <img class="name_bg" :src="name_bg" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import name_bg from '@/assets/home/name.png';
+
 export default {
   name: '',
   data() {
     return {
       name_bg:name_bg
     };
+  },
+
+  computed: {
+    ...mapState({
+      activity: (state) => state.activity.form
+    })
   },
 
   created() {},
@@ -30,8 +37,24 @@ export default {
 .header{
   z-index: 1;
   color:red;
+  .header_top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    .logo{
+      width: auto;
+      height: 9.13333vw;
+    }
+    .name{
+      color: #ffffff;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+  }
 
   .name_bg{
+    margin-top: 20px;
     width: 250.5px;
     height: 35px;
   }

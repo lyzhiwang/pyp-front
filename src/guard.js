@@ -12,28 +12,33 @@ router.beforeEach(async(to, from, next) => {
   document.title = to.meta.title
   // 判断是微信或者支付宝浏览器提示扫码
   if (navigator.userAgent.match(/(MicroMessenger)/i) || navigator.userAgent.match(/Alipay/i)) {
-    // 在微信中打开
-    Dialog.alert({
-      title: '扫码提示',
-      message: '请用浏览器扫码'
-    }).then(() => {
-      // 这个可以关闭安卓系统的手机
-      document.addEventListener('WeixinJSBridgeReady', function() {
-        // eslint-disable-next-line no-undef
-        WeixinJSBridge.call('closeWindow')
-      }, false)
-      // 这个可以关闭ios系统的手机
-      // eslint-disable-next-line no-undef
-      WeixinJSBridge.call('closeWindow')
-      return false
-    })
+    // // 在微信中打开
+    // Dialog.alert({
+    //   title: '扫码提示',
+    //   message: '请用浏览器扫码'
+    // }).then(() => {
+    //   // 这个可以关闭安卓系统的手机
+    //   document.addEventListener('WeixinJSBridgeReady', function() {
+    //     // eslint-disable-next-line no-undef
+    //     WeixinJSBridge.call('closeWindow')
+    //   }, false)
+    //   // 这个可以关闭ios系统的手机
+    //   // eslint-disable-next-line no-undef
+    //   WeixinJSBridge.call('closeWindow')
+    //   return false
+    // })
   } else {
-    console.log('whiteList.includes', to.path)
+    // console.log('whiteList.includes', to.path)
+    // if (getToken()) {
+    //   next()
+    // } else if (to.path === '/') {
+    //   next()
+    // } else next('/510')
     if (getToken()) {
       next()
-    } else if (to.path === '/') {
+    } else {
       next()
-    } else next('/510')
+    } 
   }
 })
 
