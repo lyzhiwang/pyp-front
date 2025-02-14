@@ -4,7 +4,11 @@
     <img :src="imgData" alt="" class="ty_ty" />
     <div class="font_size">
       <div class="with">
-        <img class="headline" :src="list.store.logo.path" />
+        <img
+          v-if="list.store.logo && list.store.logo.path"
+          class="headline"
+          :src="list.store.logo.path"
+        />
         <div class="font">{{ list.store.name }}</div>
       </div>
       <img class="name" src="@/assets/mode/name.png" />
@@ -72,12 +76,12 @@
           <img class="icon" src="@/assets/mode/pyq.png" />
           <div class="title">发朋友圈</div>
         </div>
-        <div
-          class="txt"
-          v-show="list.mini_program_switch === 1"
-          @click="Customize()"
-        >
-          <img class="icon" :src="list.mini_program_icon_path" />
+        <div class="txt" v-show="list.mini_program_switch" @click="Customize()">
+          <img
+            v-if="list.mini_program_icon_path"
+            class="icon"
+            :src="list.mini_program_icon_path"
+          />
           <div class="title">{{ list.mini_program_name }}</div>
         </div>
       </div>
@@ -97,7 +101,7 @@
         </div>
       </div>
       <!-- 套餐详情 -->
-      <div class="starBoxCard" v-if="list.set_meal_switch">
+      <div class="starBoxCard" v-if="list.set_meal_switch && list.set_meal">
         <img class="mealImg" :src="list.set_meal.icon_path" />
         <div class="BoxCard_info">
           <div class="s_title">{{ list.set_meal.title }}</div>
@@ -165,7 +169,11 @@
       <img :src="imgData" alt="" class="ty_ty" />
       <div class="font_size">
         <div class="with">
-          <img class="headline" :src="list.store.logo.path" />
+          <img
+            v-if="list.store.logo && list.store.logo.path"
+            class="headline"
+            :src="list.store.logo.path"
+          />
           <div class="font">{{ list.store.name }}</div>
         </div>
         <img class="name" src="@/assets/mode/name.png" />
@@ -239,10 +247,14 @@
           </div>
           <div
             class="txt"
-            v-show="list.mini_program_switch === 1"
+            v-show="list.mini_program_switch"
             @click="isshow = true"
           >
-            <img class="icon" :src="list.mini_program_icon_path" />
+            <img
+              v-if="list.mini_program_icon_path"
+              class="icon"
+              :src="list.mini_program_icon_path"
+            />
             <div class="title">{{ list.mini_program_name }}</div>
           </div>
         </div>
@@ -262,7 +274,7 @@
           </div>
         </div>
         <!-- 套餐详情 -->
-        <div class="starBoxCard" v-if="list.set_meal_switch">
+        <div class="starBoxCard" v-if="list.set_meal_switch && list.set_meal">
           <img class="mealImg" :src="list.set_meal.icon_path" />
           <div class="BoxCard_info">
             <div class="s_title">{{ list.set_meal.title }}</div>
@@ -428,7 +440,7 @@ export default {
             if (share_switch) this.other.push({ share_switch });
             if (wifi_switch) this.other.push({ wifi_switch });
             if (meituan_switch) this.business.push({ meituan_switch });
-            if (mini_program_switch === 1)
+            if (mini_program_switch)
               this.business.push({ mini_program_switch });
           }
         })
