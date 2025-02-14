@@ -39,7 +39,8 @@ export default {
 
   computed: {
     ...mapState({
-      activity: (state) => state.activity.form
+      activity: (state) => state.activity.form,
+      PageType: (state) => state.activity.PageType
     })
   },
 
@@ -48,6 +49,10 @@ export default {
   methods: {
     // 发抖音
     douYin() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       getDy({ id: this.activity.id })
         .then((res) => {
           window.location.href = res.data.scheme;
@@ -56,6 +61,10 @@ export default {
 
     // 发小红书
     xhs() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       getXhs({ id: this.activity.id })
         .then((res) => {
           if (res.data) {
@@ -103,17 +112,14 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          const msg = err && err.message ? err.message : "网络错误";
-          // MessageBox("提示", msg);
-        })
-        .finally(() => {
-          // Indicator.close();
-        });
     },
 
     // 发快手
     ks(){
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       window.location.href = this.activity.kuaishou_url;
     }
   },

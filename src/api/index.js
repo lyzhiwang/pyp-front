@@ -10,7 +10,7 @@ export function getActivityInfo(params) {
 }
 
 // 抖音接口
-export function getDy({id}) {
+export function getDy({ id }) {
     return request({
         url: `/get/douyin/scheme/${id}`,
         method: "get",
@@ -67,3 +67,40 @@ export function getJsSdk() {
         },
     });
 }
+
+
+//   code换取碰一碰活动id
+export function getCode(params) {
+    return request({
+        url: `/code/activity`,
+        method: "get",
+        params
+    });
+}
+
+// 快手授权
+export function getKsAuthorizeLink({ id }) {
+    return request({
+        url: `/get/kuaishou/authorize/link/${id}`,
+        method: "get",
+    })
+}
+
+// 快手发视频
+export function postKsPublishVideo(id, data) {
+    return request({
+        url: `/kuaishou/publish/video/${id}`,
+        method: 'post',
+        data
+    })
+}
+
+// code 换取openid
+export function getCodeToOpenid(params) {
+    return request({
+        url: `/code/to/openid`,
+        method: "get",
+        params
+    });
+}
+

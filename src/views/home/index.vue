@@ -1,7 +1,12 @@
 <template>
   <div class="home">
     <!-- 背景 -->
-    <img v-if="activity.custom_image" :src="activity.custom_image" alt="" class="home_bg" />
+    <img
+      v-if="activity.custom_image"
+      :src="activity.custom_image"
+      alt=""
+      class="home_bg"
+    />
     <img v-else :src="pageBg" alt="" class="home_bg" />
 
     <div class="home_content">
@@ -9,22 +14,69 @@
       <Header />
 
       <!--  -->
-      <ModuleOne />
+      <ModuleOne @openCover="openCover" />
 
       <!--  -->
-      <ModuleTwo />
+      <ModuleTwo @openCover="openCover" />
 
       <!--  -->
-      <ModuleThree />
+      <ModuleThree @openCover="openCover" />
 
       <!--  -->
-      <ModuleFour />
+      <ModuleFour @openCover="openCover" />
 
       <!--  -->
-      <ModuleFive />
+      <ModuleFive @openCover="openCover" />
 
       <!--  -->
-      <ModuleSix />
+      <ModuleSix @openCover="openCover" />
+
+      <!--  -->
+      <div v-if="isShow" class="mask" style="z-index: 999">
+        <img class="arrow" src="@/assets/home/arrow.png" alt="" width="100px" />
+        <div class="text">
+          <div class="tip1">
+            <span>点击右上角</span>
+            <img src="@/assets/home/write.png" width="2%" class="mar20" />
+          </div>
+          <div class="tip1">
+            选择在<img
+              src="@/assets/home/browser.png"
+              width="10%"
+              class="mar20"
+            />浏览器中打开，
+          </div>
+        </div>
+      </div>
+
+      <!--  -->
+      <van-dialog v-model="popupVisible" title="提示" show-cancel-button confirm-button-color="#e57cff">
+        <div class="Popup_box" v-if="publish_type == 1">
+          <div class="load">
+            <img
+              src="@/assets/home/load.gif"
+              style="width: 100%; margin-top: -27%"
+            />
+          </div>
+          <div class="Popup_title">视频正在发送中，请稍后····</div>
+        </div>
+        <div class="Popup_box" v-else>
+          <div class="load_2" v-if="publish_type == 2">
+            <img
+              class="yesPng"
+              src="@/assets/home/yes.png"
+              style="width: 45rpx; height: 35rpx"
+            />
+          </div>
+          <div v-if="publish_type == 3" class="load_3">
+            <img src="@/assets/home/cole.png" style="width: 100%" />
+          </div>
+          <div class="Popup_title" v-if="publish_type == 2">
+            恭喜您，视频已发送成功!
+          </div>
+          <div class="Popup_title" v-else>{{ defeat }}</div>
+        </div>
+      </van-dialog>
     </div>
   </div>
 </template>
@@ -42,15 +94,14 @@ import ModuleSix from '@/components/TemplateOne/ModuleSix';
 
 import bgOne from '@/assets/home/bg.png';
 
-// import {
-//   // getCode,
-//   getActivityDetail,
-//   // postKS,
-//   // getXhs,
-//   // getSignature,
-//   // getDouYin,
-//   // getKS
-// } from '@/api/index';
+import { Toast , Dialog} from 'vant-green';
+import {
+  getKsAuthorizeLink,
+  getCodeToOpenid
+} from '@/api/index';
+
+// import { getOpenId , setOpenId } from './utils/auth'
+import { getOpenId , setOpenId } from '../../utils/auth'
 
 export default {
   components: {
@@ -67,97 +118,212 @@ export default {
     return {
       pageBg: bgOne, //默认背景图
 
-      //
-      isGzh: false, //微信还是浏览器
-      isshow: false, //微信中点击打开引导
+      isShow: false, //微信中点击打开引导
+      id: null,
+
       popupVisible: false, //快手发布等待中弹窗
       publish_type: 1, //快手发布 1，发布等待 2，成功 3,失败
       defeat: '', // 失败原因
-      Video: [], //每一项列表的长度集合
-      Clock: [], // 打卡
-      focus: [], // 关注
-      business: [], // 商家
-      other: [], //其他
-      list: [], //列表数据
-      xhs_data: [], //小红书数据
-      signature: [],
-      info: {},
-      id: null,
-      imgData: null,
+
+      //
+      isGzh: false, //微信还是浏览器
     };
   },
 
   computed: {
     ...mapState({
-      activity: (state) => state.activity.form
-    })
+      activity: (state) => state.activity.form,
+      PageType: (state) => state.activity.PageType
+    }),
     // ...mapActions('activity', ['getActivityDetail']),
   },
 
   created() {
-    this.getDetail();
+    this.init()
   },
 
   methods: {
+    // //初始化
+    // init() {
+    //   if (this.$route.query.code && !this.$route.query.state) {
+    //     console.log(1);
+    //     // 获取code  绑定码
+    //     getCode({ code: this.$route.query.code })
+    //       .then((res) => {
+    //         if (res.data) {
+    //           this.id = res.data.touch_activity_id;
+    //           this.getDetail();
+    //         }
+    //       })
+    //   } else if (this.$route.query.code && this.$route.query.state) {
+    //     //快手授权完成拿到code后
+    //     this.id = JSON.parse(this.$route.query.state).touch_activity_id;
+    //     this.getDetail();
+    //     this.urlKs();
+    //     console.log(2);
+    //   } else if (this.$route.query.from) {
+    //     console.log(3);
+    //     //跳快手授权
+    //     this.id = this.$route.query.touch_activity_id;
+    //     this.getDetail();
+    //     this.faBuKs();
+    //   } else {
+    //     console.log(4);
+    //     console.log(this.PageType);
+    //     //正常打开页面
+    //     this.id = this.$route.query.touch_activity_id;
+    //     this.getDetail();
+    //   }
+    // },
+
     //初始化
     init() {
-      if (this.$route.query.code && !this.$route.query.state) {
-        console.log(1);
-        //获取code  绑定码
-        getCode({ code: this.$route.query.code })
-          .then((res) => {
-            if (res.data) {
-              this.id = res.data.touch_activity_id;
-              // this.getList();
-            }
-          })
-          .catch((err) => {
-            const msg = err && err.message ? err.message : '网络错误';
-            // MessageBox('提示', msg);
-          });
-      } else if (this.$route.query.code && this.$route.query.state) {
-        //快手授权完成拿到code后
-        this.id = JSON.parse(this.$route.query.state).touch_activity_id;
-        // this.getList();
-        // this.url();
-        console.log(2);
-      } else if (this.$route.query.from) {
-        console.log(3);
-        //跳快手授权
+      if(this.PageType === 2 || this.PageType === '2'){
+        console.log('微信网页初始化')
         this.id = this.$route.query.touch_activity_id;
-        // this.getList();
-        // this.getkuaishou();
+        this.getDetail();
       } else {
-        console.log(4);
-        //正常打开页面
-        this.id = this.$route.query.touch_activity_id;
-        // this.getList();
+        if (this.$route.query.code && !this.$route.query.state) {
+          console.log(1);
+          // 获取code  绑定码
+          getCode({ code: this.$route.query.code })
+            .then((res) => {
+              if (res.data) {
+                this.id = res.data.touch_activity_id;
+                this.getDetail();
+              }
+            })
+        } else if (this.$route.query.code && this.$route.query.state) {
+          //快手授权完成拿到code后
+          this.id = JSON.parse(this.$route.query.state).touch_activity_id;
+          this.getDetail();
+          this.urlKs();
+          console.log(2);
+        } else if (this.$route.query.from) {
+          console.log(3);
+          //跳快手授权
+          this.id = this.$route.query.touch_activity_id;
+          this.getDetail();
+          this.faBuKs();
+        } else {
+          console.log(4);
+          console.log(this.PageType);
+          //正常打开页面
+          this.id = this.$route.query.touch_activity_id;
+          this.getDetail();
+        }
       }
+      
     },
 
     // 获取数据详情
     getDetail() {
-      this.$store.dispatch('activity/getActivityDetail', {id:15})
+      this.$store.dispatch('activity/getActivityDetail', { id: this.id }).then(res=>{
+        console.log('进入1111');
+        // console.log(getOpenId());
+        // if(
+        //   (this.PageType === 2 || this.PageType === '2' ) &&
+        //   !getOpenId()
+        // ){
+        //   console.log('进入2222');
+        //   this.$store.dispatch('user/refreshLink',this.activity).then((link) => {
+        //     console.log('进入3333');
+        //     console.log(link);
+        //     window.location.href = link
+        //     setOpenId(1)
+        //   })
+        // }  else if ((this.PageType === 2 || this.PageType === '2' ) && this.$route.query.code){
+        //   getCodeToOpenid({code:this.$route.query.code}).then(res=>{
+        //     console.log('进入4444');
+        //     console.log(res);
+        //   })
+        // }
+
+        if( this.PageType === 2 || this.PageType === '2'){
+          if(this.$route.query.code){
+            // code存在换取openid
+            getCodeToOpenid({code:this.$route.query.code}).then(res=>{
+              console.log('code存在换取openid');
+              console.log(res);
+            })
+          } else {
+            this.$store.dispatch('user/refreshLink',this.activity).then((link) => {
+              // code不存在 跳转授权
+              console.log('code不存在 跳转授权');
+              console.log(link);
+              window.location.href = link
+              // setOpenId(1)
+            })
+          }
+        } 
+      })
+    },
+
+    async initWx(act) {
+      console.log('55555555555555555555555555')
+      // 测试
+      // setTimeout(() => {
+      //   this.$store.commit('user/SET_LOCATION', 1)
+      //   // this.$store.dispatch('activity/shareActivity')
+      // }, 1000)
+      // return
+      try {
+        // 微信配置
+        await this.$store.dispatch('wx/getSdk')
+        await this.$store.dispatch('wx/checkWxConfig', ['openLocation', 'hideAllNonBaseMenuItem', 'getLocation'])
+        // 分享朋友圈
+        this.$store.dispatch('wx/setShare', act)
+        // 分享好友
+        this.$store.dispatch('wx/setShareFriend', act)
+      } catch (e) {
+        console.log('initWx1', e)
+      }
     },
 
     //快手授权成功之后
-    url() {
+    urlKs() {
       this.popupVisible = true;
       this.id = JSON.parse(this.$route.query.state).touch_activity_id;
-      // this.getList();
+      this.getDetail();
       // 快手发视频
-      postKS(JSON.parse(this.$route.query.state).touch_activity_id, {
+      postKsPublishVideo(JSON.parse(this.$route.query.state).touch_activity_id, {
         code: this.$route.query.code,
       })
         .then((res) => {
-          // this.publish_type = 2;
+          this.publish_type = 2;
         }) //发布失败
         .catch((err) => {
-          // this.publish_type = 3;
-          // this.defeat = err.message;
+          this.publish_type = 3;
+          this.defeat = err.message;
         });
     },
 
+    // 发布快手
+    faBuKs() {
+      Dialog.confirm({
+        title: '提示',
+        message: '即将发布视频，请点击确定',
+        // confirmButtonText: '确认',
+        // cancelButtonText: '取消'
+      })
+        .then(() => {
+          // on confirm
+          //快手授权页
+          getKsAuthorizeLink({ id: this.activity.id })
+            .then((res) => {
+              sessionStorage.setItem("kuaishouurl", res.data.url);
+              window.location.href = res.data.url;
+            })
+          })
+        .catch(() => {
+          // on cancel
+        });
+    },
+
+    // 打开遮罩层
+    openCover(){
+      this.isShow = true;
+    }
   },
 };
 </script>
@@ -166,7 +332,9 @@ export default {
 .home {
   position: relative;
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
+  padding-top: 20px;
+  padding-bottom: 30px;
   .home_bg {
     width: 100%;
     height: 100%;
@@ -180,8 +348,66 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
   }
-  .home_content{
+  .home_content {
     position: relative;
+  }
+
+  .mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 111112;
+    background-color: rgba(41, 37, 37, 0.9);
+    .arrow {
+      margin-left: 264px;
+    }
+    .text {
+      height: 80.5px;
+      font-size: 20px;
+      padding-left: 50px;
+      text-align: left;
+      color: #ffffff;
+      line-height: 60.5px;
+      .tip1 {
+        display: flex;
+        align-items: center;
+        .mar20 {
+          margin: 0 12px;
+        }
+      }
+    }
+  }
+
+  .Popup_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .load {
+      width: 72.5px;
+      height: 90px;
+    }
+    .load_2{
+      width: 73px;
+      height: 100px;
+      .yesPng{
+        position: relative;
+        left: -40px;
+        top: -20px;
+      }
+    }
+    .load_3 {
+      width: 66px;
+      height: 68px;
+    }
+    .Popup_title {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgb(177, 117, 226);
+    }
+    
   }
 }
 </style>

@@ -31,6 +31,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
+      PageType: (state) => state.activity.PageType
     }),
   },
 
@@ -39,9 +40,11 @@ export default {
   methods: {
     // 
     set_meal() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       const { activity_id, set_meal_id } = this.activity.set_meal;
-      // let meal_id = set_meal_id;
-      // const obj = { activity_id, meal_id };
       const que = `id=${activity_id}&meal_id=${set_meal_id}`;
       let activity = encodeURIComponent(que);
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/seller/detail&query=${activity}`;

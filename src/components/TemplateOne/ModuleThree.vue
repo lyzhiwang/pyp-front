@@ -32,6 +32,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
+      PageType: (state) => state.activity.PageType
     }),
   },
 
@@ -40,17 +41,33 @@ export default {
   methods: {
     // 关注抖音
     home_dy() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       window.location.href = this.activity.home_scheme;
     },
 
     // 加微信
     wx() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wixin&query=id=${this.activity.id}`;
     },
 
     // 视频号
     sph() {
-      this.$router.push({ path: "/video", query: { id: this.activity.id } });
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
+      this.$router.push({
+        path: '/video?id='+this.activity.id,
+        replace: true
+      })
+      // this.$router.push({ path: "/video", query: { id: this.activity.id } });
     },
   },
 };

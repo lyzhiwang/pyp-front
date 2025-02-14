@@ -99,13 +99,19 @@ const state = {
         wechat_switch: true,
         wifi_switch: true,
         xhs_switch: true,
-    }
+    },
+
+    PageType:1  // 1:浏览器页面  2：微信页面
 }
 
 const mutations = {
     // 
     SET_INFO: (state, info) => {
         state.form = info
+    },
+
+    SET_PAGE_TYPE: (state, type) => {
+        state.PageType = type
     },
 }
 

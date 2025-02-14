@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header_top">
-      <img class="logo" :src="activity.store.logo.path" />
+      <img v-if="activity && activity.store && activity.store.logo && activity.store.logo.path" class="logo" :src="activity.store.logo.path" />
       <div class="name">{{ activity.store.name }}</div>
     </div>
     <img class="name_bg" :src="name_bg" />
@@ -41,14 +41,14 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 20px;
+    // padding-top: 20px;
     .logo{
       width: auto;
-      height: 9.13333vw;
+      height: 28px;
     }
     .name{
       color: #ffffff;
-      font-size: 13px;
+      font-size: 16px;
       margin-left: 10px;
     }
   }

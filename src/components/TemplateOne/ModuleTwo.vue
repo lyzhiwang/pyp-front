@@ -23,6 +23,7 @@
 <script>
 import { mapState } from 'vuex';
 import ClipboardJS from "clipboard";
+import { Toast , Dialog} from 'vant-green';
 export default {
   name: 'ModuleTwo',
   data() {
@@ -34,6 +35,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
+      PageType: (state) => state.activity.PageType
     }),
   },
 
@@ -61,31 +63,82 @@ export default {
 
     // 去点评+打卡
     dianPing() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       this.cope(this.activity.dianping_content);
       if (this.cope(this.activity.dianping_content)) {
         // MessageBox.confirm("允许复制文案到剪切板").then(() => {
         //   window.location.href = this.activity.dianping_scheme;
         // });
+        Dialog.confirm({
+          // title: '标题',
+          message: '允许复制文案到剪切板',
+          // confirmButtonText: '确认',
+          // cancelButtonText: '取消'
+        })
+          .then(() => {
+            // on confirm
+            window.location.href = this.activity.dianping_scheme;
+          })
+          .catch(() => {
+            // on cancel
+          });
       }
     },
 
     // 去点评+收藏
     poi() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       this.cope(this.activity.poi_content);
       if (this.cope(this.activity.poi_content)) {
         // MessageBox.confirm("允许复制文案到剪切板").then(() => {
         //   window.location.href = this.activity.poi_scheme;
         // });
+        Dialog.confirm({
+          // title: '标题',
+          message: '允许复制文案到剪切板',
+          // confirmButtonText: '确认',
+          // cancelButtonText: '取消'
+        })
+          .then(() => {
+            // on confirm
+            window.location.href = this.activity.poi_scheme;
+          })
+          .catch(() => {
+            // on cancel
+          });
       }
     },
 
     // 点评+收藏
     gaoDe() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       this.cope(this.activity.gaode_content);
       if (this.cope(this.activity.gaode_content)) {
         // MessageBox.confirm("允许复制文案到剪切板").then(() => {
         //   window.location.href = this.activity.gaode_scheme;
         // });
+        Dialog.confirm({
+          // title: '标题',
+          message: '允许复制文案到剪切板',
+          // confirmButtonText: '确认',
+          // cancelButtonText: '取消'
+        })
+          .then(() => {
+            // on confirm
+            window.location.href = this.activity.gaode_scheme;
+          })
+          .catch(() => {
+            // on cancel
+          });
       }
     },
   },

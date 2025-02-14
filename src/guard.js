@@ -27,6 +27,22 @@ router.beforeEach(async(to, from, next) => {
     //   WeixinJSBridge.call('closeWindow')
     //   return false
     // })
+
+    store.commit('activity/SET_PAGE_TYPE', 2)
+    console.log(window.location.href);
+    // if(this.$store.state.user.openid === '' || this.$store.state.user.openid === null){
+    //   this.$store.dispatch('user/refreshLink').then((link) => {
+    //     window.location.href = link
+    //   })
+    //   return
+    // }
+    
+
+    if (getToken()) {
+      next()
+    } else {
+      next()
+    } 
   } else {
     // console.log('whiteList.includes', to.path)
     // if (getToken()) {
@@ -34,6 +50,8 @@ router.beforeEach(async(to, from, next) => {
     // } else if (to.path === '/') {
     //   next()
     // } else next('/510')
+
+    store.commit('activity/SET_PAGE_TYPE', 1)
     if (getToken()) {
       next()
     } else {

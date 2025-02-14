@@ -32,6 +32,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
+      PageType: (state) => state.activity.PageType
     }),
   },
 
@@ -41,16 +42,28 @@ export default {
 
     // 分享短视频
     addDsp() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pages/home/index&query=activity_id=${this.activity.share_activity_id}`;
     },
 
     // 领劵活动
     addCard() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pages/home/index&query=activity_id=${this.activity.act_activity_id}`;
     },
 
     // WIFI
     wifi() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wifi&query=id=${this.activity.id}`;
     },
   },

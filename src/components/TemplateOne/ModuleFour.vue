@@ -25,7 +25,7 @@
 <script>
 import ClipboardJS from "clipboard";
 import { mapState } from 'vuex';
-
+import { Toast , Dialog} from 'vant-green';
 export default {
   name: '',
   data() {
@@ -37,6 +37,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
+      PageType: (state) => state.activity.PageType
     }),
   },
 
@@ -64,26 +65,64 @@ export default {
 
     // 团购+好评
     meiTuAn() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       this.cope(this.activity.meituan_content);
       if (this.cope(this.activity.meituan_content)) {
         // MessageBox.confirm("允许复制文案到剪切板").then(() => {
         //   window.location.href = this.activity.meituan_scheme;
         // });
+        Dialog.confirm({
+          // title: '标题',
+          message: '允许复制文案到剪切板',
+          // confirmButtonText: '确认',
+          // cancelButtonText: '取消'
+        })
+          .then(() => {
+            // on confirm
+            window.location.href = this.activity.meituan_scheme;
+          })
+          .catch(() => {
+            // on cancel
+          });
       }
     },
 
     //朋友圈
     showPopup() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       this.cope(this.activity.friend_content);
       if (this.cope(this.activity.friend_content)) {
         // MessageBox.confirm("允许复制文案到剪切板").then(() => {
         //   window.location.href = this.activity.friend_scheme;
         // });
+        Dialog.confirm({
+          // title: '标题',
+          message: '允许复制文案到剪切板',
+          // confirmButtonText: '确认',
+          // cancelButtonText: '取消'
+        })
+          .then(() => {
+            // on confirm
+            window.location.href = this.activity.friend_scheme;
+          })
+          .catch(() => {
+            // on cancel
+          });
       }
     },
 
     // 自定义小程序
     Customize() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
       let result = "";
       let sub = "";
       var str = this.activity.mini_program_path;
