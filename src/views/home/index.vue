@@ -1,35 +1,51 @@
 <template>
   <div class="home">
     <!-- 背景 -->
-    <img
+    <!-- <img
       v-if="activity.custom_image"
       :src="activity.custom_image"
       alt=""
       class="home_bg"
     />
-    <img v-else :src="pageBg" alt="" class="home_bg" />
+    <img v-else :src="pageBg" alt="" class="home_bg" /> -->
+
+    <img :src="pageBg" alt="" class="home_bg" />
 
     <div class="home_content">
       <!--  -->
       <Header />
 
       <!--  -->
-      <ModuleOne @openCover="openCover" />
+      
+      <template v-if="activity.douyin_switch || activity.xhs_switch || activity.kuaishou_switch">
+        <ModuleOne @openCover="openCover" />
+      </template>
 
       <!--  -->
-      <ModuleTwo @openCover="openCover" />
+      <template v-if="activity.dianping_switch || activity.poi_switch || activity.gaode_switch">
+        <ModuleTwo @openCover="openCover" />
+      </template>
 
       <!--  -->
-      <ModuleThree @openCover="openCover" />
+      <template v-if="activity.home_switch || activity.wechat_switch || activity.shipinhao_switch">
+        <ModuleThree @openCover="openCover" />
+      </template>
 
       <!--  -->
-      <ModuleFour @openCover="openCover" />
+      <template v-if="activity.meituan_switch || activity.friend_switch || activity.mini_program_switch === 1">
+        <ModuleFour @openCover="openCover" />
+      </template>
 
       <!--  -->
-      <ModuleFive @openCover="openCover" />
+      <template v-if="activity.share_switch || activity.act_switch || activity.wifi_switch">
+        <ModuleFive @openCover="openCover" />
+      </template>
 
       <!--  -->
-      <ModuleSix @openCover="openCover" />
+      <template v-if="activity.set_meal">
+        <ModuleSix @openCover="openCover" />
+      </template>
+      
 
       <!--  -->
       <div v-if="isShow" class="mask" style="z-index: 999">
@@ -240,13 +256,16 @@ export default {
         // }
 
         if( this.PageType === 2 || this.PageType === '2'){
+          console.log('进入2222');
           if(this.$route.query.code){
+            console.log('进入3333');
             // code存在换取openid
             getCodeToOpenid({code:this.$route.query.code}).then(res=>{
               console.log('code存在换取openid');
               console.log(res);
             })
           } else {
+            console.log('进入4444');
             this.$store.dispatch('user/refreshLink',this.activity).then((link) => {
               // code不存在 跳转授权
               console.log('code不存在 跳转授权');
