@@ -24,6 +24,7 @@ const state = {
         home_scheme: "snssdk1128://user/profile/62199199391?refer=web&gd_label=click_wap_profile_follow&type=need_follow&needlaunchlog=1",
         home_switch: false,
         id: null,
+        is_redpacket:false,
         kuaishou_switch: false,
         kuaishou_url: "kwai://webview?url=https%3A%2F%2Ftouch.mudanma.com%3Ftouch_activity_id%3D15%26from%3Dkwai",
         meituan_content: "之前没穿过汉服，来洛阳是第一次穿，没想到现在洛阳的汉服店都这么专业了，就和影视剧里造型一样的，也过了一把古代瘾，化妆师专业，古风与时尚的碰撞，美出新境界！超赞，下次来洛阳还要这样来一次",

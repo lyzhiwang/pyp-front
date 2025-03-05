@@ -48,10 +48,11 @@ export default {
       activity: (state) => state.activity.form,
       PageType: (state) => state.activity.PageType,
       openid: (state) => state.activity.openid,
+      // is_redpacket: (state) => state.activity.form.is_redpacket,
     }),
     // 
     isRed(){
-      if(this.$route.query.openid || this.openid){
+      if(this.activity && this.activity.is_redpacket === true && (this.$route.query.openid || this.openid)){
         console.log('isRed11111');
         console.log(this.$route.query.openid);
         return true
@@ -72,7 +73,7 @@ export default {
         this.$emit('openCover')
         return;
       }
-      if (this.$route.query.openid) {
+      if (this.activity && this.is_redpacket === true && this.$route.query.openid) {
         getDyTwo({ id: this.activity.id, openid:this.$route.query.openid })
           .then((res) => {
             window.location.href = res.data.scheme;
