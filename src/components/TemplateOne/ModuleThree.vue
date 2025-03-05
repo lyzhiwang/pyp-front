@@ -2,15 +2,15 @@
   <div class="ModuleThree">
     <div class="ModuleThree_title">关注/加微信</div>
     <div class="ModuleThree_list">
-      <div class="list_item" v-show="activity.home_switch" @click="home_dy()"  >
+      <div class="list_item" v-if="activity.home_switch" @click="home_dy()"  >
         <img class="icon" src="@/assets/home/dy.png" />
         <div class="title">关注抖音</div>
       </div>
-      <div class="list_item" v-show="activity.wechat_switch" @click="wx()" >
+      <div class="list_item" v-if="activity.wechat_switch" @click="wx()" >
         <img class="icon" src="@/assets/home/wx.png" />
         <div class="title">加微信</div>
       </div>
-      <div class="list_item" v-show="activity.shipinhao_switch" @click="sph()">
+      <div class="list_item" v-if="activity.shipinhao_switch" @click="sph()">
         <img class="icon" src="@/assets/home/sph.png" />
         <div class="title">视频号</div>
       </div>
@@ -86,7 +86,7 @@ export default {
   .ModuleThree_list {
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
     .list_item {
@@ -102,6 +102,7 @@ export default {
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      margin-right: 5%;
       .icon {
         width: 35px;
         height: 35px;
@@ -112,6 +113,9 @@ export default {
         color: #000000;
         font-weight: bold;
       }
+    }
+    .list_item:last-child {
+      margin-right: 0;
     }
   }
 }

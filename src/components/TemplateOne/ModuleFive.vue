@@ -2,15 +2,15 @@
   <div class="ModuleFive">
     <div class="ModuleFive_title">其它</div>
     <div class="ModuleFive_list">
-      <div class="list_item" v-show="activity.share_switch" @click="addDsp()">
+      <div class="list_item" v-if="activity.share_switch" @click="addDsp()">
         <img class="icon" src="@/assets/home/dsp.png" />
         <div class="title">分享短视频</div>
       </div>
-      <div class="list_item" v-show="activity.act_switch" @click="addCard()">
+      <div class="list_item" v-if="activity.act_switch" @click="addCard()">
         <img class="icon" src="@/assets/home/yhq.png" />
         <div class="title">领劵活动</div>
       </div>
-      <div class="list_item" v-show="activity.wifi_switch" @click="wifi()">
+      <div class="list_item" v-if="activity.wifi_switch" @click="wifi()">
         <img class="icon" src="@/assets/home/WIFI.png" />
         <div class="title">连WIFI</div>
       </div>
@@ -83,7 +83,7 @@ export default {
   .ModuleFive_list {
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
     .list_item {
@@ -98,6 +98,7 @@ export default {
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      margin-right: 5%;
       .icon {
         width: 35px;
         height: 35px;
@@ -108,6 +109,9 @@ export default {
         color: #000000;
         font-weight: bold;
       }
+    }
+    .list_item:last-child {
+      margin-right: 0;
     }
   }
 }

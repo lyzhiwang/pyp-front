@@ -1,6 +1,6 @@
 <template>
   <div class="ModuleSix">
-    <img class="mealImg" :src="activity.set_meal.icon_path" />
+    <img class="mealImg" v-if="activity &&activity.set_meal && activity.set_meal.icon_path" :src="activity.set_meal.icon_path" />
     <div class="BoxCard_info">
       <div class="title">{{ activity.set_meal.title }}</div>
       <div class="tag_list">

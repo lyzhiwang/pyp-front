@@ -6,14 +6,23 @@ export function getActivityInfo(params) {
     return request({
         url: `/touch/activity/info/${params.id}`,
         method: "get",
+        // loading: false
     });
 }
 
-// 抖音接口
+// 抖音接口 不发红包
 export function getDy({ id }) {
     return request({
         url: `/get/douyin/scheme/${id}`,
         method: "get",
+    })
+}
+// 抖音接口 发红包
+export function getDyTwo(data) {
+    return request({
+        url: `/get/douyin/scheme/${data.id}`,
+        method: "get",
+        params:{openid:data.openid}
     })
 }
 
@@ -57,23 +66,13 @@ export function postDownload(video_id) {
     });
 }
 
-//  获取JSsdk
-export function getJsSdk() {
-    return request({
-        url: "/wechat/jssdk",
-        method: "get",
-        params: {
-            url: window.location.href,
-        },
-    });
-}
-
 
 //   code换取碰一碰活动id
 export function getCode(params) {
     return request({
         url: `/code/activity`,
         method: "get",
+        loading: false,
         params
     });
 }
@@ -100,7 +99,25 @@ export function getCodeToOpenid(params) {
     return request({
         url: `/code/to/openid`,
         method: "get",
+        loading: false,
         params
     });
 }
 
+// 增加活动碰一碰次数
+export function PostAddTouchNumber(id) {
+    return request({
+        url: `/add/touch/number/${id}`,
+        method: "post",
+        loading: false
+    });
+}
+
+// 增加活动扫码次数
+export function PostAddScanNumber(id) {
+    return request({
+        url: `/add/scan/number/${id}`,
+        method: "post",
+        loading: false
+    });
+}

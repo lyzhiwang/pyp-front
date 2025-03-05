@@ -2,15 +2,15 @@
   <div class="ModuleTwo">
     <div class="ModuleTwo_title">打卡点评</div>
     <div class="ModuleTwo_list">
-      <div class="list_item" v-show="activity.dianping_switch" @click="dianPing()">
+      <div class="list_item" v-if="activity.dianping_switch" @click="dianPing()">
         <img class="icon" src="@/assets/home/dzdp.png" />
         <div class="title">去点评+打卡</div>
       </div>
-      <div class="list_item" v-show="activity.poi_switch" @click="poi()">
+      <div class="list_item" v-if="activity.poi_switch" @click="poi()">
         <img class="icon" src="@/assets/home/dy.png" />
         <div class="title">去点评+收藏</div>
       </div>
-      <div class="list_item" v-show="activity.gaode_switch" @click="gaoDe()">
+      <div class="list_item" v-if="activity.gaode_switch" @click="gaoDe()">
         <div>
           <img class="icon" src="@/assets/home/gaode.png" />
           <div class="title">点评+收藏</div>
@@ -158,7 +158,7 @@ export default {
   .ModuleTwo_list {
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
     .list_item {
@@ -174,6 +174,7 @@ export default {
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      margin-right: 5%;
       .icon {
         width: 35px;
         height: 35px;
@@ -184,6 +185,9 @@ export default {
         color: #000000;
         font-weight: bold;
       }
+    }
+    .list_item:last-child {
+      margin-right: 0;
     }
   }
 }

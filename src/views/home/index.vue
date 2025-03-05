@@ -16,7 +16,6 @@
       <Header />
 
       <!--  -->
-      
       <template v-if="activity.douyin_switch || activity.xhs_switch || activity.kuaishou_switch">
         <ModuleOne @openCover="openCover" />
       </template>
@@ -32,7 +31,7 @@
       </template>
 
       <!--  -->
-      <template v-if="activity.meituan_switch || activity.friend_switch || activity.mini_program_switch === 1">
+      <template v-if="activity.meituan_switch || activity.friend_switch || activity.mini_program_switch">
         <ModuleFour @openCover="openCover" />
       </template>
 
@@ -42,7 +41,7 @@
       </template>
 
       <!--  -->
-      <template v-if="activity.set_meal">
+      <template v-if="activity.set_meal_switch && activity.set_meal">
         <ModuleSix @openCover="openCover" />
       </template>
       
@@ -81,7 +80,6 @@
             <img
               class="yesPng"
               src="@/assets/home/yes.png"
-              style="width: 45rpx; height: 35rpx"
             />
           </div>
           <div v-if="publish_type == 3" class="load_3">
@@ -113,11 +111,12 @@ import bgOne from '@/assets/home/bg.png';
 import { Toast , Dialog} from 'vant-green';
 import {
   getKsAuthorizeLink,
-  getCodeToOpenid
+  getCodeToOpenid,
+  PostAddTouchNumber,
+  PostAddScanNumber,
+  getCode,
+  postKsPublishVideo
 } from '@/api/index';
-
-// import { getOpenId , setOpenId } from './utils/auth'
-import { getOpenId , setOpenId } from '../../utils/auth'
 
 export default {
   components: {
@@ -141,8 +140,6 @@ export default {
       publish_type: 1, //快手发布 1，发布等待 2，成功 3,失败
       defeat: '', // 失败原因
 
-      //
-      isGzh: false, //微信还是浏览器
     };
   },
 
@@ -159,151 +156,147 @@ export default {
   },
 
   methods: {
-    // //初始化
-    // init() {
-    //   if (this.$route.query.code && !this.$route.query.state) {
-    //     console.log(1);
-    //     // 获取code  绑定码
-    //     getCode({ code: this.$route.query.code })
-    //       .then((res) => {
-    //         if (res.data) {
-    //           this.id = res.data.touch_activity_id;
-    //           this.getDetail();
-    //         }
-    //       })
-    //   } else if (this.$route.query.code && this.$route.query.state) {
-    //     //快手授权完成拿到code后
-    //     this.id = JSON.parse(this.$route.query.state).touch_activity_id;
-    //     this.getDetail();
-    //     this.urlKs();
-    //     console.log(2);
-    //   } else if (this.$route.query.from) {
-    //     console.log(3);
-    //     //跳快手授权
-    //     this.id = this.$route.query.touch_activity_id;
-    //     this.getDetail();
-    //     this.faBuKs();
-    //   } else {
-    //     console.log(4);
-    //     console.log(this.PageType);
-    //     //正常打开页面
-    //     this.id = this.$route.query.touch_activity_id;
-    //     this.getDetail();
-    //   }
-    // },
+    ...mapMutations('activity', [
+      'SET_OPEN_ID'
+    ]),
 
     //初始化
     init() {
+      // 
+      if(this.$route.query.code && !this.$route.query.touch_activity_id && !this.$route.query.state){
+        getCode({code:this.$route.query.code}).then(res=>{
+          if(res.data){
+            this.id = res.data.touch_activity_id;
+            // 将touch_activity_id添加到url
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('touch_activity_id', this.id);
+            history.pushState({}, document.title, newUrl.toString());
+            PostAddScanNumber(this.id).then(res=>{
+              // 增加扫码次数
+              // console.log('增加扫码次数')
+              // console.log(res)
+            })
+            this.PageJudgment()
+          }
+        })
+      } else if(this.$route.query.touch_activity_id && !this.$route.query.code && !this.$route.query.state){
+        PostAddTouchNumber(this.$route.query.touch_activity_id).then(res=>{
+          // 增加碰一碰次数
+          // console.log('增加碰一碰次数')
+          // console.log(res) 
+        })
+        this.PageJudgment()
+      } else {
+        this.PageJudgment()
+      }
+
+    },
+
+    // 页面判断
+    PageJudgment(){
+      // 微信网页浏览器
       if(this.PageType === 2 || this.PageType === '2'){
         console.log('微信网页初始化')
-        this.id = this.$route.query.touch_activity_id;
+        if(this.$route.query.touch_activity_id){
+          this.id = this.$route.query.touch_activity_id;
+        }
         this.getDetail();
       } else {
-        if (this.$route.query.code && !this.$route.query.state) {
-          console.log(1);
-          // 获取code  绑定码
-          getCode({ code: this.$route.query.code })
-            .then((res) => {
-              if (res.data) {
-                this.id = res.data.touch_activity_id;
-                this.getDetail();
-              }
-            })
-        } else if (this.$route.query.code && this.$route.query.state) {
+        // 其他
+        // if (this.$route.query.code && !this.$route.query.state) {
+        //   console.log(1);
+        //   // 获取code  绑定码
+        //   getCode({ code: this.$route.query.code })
+        //     .then((res) => {
+        //       if (res.data) {
+        //         this.id = res.data.touch_activity_id;
+        //         this.getDetail();
+        //       }
+        //     })
+        // } else 
+        if (this.$route.query.code && this.$route.query.state) {
           //快手授权完成拿到code后
           this.id = JSON.parse(this.$route.query.state).touch_activity_id;
           this.getDetail();
-          this.urlKs();
+          // this.urlKs();
           console.log(2);
         } else if (this.$route.query.from) {
           console.log(3);
           //跳快手授权
-          this.id = this.$route.query.touch_activity_id;
+          if(this.$route.query.touch_activity_id){
+            this.id = this.$route.query.touch_activity_id;
+          }
           this.getDetail();
-          this.faBuKs();
+          // this.faBuKs();
         } else {
           console.log(4);
-          console.log(this.PageType);
+          console.log(this.$route.query);
+          console.log(this.$route.query.touch_activity_id);
           //正常打开页面
-          this.id = this.$route.query.touch_activity_id;
+          if(this.$route.query.touch_activity_id){
+            console.log('进入')
+            this.id = this.$route.query.touch_activity_id;
+          }
+          console.log(this.id);
           this.getDetail();
         }
       }
-      
     },
 
     // 获取数据详情
     getDetail() {
       this.$store.dispatch('activity/getActivityDetail', { id: this.id }).then(res=>{
         console.log('进入1111');
-        // console.log(getOpenId());
-        // if(
-        //   (this.PageType === 2 || this.PageType === '2' ) &&
-        //   !getOpenId()
-        // ){
-        //   console.log('进入2222');
-        //   this.$store.dispatch('user/refreshLink',this.activity).then((link) => {
-        //     console.log('进入3333');
-        //     console.log(link);
-        //     window.location.href = link
-        //     setOpenId(1)
-        //   })
-        // }  else if ((this.PageType === 2 || this.PageType === '2' ) && this.$route.query.code){
-        //   getCodeToOpenid({code:this.$route.query.code}).then(res=>{
-        //     console.log('进入4444');
-        //     console.log(res);
-        //   })
-        // }
-
+        // 微信网页判断
         if( this.PageType === 2 || this.PageType === '2'){
           console.log('进入2222');
-          if(this.$route.query.code){
+          if(this.$route.query.code && !this.$route.query.openid){
             console.log('进入3333');
             // code存在换取openid
             getCodeToOpenid({code:this.$route.query.code}).then(res=>{
-              console.log('code存在换取openid');
+              console.log('code存在换取openid并存储');
               console.log(res);
+              this.SET_OPEN_ID(res.data.openid)
+              // store.commit('activity/SET_OPEN_ID', res.data.openid)
+
+              // 添加参数到 URL
+              const newUrl = new URL(window.location.href);
+              newUrl.searchParams.set('openid', res.data.openid);
+              history.pushState({}, document.title, newUrl.toString());
+
+              // 删除 code 参数
+              newUrl.searchParams.delete('code');
+              history.pushState({}, document.title, newUrl.toString());
+              // 删除 state 参数
+              newUrl.searchParams.delete('state');
+              history.pushState({}, document.title, newUrl.toString());
             })
-          } else {
+          } else if(!this.$route.query.openid) {
             console.log('进入4444');
             this.$store.dispatch('user/refreshLink',this.activity).then((link) => {
               // code不存在 跳转授权
               console.log('code不存在 跳转授权');
               console.log(link);
               window.location.href = link
-              // setOpenId(1)
             })
           }
-        } 
+        } else if(this.$route.query.code && this.$route.query.state){
+          this.urlKs();
+        } else if (this.$route.query.from) {
+          this.faBuKs();
+        }
       })
-    },
-
-    async initWx(act) {
-      console.log('55555555555555555555555555')
-      // 测试
-      // setTimeout(() => {
-      //   this.$store.commit('user/SET_LOCATION', 1)
-      //   // this.$store.dispatch('activity/shareActivity')
-      // }, 1000)
-      // return
-      try {
-        // 微信配置
-        await this.$store.dispatch('wx/getSdk')
-        await this.$store.dispatch('wx/checkWxConfig', ['openLocation', 'hideAllNonBaseMenuItem', 'getLocation'])
-        // 分享朋友圈
-        this.$store.dispatch('wx/setShare', act)
-        // 分享好友
-        this.$store.dispatch('wx/setShareFriend', act)
-      } catch (e) {
-        console.log('initWx1', e)
-      }
     },
 
     //快手授权成功之后
     urlKs() {
       this.popupVisible = true;
       this.id = JSON.parse(this.$route.query.state).touch_activity_id;
-      this.getDetail();
+      // this.getDetail();
+      console.log('快手');
+      console.log(window.location.href);
+      console.log(this.$route.query);
+      console.log('快手');
       // 快手发视频
       postKsPublishVideo(JSON.parse(this.$route.query.state).touch_activity_id, {
         code: this.$route.query.code,
@@ -330,7 +323,7 @@ export default {
           //快手授权页
           getKsAuthorizeLink({ id: this.activity.id })
             .then((res) => {
-              sessionStorage.setItem("kuaishouurl", res.data.url);
+              // sessionStorage.setItem("kuaishouurl", res.data.url);
               window.location.href = res.data.url;
             })
           })
@@ -351,7 +344,7 @@ export default {
 .home {
   position: relative;
   width: 100%;
-  // height: 100vh;
+  min-height: 100vh; 
   padding-top: 20px;
   padding-bottom: 30px;
   .home_bg {
@@ -409,12 +402,17 @@ export default {
       height: 90px;
     }
     .load_2{
-      width: 73px;
+      // border: 1px solid red;
+      width: 150px;
       height: 100px;
+      // width: 73px;
+      // height: 100px;
       .yesPng{
-        position: relative;
-        left: -40px;
-        top: -20px;
+        width: 100px;
+        height: 100px;
+        // position: relative;
+        // left: -40px;
+        // top: -20px;
       }
     }
     .load_3 {
@@ -425,6 +423,7 @@ export default {
       font-size: 15px;
       font-weight: 500;
       color: rgb(177, 117, 226);
+      padding-bottom: 10px;
     }
     
   }

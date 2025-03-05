@@ -4,15 +4,16 @@
       发视频/种草
     </div>
     <div class="ModuleOne_list">
-      <div class="list_item" v-show="activity.douyin_switch" @click="douYin()">
+      <div class="list_item" v-if="activity.douyin_switch" @click="douYin()">
         <img class="icon" src="@/assets/home/dy.png" />
-        <div class="title">发抖音</div>
+        <div v-if="isRed" class="title">发视频 领红包</div>
+        <div v-else class="title">发抖音</div>
       </div>
-      <div class="list_item" v-show="activity.xhs_switch" @click="xhs()">
+      <div class="list_item" v-if="activity.xhs_switch" @click="xhs()">
         <img class="icon" src="@/assets/home/xhs.png" />
         <div class="title">发小红书</div>
       </div>
-      <div class="list_item" v-show="activity.kuaishou_switch" @click="ks()">
+      <div class="list_item" v-if="activity.kuaishou_switch" @click="ks()">
         <div>
           <img class="icon" src="@/assets/home/kuaishou.png" />
           <div class="title">发快手</div>
@@ -25,7 +26,12 @@
 <script>
 import { mapState } from 'vuex'
 
-import { getDy, getXhs, getSignature } from '@/api/index';
+import { 
+  getDy,
+  getDyTwo, 
+  getXhs, 
+  getSignature 
+} from '@/api/index';
 
 export default {
   name: '',
@@ -33,15 +39,28 @@ export default {
     return {
       xhs_data:{},  //小红书数据
       info: {},
-      signature: [],
+      signature: []
     };
   },
 
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
-      PageType: (state) => state.activity.PageType
-    })
+      PageType: (state) => state.activity.PageType,
+      openid: (state) => state.activity.openid,
+    }),
+    // 
+    isRed(){
+      if(this.$route.query.openid || this.openid){
+        console.log('isRed11111');
+        console.log(this.$route.query.openid);
+        return true
+      } else {
+        console.log('isRed22222');
+        console.log(this.$route.query.openid);
+        return false
+      }
+    }
   },
 
   created() {},
@@ -53,10 +72,18 @@ export default {
         this.$emit('openCover')
         return;
       }
-      getDy({ id: this.activity.id })
-        .then((res) => {
-          window.location.href = res.data.scheme;
-        })
+      if (this.$route.query.openid) {
+        getDyTwo({ id: this.activity.id, openid:this.$route.query.openid })
+          .then((res) => {
+            window.location.href = res.data.scheme;
+          })
+      } else {
+        getDy({ id: this.activity.id })
+          .then((res) => {
+            window.location.href = res.data.scheme;
+          })
+      }
+      
     },
 
     // 发小红书
@@ -139,7 +166,7 @@ export default {
   .ModuleOne_list{
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
     .list_item{
@@ -155,6 +182,7 @@ export default {
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      margin-right: 5%;
       .icon{
         width: 35px;
         height: 35px;
@@ -166,6 +194,9 @@ export default {
         font-weight: bold;
       }
 
+    }
+    .list_item:last-child {
+      margin-right: 0;
     }
   }
 }

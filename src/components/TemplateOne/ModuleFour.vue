@@ -2,17 +2,17 @@
   <div class="ModuleFour">
     <div class="ModuleFour_title">商家团购/朋友圈/小程序</div>
     <div class="ModuleFour_list">
-      <div class="list_item" v-show="activity.meituan_switch" @click="meiTuAn()">
+      <div class="list_item" v-if="activity.meituan_switch" @click="meiTuAn()">
         <img class="icon" src="@/assets/home/meituan.png" />
         <div class="title">团购+好评</div>
       </div>
-      <div class="list_item" v-show="activity.friend_switch" @click="showPopup()">
+      <div class="list_item" v-if="activity.friend_switch" @click="showPopup()">
         <img class="icon" src="@/assets/home/pyq.png" />
         <div class="title">发朋友圈</div>
       </div>
       <div
         class="list_item"
-        v-show="activity.mini_program_switch === 1"
+        v-if="activity.mini_program_switch"
         @click="Customize()"
       >
         <img class="icon" :src="activity.mini_program_icon_path" />
@@ -172,7 +172,7 @@ export default {
   .ModuleFour_list {
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
     .list_item {
@@ -188,6 +188,7 @@ export default {
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      margin-right: 5%;
       .icon {
         width: 35px;
         height: 35px;
@@ -198,6 +199,9 @@ export default {
         color: #000000;
         font-weight: bold;
       }
+    }
+    .list_item:last-child {
+      margin-right: 0;
     }
   }
 }

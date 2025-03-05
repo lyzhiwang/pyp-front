@@ -41,7 +41,7 @@ const service = axios.create({
   baseURL: (process.env.VUE_APP_IS_OEM === '1' && process.env.NODE_ENV !== 'development') 
   ? (window.location.protocol + `//` + window.location.host.replace('front', 'api')) 
   : process.env.VUE_APP_BASE_API,
-  timeout: 30000, // 请求超时时间
+  timeout: 500000, // 请求超时时间
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json',
