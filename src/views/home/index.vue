@@ -1,15 +1,15 @@
 <template>
   <div class="home">
     <!-- 背景 -->
-    <!-- <img
-      v-if="activity.custom_image"
+    <img
+      v-if="activity && activity.custom_image"
       :src="activity.custom_image"
       alt=""
       class="home_bg"
     />
-    <img v-else :src="pageBg" alt="" class="home_bg" /> -->
+    <img v-else :src="pageBg" alt="" class="home_bg" />
 
-    <img :src="pageBg" alt="" class="home_bg" />
+    <!-- <img :src="pageBg" alt="" class="home_bg" />  -->
 
     <div class="home_content">
       <!--  -->
