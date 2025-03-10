@@ -179,7 +179,6 @@ export default {
       // width: 106px;
       width: 30%;
       height: 74px;
-      // background-image: url("@/assets/home/btn_bg.png");
       background-image: url('../../assets/home/btn_bg.png');
       background-repeat: round;
       background-size: cover;

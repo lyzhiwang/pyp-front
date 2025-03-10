@@ -6,13 +6,17 @@
         <img class="icon" src="@/assets/home/dsp.png" />
         <div class="title">分享短视频</div>
       </div>
-      <div class="list_item" v-if="activity.act_switch" @click="addCard()">
-        <img class="icon" src="@/assets/home/yhq.png" />
-        <div class="title">领劵活动</div>
+      <div class="list_item" v-if="activity.xhs_follow_switch" @click="addXhs()">
+        <img class="icon" src="@/assets/home/xhs.png" />
+        <div class="title">关注小红书</div>
       </div>
       <div class="list_item" v-if="activity.wifi_switch" @click="wifi()">
         <img class="icon" src="@/assets/home/WIFI.png" />
         <div class="title">连WIFI</div>
+      </div>
+      <div class="list_item" v-if="activity.act_switch" @click="addCard()">
+        <img class="icon" src="@/assets/home/yhq.png" />
+        <div class="title">领劵活动</div>
       </div>
     </div>
   </div>
@@ -66,6 +70,15 @@ export default {
       }
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wifi&query=id=${this.activity.id}`;
     },
+
+    // 
+    addXhs() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
+      window.location.href = this.activity.xhs_follow_url;
+    },
   },
 };
 </script>
@@ -83,13 +96,11 @@ export default {
   .ModuleFive_list {
     margin-top: 10px;
     display: flex;
-    // justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
     .list_item {
       width: 30%;
       height: 74px;
-      // background-image: url("@/assets/home/btn_bg.png");
       background-image: url('../../assets/home/btn_bg.png');
       background-repeat: round;
       background-size: cover;
@@ -99,6 +110,7 @@ export default {
       justify-content: center;
       flex-direction: column;
       margin-right: 5%;
+      margin-bottom: 12px;
       .icon {
         width: 35px;
         height: 35px;
@@ -110,7 +122,10 @@ export default {
         font-weight: bold;
       }
     }
-    .list_item:last-child {
+    // .list_item:last-child {
+    //   margin-right: 0;
+    // }
+    .list_item:nth-child(3n) {
       margin-right: 0;
     }
   }

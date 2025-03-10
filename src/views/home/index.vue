@@ -2,7 +2,7 @@
   <div class="home">
     <!-- 背景 -->
     <img
-      v-if="activity && activity.custom_image"
+      v-if="activity && activity.custom_bg === 2"
       :src="activity.custom_image"
       alt=""
       class="home_bg"
@@ -36,7 +36,7 @@
       </template>
 
       <!--  -->
-      <template v-if="activity.share_switch || activity.act_switch || activity.wifi_switch">
+      <template v-if="activity.share_switch || activity.act_switch || activity.wifi_switch || activity.xhs_follow_switch">
         <ModuleFive @openCover="openCover" />
       </template>
 

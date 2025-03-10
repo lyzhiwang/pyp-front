@@ -59,7 +59,7 @@ export default {
   display: flex;
   // margin: 0 auto;
   // margin-top: 20px;
-  margin: 20px auto 8px;
+  margin: 0px auto 8px;
   background-color: #ffffff;
   border-radius: 10px;
   padding: 8px 9px;
