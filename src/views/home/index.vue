@@ -21,6 +21,11 @@
       </template>
 
       <!--  -->
+      <template v-if="activity.bxh_ad_switch" >
+        <AdOne @openCover="openCover" />
+      </template>
+
+      <!--  -->
       <template v-if="activity.dianping_switch || activity.poi_switch || activity.gaode_switch">
         <ModuleTwo @openCover="openCover" />
       </template>
@@ -106,6 +111,8 @@ import ModuleFour from '@/components/TemplateOne/ModuleFour';
 import ModuleFive from '@/components/TemplateOne/ModuleFive';
 import ModuleSix from '@/components/TemplateOne/ModuleSix';
 
+import AdOne from '@/components/Advertisement/AdOne';
+
 import bgOne from '@/assets/home/bg.png';
 
 import { Toast , Dialog} from 'vant-green';
@@ -127,6 +134,7 @@ export default {
     ModuleFour,
     ModuleFive,
     ModuleSix,
+    AdOne
   },
 
   data() {

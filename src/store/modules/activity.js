@@ -101,7 +101,8 @@ const state = {
         wifi_switch: false,
         xhs_switch: false,
         xhs_follow_switch: false, // 小红书关注开关
-        xhs_follow_url: '' // 小红书个人中心链接
+        xhs_follow_url: '', // 小红书个人中心链接
+        bxh_ad_switch:false
     },
 
     PageType:1 , // 1:浏览器页面  2：微信页面
