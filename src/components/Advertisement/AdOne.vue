@@ -42,7 +42,28 @@ export default {
       const path = 'pagesub/others/phone/index'
       const invite_code = 'invite_code=87qje9'
       // &query=${invite_code}
-      window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=invite_code=87qje9`;
+      // window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=invite_code=87qje9`;
+      // window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+
+
+      // 
+      // var str = this.activity.mini_program_path;
+      // var id = str.split("?");
+      // var id_id = id[1]; // 参数
+      // if(this.activity.mini_program_appid === appid){
+      //   window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`;
+      // } else {
+      //   window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+      // }
+
+      var str = this.activity.bxh_phone_path;
+      var id = str.split("?");
+      var id_id = id[1]; // 参数
+      if(id_id){
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`;
+      } else {
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+      }
     },
 
     // 电影票
@@ -57,7 +78,28 @@ export default {
       const invite_code = 'invite_code=87qje9'
       // &query=${invite_code}
       // console.log(`weixin://dl/business/?appid=${appid}&path=${path}&query=invite_code=87qje9`);
-      window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=invite_code=87qje9`;
+      // window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=invite_code=87qje9`;
+      // window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+
+
+      // var str = this.activity.mini_program_path;
+      // var id = str.split("?");
+      // var id_id = id[1]; // 参数
+      // if(this.activity.mini_program_appid === appid){
+      //   window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`;
+      // } else {
+      //   window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+      // }
+      var str = this.activity.bxh_film_path;
+      var id = str.split("?");
+      var id_id = id[1]; // 参数
+      if(id_id){
+        // console.log(`weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`);
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`;
+      } else {
+        // console.log(`weixin://dl/business/?appid=${appid}&path=${path}`);
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+      }
     },
   },
 };
