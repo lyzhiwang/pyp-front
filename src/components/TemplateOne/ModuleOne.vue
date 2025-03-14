@@ -73,7 +73,7 @@ export default {
         this.$emit('openCover')
         return;
       }
-      if (this.activity && this.is_redpacket === true && this.$route.query.openid) {
+      if (this.activity && this.activity.is_redpacket === true && this.$route.query.openid) {
         getDyTwo({ id: this.activity.id, openid:this.$route.query.openid })
           .then((res) => {
             window.location.href = res.data.scheme;
