@@ -97,6 +97,8 @@
         </div>
       </van-dialog>
     </div>
+
+    <div class="reserveASeat"></div>
   </div>
 </template>
 
@@ -370,6 +372,11 @@ export default {
   }
   .home_content {
     position: relative;
+  }
+  .reserveASeat{
+    position: relative;
+    width: 100%;
+    height: 20px;
   }
 
   .mask {
