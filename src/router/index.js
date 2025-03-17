@@ -24,9 +24,9 @@ export default new Router({
           path: '',
           components: { default: () => import('@/views/home/index') },
           props: { default: true, sidebar: false },
-          name: '拓客王',
+          name: '',
           meta: {
-            title: '拓客王'
+            title: ''
           }
         }
       ]
@@ -37,7 +37,7 @@ export default new Router({
       props: { default: true, sidebar: false },
       name: 'Video',
       meta: {
-        title: '视频详情'
+        title: ''
       }
     },
     {
