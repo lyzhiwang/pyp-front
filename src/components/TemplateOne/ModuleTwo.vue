@@ -67,25 +67,45 @@ export default {
         this.$emit('openCover')
         return;
       }
-      this.cope(this.activity.dianping_content);
-      if (this.cope(this.activity.dianping_content)) {
-        // MessageBox.confirm("允许复制文案到剪切板").then(() => {
-        //   window.location.href = this.activity.dianping_scheme;
-        // });
-        Dialog.confirm({
-          // title: '标题',
-          message: '允许复制文案到剪切板',
-          // confirmButtonText: '确认',
-          // cancelButtonText: '取消'
-        })
-          .then(() => {
-            // on confirm
-            window.location.href = this.activity.dianping_scheme;
-          })
-          .catch(() => {
-            // on cancel
-          });
+
+      // 新版本
+      var imgList = [];
+      for (var i = 0; i < this.activity.dianping_image.length; i++){
+        imgList.push(this.activity.dianping_image[i].path)
       }
+      var params = {
+        title: '点评文案', // 弹窗标题
+        content: this.activity.dianping_content,// 文案内容
+        imgList: imgList,// 图片列表
+        // imgList: [
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+        // ],// 图片列表
+        url:this.activity.dianping_scheme, // 跳转链接
+        btnText:'大众点评', // 按钮文案
+      }
+      this.$emit('openPopup', params)
+
+      // // 旧版本
+      // this.cope(this.activity.dianping_content);
+      // if (this.cope(this.activity.dianping_content)) {
+      //   // MessageBox.confirm("允许复制文案到剪切板").then(() => {
+      //   //   window.location.href = this.activity.dianping_scheme;
+      //   // });
+      //   Dialog.confirm({
+      //     // title: '标题',
+      //     message: '允许复制文案到剪切板',
+      //     // confirmButtonText: '确认',
+      //     // cancelButtonText: '取消'
+      //   })
+      //     .then(() => {
+      //       // on confirm
+      //       window.location.href = this.activity.dianping_scheme;
+      //     })
+      //     .catch(() => {
+      //       // on cancel
+      //     });
+      // }
     },
 
     // 去点评+收藏
@@ -121,25 +141,43 @@ export default {
         this.$emit('openCover')
         return;
       }
-      this.cope(this.activity.gaode_content);
-      if (this.cope(this.activity.gaode_content)) {
-        // MessageBox.confirm("允许复制文案到剪切板").then(() => {
-        //   window.location.href = this.activity.gaode_scheme;
-        // });
-        Dialog.confirm({
-          // title: '标题',
-          message: '允许复制文案到剪切板',
-          // confirmButtonText: '确认',
-          // cancelButtonText: '取消'
-        })
-          .then(() => {
-            // on confirm
-            window.location.href = this.activity.gaode_scheme;
-          })
-          .catch(() => {
-            // on cancel
-          });
+      // 新版本
+      var imgList = [];
+      for (var i = 0; i < this.activity.gaode_image.length; i++){
+        imgList.push(this.activity.gaode_image[i].path)
       }
+      var params = {
+        title: '点评文案', // 弹窗标题
+        content: this.activity.gaode_content,// 文案内容
+        imgList: imgList,// 图片列表
+        // imgList: [
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+        // ],// 图片列表
+        url:this.activity.gaode_scheme, // 跳转链接
+        btnText:'高德点评', // 按钮文案
+      }
+      this.$emit('openPopup', params)
+
+      // this.cope(this.activity.gaode_content);
+      // if (this.cope(this.activity.gaode_content)) {
+      //   // MessageBox.confirm("允许复制文案到剪切板").then(() => {
+      //   //   window.location.href = this.activity.gaode_scheme;
+      //   // });
+      //   Dialog.confirm({
+      //     // title: '标题',
+      //     message: '允许复制文案到剪切板',
+      //     // confirmButtonText: '确认',
+      //     // cancelButtonText: '取消'
+      //   })
+      //     .then(() => {
+      //       // on confirm
+      //       window.location.href = this.activity.gaode_scheme;
+      //     })
+      //     .catch(() => {
+      //       // on cancel
+      //     });
+      // }
     },
   },
 };

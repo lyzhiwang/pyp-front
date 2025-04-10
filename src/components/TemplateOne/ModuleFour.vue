@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import ClipboardJS from "clipboard";
+import ClipboardJS from 'clipboard';
 import { mapState } from 'vuex';
-import { Toast , Dialog} from 'vant-green';
+import { Toast, Dialog } from 'vant-green';
 export default {
   name: '',
   data() {
@@ -37,7 +37,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
-      PageType: (state) => state.activity.PageType
+      PageType: (state) => state.activity.PageType,
     }),
   },
 
@@ -46,19 +46,19 @@ export default {
   methods: {
     // 剪切板
     cope(value) {
-      var clipboard = new ClipboardJS("body", {
+      var clipboard = new ClipboardJS('body', {
         text: function () {
           return value;
         },
       });
-      clipboard.on("success", function (e) {
+      clipboard.on('success', function (e) {
         clipboard.destroy();
         e.clearSelection();
         return e.text;
       });
 
-      clipboard.on("error", function () {
-        console.log("复制失败");
+      clipboard.on('error', function () {
+        console.log('复制失败');
       });
       return value;
     },
@@ -66,85 +66,124 @@ export default {
     // 团购+好评
     meiTuAn() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
-      this.cope(this.activity.meituan_content);
-      if (this.cope(this.activity.meituan_content)) {
-        // MessageBox.confirm("允许复制文案到剪切板").then(() => {
-        //   window.location.href = this.activity.meituan_scheme;
-        // });
-        Dialog.confirm({
-          // title: '标题',
-          message: '允许复制文案到剪切板',
-          // confirmButtonText: '确认',
-          // cancelButtonText: '取消'
-        })
-          .then(() => {
-            // on confirm
-            window.location.href = this.activity.meituan_scheme;
-          })
-          .catch(() => {
-            // on cancel
-          });
+
+      // 新版本
+      var imgList = [];
+      for (var i = 0; i < this.activity.meituan_image.length; i++){
+        imgList.push(this.activity.meituan_image[i].path)
       }
+      var params = {
+        title: '点评文案', // 弹窗标题
+        content: this.activity.meituan_content, // 文案内容
+        imgList: imgList, // 图片列表
+        // imgList: [
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+        // ],// 图片列表
+        url: this.activity.meituan_scheme, // 跳转链接
+        btnText: '团购+好评', // 按钮文案
+      };
+      this.$emit('openPopup', params);
+
+      //
+      // this.cope(this.activity.meituan_content);
+      // if (this.cope(this.activity.meituan_content)) {
+      //   // MessageBox.confirm("允许复制文案到剪切板").then(() => {
+      //   //   window.location.href = this.activity.meituan_scheme;
+      //   // });
+      //   Dialog.confirm({
+      //     // title: '标题',
+      //     message: '允许复制文案到剪切板',
+      //     // confirmButtonText: '确认',
+      //     // cancelButtonText: '取消'
+      //   })
+      //     .then(() => {
+      //       // on confirm
+      //       window.location.href = this.activity.meituan_scheme;
+      //     })
+      //     .catch(() => {
+      //       // on cancel
+      //     });
+      // }
     },
 
     //朋友圈
     showPopup() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
-      this.cope(this.activity.friend_content);
-      if (this.cope(this.activity.friend_content)) {
-        // MessageBox.confirm("允许复制文案到剪切板").then(() => {
-        //   window.location.href = this.activity.friend_scheme;
-        // });
-        Dialog.confirm({
-          // title: '标题',
-          message: '允许复制文案到剪切板',
-          // confirmButtonText: '确认',
-          // cancelButtonText: '取消'
-        })
-          .then(() => {
-            // on confirm
-            window.location.href = this.activity.friend_scheme;
-          })
-          .catch(() => {
-            // on cancel
-          });
+      // 新版本
+      var imgList = [];
+      for (var i = 0; i < this.activity.friend_image.length; i++){
+        imgList.push(this.activity.friend_image[i].path)
       }
+      var params = {
+        title: '点评文案', // 弹窗标题
+        content: this.activity.friend_content, // 文案内容
+        imgList: imgList, // 图片列表
+        // imgList: [
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+        //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+        // ],// 图片列表
+        url: this.activity.friend_scheme, // 跳转链接
+        btnText: '朋友圈', // 按钮文案
+      };
+      this.$emit('openPopup', params);
+
+      //
+      // this.cope(this.activity.friend_content);
+      // if (this.cope(this.activity.friend_content)) {
+      //   // MessageBox.confirm("允许复制文案到剪切板").then(() => {
+      //   //   window.location.href = this.activity.friend_scheme;
+      //   // });
+      //   Dialog.confirm({
+      //     // title: '标题',
+      //     message: '允许复制文案到剪切板',
+      //     // confirmButtonText: '确认',
+      //     // cancelButtonText: '取消'
+      //   })
+      //     .then(() => {
+      //       // on confirm
+      //       window.location.href = this.activity.friend_scheme;
+      //     })
+      //     .catch(() => {
+      //       // on cancel
+      //     });
+      // }
     },
 
     // 自定义小程序
     Customize() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
-      let result = "";
-      let sub = "";
+      let result = '';
+      let sub = '';
       var str = this.activity.mini_program_path;
-      var fdStart = str.indexOf("/");
+      var fdStart = str.indexOf('/');
       if (fdStart === 0) {
         sub = str.slice(1);
       } else {
         sub = str;
       }
-      var substr = str.substring(0, str.indexOf("?"));
+      var substr = str.substring(0, str.indexOf('?'));
       if (!substr) {
         result = sub;
       } else {
-        if (substr.indexOf("/") == 0) {
+        if (substr.indexOf('/') == 0) {
           result = substr.slice(1);
         } else {
           result = substr;
         }
       }
-      var id = str.split("?");
+      var id = str.split('?');
       var id_id = id[1]; // 参数
-      console.log(result, id_id, "sss");
+      console.log(result, id_id, 'sss');
       if (id_id === undefined) {
         console.log(1222);
         console.log(
