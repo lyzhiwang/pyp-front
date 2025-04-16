@@ -526,7 +526,7 @@ export default {
   width: 100%;
   min-height: 100vh;
   padding-top: 20px;
-  padding-bottom: 30px;
+  padding-bottom: 40px;
   .home_bg {
     width: 100%;
     height: 100%;
