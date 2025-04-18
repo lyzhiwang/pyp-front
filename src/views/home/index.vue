@@ -665,9 +665,13 @@ export default {
       margin-top: 14px;
     }
     .copy_img_list {
+      width: 100%;
+      position: relative;
       display: flex;
       align-items: center;
       margin-top: 6px;
+      overflow-x: auto; /* 允许水平滚动 */
+      white-space: nowrap; /* 防止图片换行 */
       .list_item_img {
         width: 60px;
         height: auto;
