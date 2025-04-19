@@ -18,18 +18,27 @@
         <img class="icon" src="@/assets/home/yhq.png" />
         <div class="title">领劵活动</div>
       </div>
+      <div class="list_item" v-if="activity.xhs_image_switch" @click="xhs()">
+        <img class="icon" src="@/assets/home/xhs.png" />
+        <div class="title">发小红书笔记</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-
+import { 
+  getImageXhs, 
+  getSignature 
+} from '@/api/index';
 export default {
   name: '',
   data() {
     return {
-      //
+      xhs_data:{},  //小红书数据
+      info: {},
+      signature: []
     };
   },
 
@@ -79,6 +88,46 @@ export default {
       }
       window.location.href = this.activity.xhs_follow_url;
     },
+
+    // 发小红书
+    xhs() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
+      getImageXhs({ id: this.activity.id })
+        .then((res) => {
+          if (res.data) {
+            this.xhs_data = res.data;
+            getSignature().then((res) => {
+              this.signature = res.data;
+              this.info = {
+                type: "normal", // 必填，笔记类型 'video' | 'normal'
+                images: this.xhs_data.xhs_media,
+                title: this.xhs_data.xhs_title, // 笔记标题
+                content: this.xhs_data.xhs_content, // 笔记正文
+                // video: this.xhs_data.xhs_media, // 视频类型必填，必须是服务器地址
+                // cover: this.xhs_data.xhs_media, // 视频封面图，必须是服务器地址，暂时不支持本地文件
+              };
+              xhs.share({
+                shareInfo: this.info,
+                verifyConfig: {
+                  appKey: this.signature.appKey, //必填，应用的唯一标识,
+                  nonce: this.signature.nonce, // 必填，服务端生成签名的随机字符串
+                  timestamp: this.signature.timeStamp, // 必填，服务端生成签名的时间戳
+                  signature: this.signature.signature, // 必填，服务端生成的签名
+                },
+                fail: (e) => {
+                  console.log(e, "失败");
+                  // 调用失败时执行的回调函数
+                },
+              });
+            });
+          }
+        })
+    },
+
+    // 
   },
 };
 </script>

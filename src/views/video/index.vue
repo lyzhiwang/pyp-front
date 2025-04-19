@@ -12,7 +12,7 @@
       <div v-if="is_stop" class="play" @click.stop="play()"></div>
       <div class="computed">
         <div class="time">视频时长：{{ list.duration }}</div>
-        <div class="change" @click="getSchemeDetail()">
+        <div class="change" @click="getSchemeDetail(id)">
           <img class="icon_s" src="@/assets/home/change.png" />换一换
         </div>
         <div class="download" @click="download(list.video_path)">下载视频</div>
@@ -29,7 +29,7 @@
           {{ index == is_copy ? '已复制' : '一键复制' }}
         </div>
       </div>
-      <div class="change" @click="getExchanging()">
+      <div class="change" @click="getExchanging(id)">
         <img class="icon_s" src="../../assets/home/change.png" />换一批
       </div>
     </div>
@@ -55,6 +55,7 @@ export default {
   name: 'Video',
   data() {
     return {
+      id:null,
       is_stop: true,
       content: [],
       list: [],
@@ -63,16 +64,21 @@ export default {
   },
 
   mounted() {
-    const urlParams = new URLSearchParams(window.location.search);
-    this.id = urlParams.get('id');
-    this.getSchemeDetail();
-    this.getExchanging();
+    // const urlParams = new URLSearchParams(window.location.search);
+    // this.id = urlParams.get('id');
+    // this.getSchemeDetail();
+    // this.getExchanging();
+  },
+  created() {
+    this.id = this.$route.query.id;
+    this.getSchemeDetail(this.id);
+    this.getExchanging(this.id);
   },
 
   methods: {
     // 视频号获取视频
-    getSchemeDetail() {
-      getVideo({ id: this.id }).then((res) => {
+    getSchemeDetail(id) {
+      getVideo({ id:id }).then((res) => {
         if (res.data) {
           console.log(res.data, 'data');
           this.list = res.data;
@@ -81,8 +87,8 @@ export default {
     },
 
     // 视频号获取评论
-    getExchanging() {
-      getContent({ id: this.id }).then((res) => {
+    getExchanging(id) {
+      getContent({ id: id }).then((res) => {
         console.log(res.data, '评论');
         this.content = res.data.content;
         this.is_copy = null;

@@ -6,7 +6,7 @@ export function getActivityInfo(params) {
     return request({
         url: `/touch/activity/info/${params.id}`,
         method: "get",
-        // loading: false
+        loading: false
     });
 }
 
@@ -26,7 +26,7 @@ export function getDyTwo(data) {
     })
 }
 
-// 小红书跳转接口
+// 获取小红书 数据
 export function getXhs({ id }) {
     return request({
         url: `/get/xhs/data/${id}`,
@@ -38,6 +38,14 @@ export function getXhs({ id }) {
 export function getSignature() {
     return request({
         url: `/get/xhs/signature`,
+        method: "get",
+    })
+}
+
+// 获取小红书 数据 图文
+export function getImageXhs({ id }) {
+    return request({
+        url: `/get/xhs/image/data/${id}`,
         method: "get",
     })
 }

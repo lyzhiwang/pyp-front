@@ -68,7 +68,8 @@
           activity.share_switch ||
           activity.act_switch ||
           activity.wifi_switch ||
-          activity.xhs_follow_switch
+          activity.xhs_follow_switch ||
+          activity.xhs_image_switch
         "
       >
         <ModuleFive @openCover="openCover" />
@@ -526,7 +527,9 @@ export default {
   width: 100%;
   min-height: 100vh;
   padding-top: 20px;
-  padding-bottom: 40px;
+  // padding-bottom: 40px;
+  padding-bottom: 80px;
+  // padding-bottom: 20px;
   .home_bg {
     width: 100%;
     height: 100%;
