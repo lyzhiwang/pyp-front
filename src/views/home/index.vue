@@ -166,7 +166,8 @@
     <!--  -->
     <van-image-preview v-model="isShowPreview" :images="copyData.imgList" @change="onChange" @close="onClose" >
       <template slot="cover">
-        <van-button type="primary" class="download_btn_style" @click="downloadImage()">下载图片</van-button>
+        <!-- <van-button type="primary" class="download_btn_style" @click="downloadImage()">下载图片</van-button> -->
+        <div class="download_tip_style">长按识别保存图片到相册</div>
       </template>
     </van-image-preview>
   </div>
@@ -246,6 +247,9 @@ export default {
 
   created() {
     this.init();
+    const userAgent = navigator.userAgent;
+    console.log('userAgent');
+    console.log(userAgent);
   },
 
   methods: {
@@ -720,5 +724,13 @@ export default {
   bottom: 50px;
   left: 50%;
   transform:translate(-50%);
+}
+
+.download_tip_style{
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform:translate(-50%);
+  color: #6df704;
 }
 </style>
