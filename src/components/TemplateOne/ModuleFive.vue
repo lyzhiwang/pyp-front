@@ -22,6 +22,16 @@
         <img class="icon" src="@/assets/home/xhs.png" />
         <div class="title">发小红书笔记</div>
       </div>
+
+      <div class="list_item" v-if="activity.custom_url_switch" @click="tuCustom()">
+        <img 
+          v-if='activity.custom_url_image' 
+          class="icon" 
+          :src="activity.custom_url_image" />
+        <div v-if='activity.custom_url_name' class="title">
+          {{ activity.custom_url_name }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -127,7 +137,14 @@ export default {
         })
     },
 
-    // 
+    // 自定义网页
+    tuCustom(){
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
+      window.location.href = this.activity.custom_url_path;
+    }
   },
 };
 </script>

@@ -69,7 +69,8 @@
           activity.act_switch ||
           activity.wifi_switch ||
           activity.xhs_follow_switch ||
-          activity.xhs_image_switch
+          activity.xhs_image_switch ||
+          activity.custom_url_switch
         "
       >
         <ModuleFive @openCover="openCover" />
