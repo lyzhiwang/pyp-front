@@ -143,7 +143,13 @@ export default {
         this.$emit('openCover')
         return;
       }
-      window.location.href = this.activity.custom_url_path;
+      if(this.activity.custom_url_path){
+        window.open(this.activity.custom_url_path, '_blank')
+      }
+      // window.open('https://abc.huixingshuoai.com', '_blank')
+      
+      
+      // window.location.href = this.activity.custom_url_path;
     }
   },
 };
