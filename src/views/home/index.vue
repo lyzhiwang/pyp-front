@@ -68,7 +68,9 @@
           activity.share_switch ||
           activity.act_switch ||
           activity.wifi_switch ||
-          activity.xhs_follow_switch
+          activity.xhs_follow_switch ||
+          activity.xhs_image_switch ||
+          activity.custom_url_switch
         "
       >
         <ModuleFive @openCover="openCover" />
@@ -165,7 +167,8 @@
     <!--  -->
     <van-image-preview v-model="isShowPreview" :images="copyData.imgList" @change="onChange" @close="onClose" >
       <template slot="cover">
-        <van-button type="primary" class="download_btn_style" @click="downloadImage()">下载图片</van-button>
+        <!-- <van-button type="primary" class="download_btn_style" @click="downloadImage()">下载图片</van-button> -->
+        <div class="download_tip_style">长按识别保存图片到相册</div>
       </template>
     </van-image-preview>
   </div>
@@ -245,6 +248,9 @@ export default {
 
   created() {
     this.init();
+    const userAgent = navigator.userAgent;
+    console.log('userAgent');
+    console.log(userAgent);
   },
 
   methods: {
@@ -526,7 +532,9 @@ export default {
   width: 100%;
   min-height: 100vh;
   padding-top: 20px;
-  padding-bottom: 30px;
+  // padding-bottom: 40px;
+  padding-bottom: 80px;
+  // padding-bottom: 20px;
   .home_bg {
     width: 100%;
     height: 100%;
@@ -665,9 +673,13 @@ export default {
       margin-top: 14px;
     }
     .copy_img_list {
+      width: 100%;
+      position: relative;
       display: flex;
       align-items: center;
       margin-top: 6px;
+      overflow-x: auto; /* 允许水平滚动 */
+      white-space: nowrap; /* 防止图片换行 */
       .list_item_img {
         width: 60px;
         height: auto;
@@ -713,5 +725,13 @@ export default {
   bottom: 50px;
   left: 50%;
   transform:translate(-50%);
+}
+
+.download_tip_style{
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform:translate(-50%);
+  color: #6df704;
 }
 </style>

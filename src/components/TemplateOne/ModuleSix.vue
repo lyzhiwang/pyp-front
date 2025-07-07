@@ -73,9 +73,15 @@ export default {
     text-align: left;
     flex: 1;
     height: 72.5px;
+    width: 68%;
     .title {
+      // width: 90%;
+      // border: 1px solid red;
       font-size: 13px;
       color: #222;
+      white-space: nowrap; /* 防止文本换行 */
+      overflow: hidden; /* 隐藏溢出的文本 */
+      text-overflow: ellipsis; /* 显示省略号 */
     }
     .tag_list {
       display: flex;

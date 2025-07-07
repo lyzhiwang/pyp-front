@@ -11,7 +11,8 @@
       </div>
       <div class="list_item" v-if="activity.xhs_switch" @click="xhs()">
         <img class="icon" src="@/assets/home/xhs.png" />
-        <div class="title">发小红书</div>
+        <!-- <div class="title">发小红书</div> -->
+        <div class="title">发小红书视频</div>
       </div>
       <div class="list_item" v-if="activity.kuaishou_switch" @click="ks()">
         <div>
@@ -101,7 +102,8 @@ export default {
               this.signature = res.data;
               if (
                 this.xhs_data.xhs_type === 1 ||
-                this.xhs_data.xhs_type === 3
+                this.xhs_data.xhs_type === 3 ||
+                this.xhs_data.xhs_type === 4
               ) {
                 this.info = {
                   type: "video", // 必填，笔记类型 'video' | 'normal'
