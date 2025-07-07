@@ -1,227 +1,142 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable indent */
-import wx from 'weixin-js-sdk'
-// import { getActivityDetail } from '@/api/index'
-// import { Toast } from 'vant';
-// import { setCarimg } from '@/utils/auth'
+// import { setToken, removeToken } from '@/utils/auth'
+
+// import { getActivityInfo } from '../../api/index.js';
+import { getActivityInfo } from '@/api/index';
 
 const state = {
-    kuaishouurl: "",
-    // 活动基本数据
-   
-    fromGroup: {},
-    // 活动相关数据
-    related: {
-        shareCount: 10, // 分享量
-        viewsCount: 8, // 浏览量(浏览次数)
-        viewsNumber: 8, // 浏览量(浏览人数)
-        viewsList: [
-            // {
-            //   users:{
-            //     avatar:'http://files.jb51.net/file_images/game/201601/20160102204921139.jpg',
-            //     nickname:'昵称'
-            //   }
-            // }
-        ], // 浏览数据
-
-        actTotal: 100, // 套餐总量
-        actLast: 90, // 套餐剩余量
-
-        orderCount: 10, // 订单量
-        orderList: [
-            // {
-            //   users:{nickname:'昵称',avatar:'http://pic.rmb.bdstatic.com/7d536a66323aebebd1c87b761cd02c16.jpeg'},
-            //   pay_time:'2020-01-14',
-            //   order_price:'30'
-            // }
-        ], // 订单列表
-        incomeList: [
-            // {
-            //   users:{nickname:'昵称',avatar:'http://pic.rmb.bdstatic.com/7d536a66323aebebd1c87b761cd02c16.jpeg'},
-            //   income:'30'
-            // }
-        ], // 佣金列表（全部数据 时间倒序） 用于顶部轮播展示用户获得佣金金额 （该数据包含真实数据与虚拟数据）
-        incomeListTopTen: [
-            // {
-            //   users:{nickname:'冠军',avatar:'http://pic.rmb.bdstatic.com/7d536a66323aebebd1c87b761cd02c16.jpeg'},
-            //   income:'50',
-            //   add_time:'2020-01-14 14:32'
+    form: {
+        act_activity_id: null,
+        act_switch: false,
+        appid: "",
+        custom_bg: 2,
+        custom_image: null,
+        dianping_content: "",
+        dianping_scheme: "",
+        dianping_switch: false,
+        douyin_switch: false,
+        friend_content: "",
+        friend_scheme: "",
+        friend_switch: false,
+        gaode_content: "",
+        gaode_scheme: "",
+        gaode_switch: false,
+        home_scheme: "",
+        home_switch: false,
+        id: null,
+        is_redpacket:false,
+        kuaishou_switch: false,
+        kuaishou_url: "",
+        meituan_content: "",
+        meituan_scheme: "",
+        meituan_switch: false,
+        mini_program_appid: "",
+        mini_program_icon_path: "",
+        mini_program_name: "",
+        mini_program_path: "",
+        mini_program_switch: false,
+        name: "",
+        poi_content: "",
+        poi_scheme: "",
+        poi_switch: false,
+        set_meal: {
+            // activity_id: 178,
+            // average_price: 109,
+            // banner: [
+            //     "https://zwklt.zwwltkl.com/Fgm6TQ6u7b1eGaWPn7EYwHEK6DdQ",
+            //     "https://zwklt.zwwltkl.com/Fj_uj81v4eLZe2-lmUmo5C92PuPA",
+            //     "https://zwklt.zwwltkl.com/Fk6ardCufVk_UAOGALHemjelJfuq",
+            // ],
+            // detail: '',
+            // effective_time: 90,
+            // end_time: null,
+            // exempt_reservation: 1,
+            // group: [
+            //     {
+            //         money: "109.00",
+            //         name: "109全场汉服任选",
+            //         number: 1,
+            //         unit: "次",
+            //     }
+            // ],
+            // holiday_currency: 1,
+            // icon_path: "https://zwklt.zwwltkl.com/Fgm6TQ6u7b1eGaWPn7EYwHEK6DdQ",
+            // limit: 5,
+            // order_number: 26,
+            // original_price: 497,
+            // price: 109,
+            // rules: '',
+            // set_meal_id: 256,
+            // stock: 998,
+            // store_name: "智网网络",
+            // suit_range: "全店通用",
+            // title: "109元服装化妆造型饰品发饰补妆全套",
+            // type: 1
+        },
+        set_meal_act_id: null,
+        set_meal_id: null,
+        set_meal_switch: false,
+        share_activity_id: null,
+        share_switch: false,
+        shipinhao_switch: false,
+        store: {
+            // address: "河南省洛阳市西工区王城大道111号",
+            // business_hours: "8：30-18：30",
+            // industry_id: 244,
+            // introduce: "智网网络是一家专门为中小商家门拓客推广的公司",
+            // location: {
+            //     lat: 34.68226,
+            //     lng: 112.42067,
             // },
-            // {
-            //   users:{nickname:'亚军',avatar:'http://pic.rmb.bdstatic.com/7d536a66323aebebd1c87b761cd02c16.jpeg'},
-            //   income:'40',
-            //   add_time:'2020-01-14 14:32'
+            // logo: {
+            //     id: 622,
+            //     path: "https://zwklt.zwwltkl.com/Fqjj2D8G6IYFNVGAJYCWrIdf0stt"
             // },
-            // {
-            //   users:{nickname:'我就是试一下昵称太长了会不会坏掉',avatar:'http://pic.rmb.bdstatic.com/7d536a66323aebebd1c87b761cd02c16.jpeg'},
-            //   income:'30',
-            //   add_time:'2020-01-14 14:32'
-            // }
-        ], // 佣金列表 （前十名 金额倒序）
+            // logo_id: 622,
+            // name: "智网网络",
+            // phone: "13525491185",
+            // per_capita: "100",
+        },
+        wechat_switch: false,
+        wifi_switch: false,
+        xhs_switch: false,
+        xhs_follow_switch: false, // 小红书关注开关
+        xhs_follow_url: '', // 小红书个人中心链接
+        bxh_ad_switch:false
+    },
 
-        myIncome: {
-            order: 10, // 排名
-            users: {
-                // nickname:'我就是试一下昵称太长了会不会坏掉',
-                // avatar:'http://pic.rmb.bdstatic.com/7d536a66323aebebd1c87b761cd02c16.jpeg'
-            },
-            income: '30',
-            add_time: '2020-01-14 14:32'
-        } // 用户自己的佣金数据
-    },
-    // 推荐人
-    recommended: {
-        id: 0,
-        nickname: '',
-        avatar: ''
-    },
-    // 联系人信息
-    concatInfo: {
-        storeName: '',
-        storePhone: '',
-        storeCode: '',
-        storeAddress: '',
-        storeLocation: {},
-        business_hours: [], // 商家营业时间
-        agentPhone: '',
-        agentCode: '',
-        agentClose: 0, // 是否关闭代理信息 1关闭 0不关闭
-        plateFormClose: 0 // 是否关闭联系平台 1关闭 0不关闭
-    },
-    copyRight: 'CopyRight @2021拓客多多',
-    status: 0, // 活动状态：-1 未开始 0 已经开始 1 结束
-    ad: {},
-    helpdata: {
-        carousel: [{
-            path: ''
-        }]
-    },
-    from_user: {},
-    helplist: [],
-    bargainlist: [],
-    lightCount: 0, //  点亮模式 点亮数量
-    hasLightOrder: false, // 点亮模式 奖品是否已领取
-    // 汽车模式列表
-    carlist: []
+    PageType:1 , // 1:浏览器页面  2：微信页面
+    openid:''// 微信授权的openid
 }
 
 const mutations = {
-    SET_IMG_TOKEN(state, url) {
-        state.kuaishouurl = url
-        console.log(state.kuaishouurl, url, "url");
-      },
-    SET_BASE: (state, base) => {
-        state.base = base
-    },
-    SET_RELATED: (state, related) => {
-        state.related = related
-    },
-    SET_RECOMMENDED: (state, recommended) => {
-        state.recommended = recommended
-    },
-    SET_CONCATINFO: (state, concatInfo) => {
-        state.concatInfo = concatInfo
-    },
-    SET_STATUS: (state) => {
-        // 1待审核，2审核通过，3审核驳回，4已结束，5暂停
-        const s = state.base.status
-        let res = -1
-        if ('13'.indexOf(s) >= 0) {
-            res = -1
-        } else if (s === 2) {
-            const curTime = Math.round(new Date().getTime() / 1000)
-            const startTime = state.base.time[0]
-            const endTime = state.base.time[1]
-            if (curTime < startTime) {
-                res = -1
-            } else if (curTime >= startTime && curTime <= endTime) {
-                res = 0
-            } else {
-                res = 1
-            }
-        } else if ('45'.indexOf(s) >= 0) {
-            res = 1
-        }
-        state.status = res
-    },
-    SET_STATUSA: (state, data) => {
-        state.base.status = data
-    },
-    SET_AD: (state, ad) => {
-        state.ad = ad
-    },
-    SET_LIGHTCOUNT: (state, lightCount) => {
-        state.lightCount = lightCount
-    },
-    SET_EIGHTSHARE: (state, is_share) => {
-        state.base.is_share = is_share
-    },
-    SET_HASLIGHTORDER: (state, hasLightOrder) => {
-        state.hasLightOrder = hasLightOrder
-    },
-    SET_HELPDATA: (state, data) => {
-        state.helpdata = data
-    },
-    SET_HELPLIST: (state, data) => {
-        state.helplist = data
+    // 
+    SET_INFO: (state, info) => {
+        state.form = info
     },
 
-    SET_FROMUSER: (state, data) => {
-        state.from_user = data
+    SET_PAGE_TYPE: (state, type) => {
+        state.PageType = type
     },
-    SET_BARGAINLISR: (state, data) => {
-        state.bargainlist = data
+    SET_OPEN_ID: (state, openid) => {
+        state.openid = openid
     },
-    SET_STORES: (state, data) => {
-        state.carlist = data
-    }
 }
 
 const actions = {
-    // getActivityInfo({ commit }, data) {
-        // return new Promise((resolve, reject) => {
-        //     getActivityDetail(data)
-        //         .then((res) => {
-        //             const { base, help_link, link, related, recommended, concatInfo, ad, fromGroup, lightCount, hasLightOrder } = res.data
-        //             commit('SET_BASE', { ...base, help_link, link, fromGroup })
-        //             setCarimg(res.data.base.carousel[0])
-        //             commit('SET_RELATED', related)
-        //             commit('SET_RECOMMENDED', recommended)
-        //             commit('SET_CONCATINFO', concatInfo)
-        //             commit('SET_AD', ad)
-        //             commit('SET_LIGHTCOUNT', lightCount)
-        //             commit('SET_HASLIGHTORDER', hasLightOrder)
-
-        //             commit('SET_STATUS')
-        //             // commit(' SET_STORES', carlist)
-
-        //             res.data.base.link = link
-        //             resolve(res.data)
-        //         })
-        //         .catch((err) => {
-        //             console.log(err)
-        //             reject()
-        //         })
-        // })
-    // },
-
-
-    openLocation({ state }) {
-        wx.openLocation({
-            latitude: state.concatInfo.storeLocation.lat, // 纬度，浮点数，范围为90 ~ -90
-            longitude: state.concatInfo.storeLocation.lng, // 经度，浮点数，范围为180 ~ -180。
-            name: state.concatInfo.storeName, // 位置名
-            address: state.concatInfo.storeAddress, // 地址详情说明
-            scale: 15, // 地图缩放级别,整形值,范围从1~28。默认为最大
-            infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+    // 获取
+    getActivityDetail({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            getActivityInfo(param).then(response => {
+                const { data } = response
+                commit('SET_INFO', data)
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
         })
     },
 
-
-
-    changeStatus({ commit }, data) {
-        commit('SET_STATUSA', data)
-    }
 }
 
 export default {
