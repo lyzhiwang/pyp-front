@@ -1,139 +1,76 @@
 <template>
   <div class="home">
-    <!-- 背景 -->
-    <img
-      v-if="activity && activity.custom_bg === 2"
-      :src="activity.custom_image"
-      alt=""
-      class="home_bg"
+
+    <!-- 模板一 -->
+    <TemplateOne
+      v-if="TemplateId === 1"
+      @openCover="openCover"
+      @openPopup="openPopup"
     />
-    <img v-else :src="pageBg" alt="" class="home_bg" />
 
-    <div class="home_content">
-      <!--  -->
-      <Header />
+    <!-- 模板二 -->
+    <TemplateTwo
+      v-else-if="TemplateId === 2"
+      @openCover="openCover"
+      @openPopup="openPopup"
+    />
 
-      <!--  -->
-      <template
-        v-if="
-          activity.douyin_switch ||
-          activity.xhs_switch ||
-          activity.kuaishou_switch
-        "
-      >
-        <ModuleOne @openCover="openCover" />
-      </template>
-
-      <!--  -->
-      <template v-if="activity.bxh_ad_switch">
-        <AdOne @openCover="openCover" />
-      </template>
-
-      <!--  -->
-      <template
-        v-if="
-          activity.dianping_switch ||
-          activity.poi_switch ||
-          activity.gaode_switch
-        "
-      >
-        <ModuleTwo @openCover="openCover" @openPopup="openPopup" />
-      </template>
-
-      <!--  -->
-      <template
-        v-if="
-          activity.home_switch ||
-          activity.wechat_switch ||
-          activity.shipinhao_switch
-        "
-      >
-        <ModuleThree @openCover="openCover" />
-      </template>
-
-      <!--  -->
-      <template
-        v-if="
-          activity.meituan_switch ||
-          activity.friend_switch ||
-          activity.mini_program_switch
-        "
-      >
-        <ModuleFour @openCover="openCover" @openPopup="openPopup" />
-      </template>
-
-      <!--  -->
-      <template
-        v-if="
-          activity.share_switch ||
-          activity.act_switch ||
-          activity.wifi_switch ||
-          activity.xhs_follow_switch ||
-          activity.xhs_image_switch ||
-          activity.custom_url_switch
-        "
-      >
-        <ModuleFive @openCover="openCover" />
-      </template>
-
-      <!--  -->
-      <template v-if="activity.set_meal_switch && activity.set_meal">
-        <ModuleSix @openCover="openCover" />
-      </template>
-
-      <!--  -->
-      <div v-if="isShow" class="mask" style="z-index: 999">
-        <img class="arrow" src="@/assets/home/arrow.png" alt="" width="100px" />
-        <div class="text">
-          <div class="tip1">
-            <span>点击右上角</span>
-            <img src="@/assets/home/write.png" width="2%" class="mar20" />
-          </div>
-          <div class="tip1">
-            选择在<img
-              src="@/assets/home/browser.png"
-              width="10%"
-              class="mar20"
-            />浏览器中打开，
-          </div>
-        </div>
-      </div>
-
-      <!--  -->
-      <van-dialog
-        v-model="popupVisible"
-        title="提示"
-        show-cancel-button
-        confirm-button-color="#e57cff"
-      >
-        <div class="Popup_box" v-if="publish_type == 1">
-          <div class="load">
-            <img
-              src="@/assets/home/load.gif"
-              style="width: 100%; margin-top: -27%"
-            />
-          </div>
-          <div class="Popup_title">视频正在发送中，请稍后····</div>
-        </div>
-        <div class="Popup_box" v-else>
-          <div class="load_2" v-if="publish_type == 2">
-            <img class="yesPng" src="@/assets/home/yes.png" />
-          </div>
-          <div v-if="publish_type == 3" class="load_3">
-            <img src="@/assets/home/cole.png" style="width: 100%" />
-          </div>
-          <div class="Popup_title" v-if="publish_type == 2">
-            恭喜您，视频已发送成功!
-          </div>
-          <div class="Popup_title" v-else>{{ defeat }}</div>
-        </div>
-      </van-dialog>
-    </div>
-
-    <div class="reserveASeat"></div>
+    <!-- <div class="reserveASeat"></div> -->
 
     <!--  -->
-    <van-popup v-model="isCopyShow" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" position="bottom">
+    <div v-if="isShow" class="mask" style="z-index: 999">
+      <img class="arrow" src="@/assets/home/arrow.png" alt="" width="100px" />
+      <div class="text">
+        <div class="tip1">
+          <span>点击右上角</span>
+          <img src="@/assets/home/write.png" width="2%" class="mar20" />
+        </div>
+        <div class="tip1">
+          选择在<img
+            src="@/assets/home/browser.png"
+            width="10%"
+            class="mar20"
+          />浏览器中打开，
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+    <van-dialog
+      v-model="popupVisible"
+      title="提示"
+      show-cancel-button
+      confirm-button-color="#e57cff"
+    >
+      <div class="Popup_box" v-if="publish_type == 1">
+        <div class="load">
+          <img
+            src="@/assets/home/load.gif"
+            style="width: 100%; margin-top: -27%"
+          />
+        </div>
+        <div class="Popup_title">视频正在发送中，请稍后····</div>
+      </div>
+      <div class="Popup_box" v-else>
+        <div class="load_2" v-if="publish_type == 2">
+          <img class="yesPng" src="@/assets/home/yes.png" />
+        </div>
+        <div v-if="publish_type == 3" class="load_3">
+          <img src="@/assets/home/cole.png" style="width: 100%" />
+        </div>
+        <div class="Popup_title" v-if="publish_type == 2">
+          恭喜您，视频已发送成功!
+        </div>
+        <div class="Popup_title" v-else>{{ defeat }}</div>
+      </div>
+    </van-dialog>
+
+    <!--  -->
+    <van-popup
+      v-model="isCopyShow"
+      style="border-top-left-radius: 10px; border-top-right-radius: 10px"
+      position="bottom"
+    >
       <div class="copy_boX">
         <div class="copy_title">{{ copyData.title }}</div>
         <div class="copywriting">
@@ -165,27 +102,26 @@
     </van-popup>
 
     <!--  -->
-    <van-image-preview v-model="isShowPreview" :images="copyData.imgList" @change="onChange" @close="onClose" >
+    <van-image-preview
+      v-model="isShowPreview"
+      :images="copyData.imgList"
+      @change="onChange"
+      @close="onClose"
+    >
       <template slot="cover">
         <!-- <van-button type="primary" class="download_btn_style" @click="downloadImage()">下载图片</van-button> -->
         <div class="download_tip_style">长按识别保存图片到相册</div>
       </template>
     </van-image-preview>
+
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 
-import Header from '@/components/TemplateOne/Header';
-import ModuleOne from '@/components/TemplateOne/ModuleOne';
-import ModuleTwo from '@/components/TemplateOne/ModuleTwo';
-import ModuleThree from '@/components/TemplateOne/ModuleThree';
-import ModuleFour from '@/components/TemplateOne/ModuleFour';
-import ModuleFive from '@/components/TemplateOne/ModuleFive';
-import ModuleSix from '@/components/TemplateOne/ModuleSix';
-
-import AdOne from '@/components/Advertisement/AdOne';
+import TemplateOne from '@/components/TemplateOne/index';
+import TemplateTwo from '@/components/TemplateTwo/index';
 
 import bgOne from '@/assets/home/bg.png';
 
@@ -203,18 +139,13 @@ import {
 
 export default {
   components: {
-    Header,
-    ModuleOne,
-    ModuleTwo,
-    ModuleThree,
-    ModuleFour,
-    ModuleFive,
-    ModuleSix,
-    AdOne,
+    TemplateOne,
+    TemplateTwo
   },
 
   data() {
     return {
+      TemplateId: 2, // 模板
       pageBg: bgOne, //默认背景图
 
       isShow: false, //微信中点击打开引导
@@ -233,8 +164,8 @@ export default {
         url: '', // 链接
         btnText: '', // 按钮文案
       },
-      isShowPreview:false, // 是否显示图片预览
-      imageIndex:0, // 图片索引
+      isShowPreview: false, // 是否显示图片预览
+      imageIndex: 0, // 图片索引
     };
   },
 
@@ -248,9 +179,9 @@ export default {
 
   created() {
     this.init();
-    const userAgent = navigator.userAgent;
-    console.log('userAgent');
-    console.log(userAgent);
+    // const userAgent = navigator.userAgent;
+    // console.log('userAgent');
+    // console.log(userAgent);
   },
 
   methods: {
@@ -305,23 +236,10 @@ export default {
         }
         this.getDetail();
       } else {
-        // 其他
-        // if (this.$route.query.code && !this.$route.query.state) {
-        //   console.log(1);
-        //   // 获取code  绑定码
-        //   getCode({ code: this.$route.query.code })
-        //     .then((res) => {
-        //       if (res.data) {
-        //         this.id = res.data.touch_activity_id;
-        //         this.getDetail();
-        //       }
-        //     })
-        // } else
         if (this.$route.query.code && this.$route.query.state) {
           //快手授权完成拿到code后
           this.id = JSON.parse(this.$route.query.state).touch_activity_id;
           this.getDetail();
-          // this.urlKs();
           console.log(2);
         } else if (this.$route.query.from) {
           console.log(3);
@@ -330,7 +248,6 @@ export default {
             this.id = this.$route.query.touch_activity_id;
           }
           this.getDetail();
-          // this.faBuKs();
         } else {
           console.log(4);
           console.log(this.$route.query);
@@ -489,9 +406,9 @@ export default {
 
     // 预览图片
     OpenPreview(index) {
-      console.log('预览图片');
-      console.log(index);
-      this.isShowPreview = true
+      // console.log('预览图片');
+      // console.log(index);
+      this.isShowPreview = true;
       // console.log(this.copyData);
       // ImagePreview({
       //   images: this.copyData.imgList,
@@ -507,10 +424,9 @@ export default {
       this.imageIndex = index;
     },
 
-
-    // 
+    //
     onClose(index) {
-      this.isShowPreview = false
+      this.isShowPreview = false;
     },
 
     // 下载图片
@@ -531,31 +447,15 @@ export default {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  padding-top: 20px;
-  // padding-bottom: 40px;
-  padding-bottom: 80px;
-  // padding-bottom: 20px;
-  .home_bg {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    filter: blur(2.35px);
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    // z-index: -1;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+  overflow: auto;
   .home_content {
     position: relative;
   }
-  .reserveASeat {
-    position: relative;
-    width: 100%;
-    height: 20px;
-  }
+  // .reserveASeat {
+  //   position: relative;
+  //   width: 100%;
+  //   height: 20px;
+  // }
 
   .mask {
     position: fixed;
@@ -595,17 +495,11 @@ export default {
       height: 90px;
     }
     .load_2 {
-      // border: 1px solid red;
       width: 150px;
       height: 100px;
-      // width: 73px;
-      // height: 100px;
       .yesPng {
         width: 100px;
         height: 100px;
-        // position: relative;
-        // left: -40px;
-        // top: -20px;
       }
     }
     .load_3 {
@@ -720,18 +614,18 @@ export default {
   }
 }
 
-.download_btn_style{
+.download_btn_style {
   position: fixed;
   bottom: 50px;
   left: 50%;
-  transform:translate(-50%);
+  transform: translate(-50%);
 }
 
-.download_tip_style{
+.download_tip_style {
   position: fixed;
   top: 50px;
   left: 50%;
-  transform:translate(-50%);
+  transform: translate(-50%);
   color: #6df704;
 }
 </style>

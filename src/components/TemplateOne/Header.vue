@@ -37,6 +37,7 @@ export default {
 .header{
   z-index: 1;
   color:red;
+  padding-top: 30px;
   .header_top{
     display: flex;
     align-items: center;
