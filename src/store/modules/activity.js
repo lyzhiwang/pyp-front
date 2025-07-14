@@ -9,8 +9,12 @@ const state = {
         act_activity_id: null,
         act_switch: false,
         appid: "",
+
+        template: 1, // 模板选择
         custom_bg: 2,
         custom_image: null,
+        background: null,
+
         dianping_content: "",
         dianping_scheme: "",
         dianping_switch: false,
@@ -24,7 +28,7 @@ const state = {
         home_scheme: "",
         home_switch: false,
         id: null,
-        is_redpacket:false,
+        is_redpacket: false,
         kuaishou_switch: false,
         kuaishou_url: "",
         meituan_content: "",
@@ -102,11 +106,11 @@ const state = {
         xhs_switch: false,
         xhs_follow_switch: false, // 小红书关注开关
         xhs_follow_url: '', // 小红书个人中心链接
-        bxh_ad_switch:false
+        bxh_ad_switch: false
     },
 
-    PageType:1 , // 1:浏览器页面  2：微信页面
-    openid:''// 微信授权的openid
+    PageType: 1, // 1:浏览器页面  2：微信页面
+    openid: ''// 微信授权的openid
 }
 
 const mutations = {
@@ -129,6 +133,13 @@ const actions = {
         return new Promise((resolve, reject) => {
             getActivityInfo(param).then(response => {
                 const { data } = response
+                if(data.template){
+
+                } else {
+                   data.template = 1
+                }
+
+                // data.template = 2
                 commit('SET_INFO', data)
                 resolve(response)
             }).catch(error => {

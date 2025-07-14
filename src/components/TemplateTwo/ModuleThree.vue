@@ -9,7 +9,7 @@
       />
       <div class="content">
         <div
-          v-show="activity.friend_switch"
+          v-if="activity.friend_switch"
           @click="showPopup()"
           class="content_item"
         >
@@ -20,7 +20,7 @@
           />
           <div class="name">发朋友圈</div>
         </div>
-        <div v-show="activity.wechat_switch" @click="wx()" class="content_item">
+        <div v-if="activity.wechat_switch" @click="wx()" class="content_item">
           <img
             class="icon"
             src="@/assets/TemplateTwo/ModuleThree/wx.png"
@@ -29,7 +29,7 @@
           <div class="name">添加微信</div>
         </div>
         <div
-          v-show="activity.shipinhao_switch"
+          v-if="activity.shipinhao_switch"
           @click="sph()"
           class="content_item"
         >
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import ClipboardJS from 'clipboard';
 import { mapState } from 'vuex';
 export default {
   name: 'ModuleThree',
@@ -162,9 +163,10 @@ export default {
 <style lang="scss" scoped>
 .ModuleThree {
   position: relative;
-  width: 92%;
+  width: 94%;
+  height: 125px;
   margin: 0 auto;
-  margin-top: 16px;
+  margin-top: 10px;
   border-radius: 8px;
   overflow: hidden;
   .bg_img {
@@ -172,7 +174,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 125px;
   }
   .content_box {
     position: relative;
@@ -186,17 +188,17 @@ export default {
       margin-top: 10px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       .content_item {
         width: 32%;
-        height: 60px;
+        height: 54px;
         background-color: #ffffff;
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-right: 3.5%;
         .icon {
-          width: 30px;
+          width: 28px;
           height: auto;
         }
         .name {
@@ -207,6 +209,9 @@ export default {
           color: #000000;
           margin-left: 5px;
         }
+      }
+      .content_item:nth-child(3n) {
+        margin-right: 0;
       }
     }
   }

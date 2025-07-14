@@ -3,19 +3,17 @@
 
     <!-- 模板一 -->
     <TemplateOne
-      v-if="TemplateId === 1"
+      v-if="activity.template === 1 "
       @openCover="openCover"
       @openPopup="openPopup"
     />
 
     <!-- 模板二 -->
     <TemplateTwo
-      v-else-if="TemplateId === 2"
+      v-else-if="activity.template === 2"
       @openCover="openCover"
       @openPopup="openPopup"
     />
-
-    <!-- <div class="reserveASeat"></div> -->
 
     <!--  -->
     <div v-if="isShow" class="mask" style="z-index: 999">
@@ -123,8 +121,6 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import TemplateOne from '@/components/TemplateOne/index';
 import TemplateTwo from '@/components/TemplateTwo/index';
 
-import bgOne from '@/assets/home/bg.png';
-
 import ClipboardJS from 'clipboard';
 
 import { Toast, Dialog, ImagePreview } from 'vant-green';
@@ -145,8 +141,6 @@ export default {
 
   data() {
     return {
-      TemplateId: 2, // 模板
-      pageBg: bgOne, //默认背景图
 
       isShow: false, //微信中点击打开引导
       id: null,
@@ -451,11 +445,6 @@ export default {
   .home_content {
     position: relative;
   }
-  // .reserveASeat {
-  //   position: relative;
-  //   width: 100%;
-  //   height: 20px;
-  // }
 
   .mask {
     position: fixed;

@@ -1,19 +1,23 @@
 <template>
-  <div class="advertisement" @click="JumpMiniProgram">
-    <img class="advertisement_img" :src="adOne" />
+  <div class="advertisement">
+    <div class="advertisement_item" @click="PhoneBill">
+      <img class="item_img" :src="adOne" />
+    </div>
+    <div class="advertisement_item" @click="film">
+      <img class="item_img" :src="adTwo" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
-import adOne from '@/assets/Advertisement/ad_2.png';
-
 export default {
   name: '',
   data() {
     return {
-      adOne: adOne,
+      adOne: require('@/assets/ad/adOne.png'),
+      adTwo: require('@/assets/ad/adTwo.png'),
     };
   },
 
@@ -27,17 +31,55 @@ export default {
   created() {},
 
   methods: {
-    // 点击跳转小程序
-    JumpMiniProgram() {
-        if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+    // 小程序交话费
+    PhoneBill() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover');
         return;
       }
-      const appid = 'wxf069f925066190a5'
+      // const appid = 'wxf069f925066190a5'
       // /pages/tabpages/index?invite_code=87qje9
-      const path = '/pages/tabpages/index'
-      const invite_code = 'invite_code=87qje9'
-      window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=${invite_code}`;
+      const appid =
+        this.activity && this.activity.bxh_appid
+          ? this.activity.bxh_appid
+          : 'wxf069f925066190a5';
+      const path = 'pagesub/others/phone/index';
+      const invite_code = 'invite_code=87qje9';
+      var str = this.activity.bxh_phone_path;
+      var id = str.split('?');
+      var id_id = id[1]; // 参数
+      if (id_id) {
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`;
+      } else {
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+      }
+    },
+
+    // 电影票
+    film() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover');
+        return;
+      }
+      // const appid = 'wxf069f925066190a5'
+      const appid =
+        this.activity && this.activity.bxh_appid
+          ? this.activity.bxh_appid
+          : 'wxf069f925066190a5';
+      // pages/tabpages/index?invite_code=87qje9
+      const path = 'pages/film/index';
+      const invite_code = 'invite_code=87qje9';
+
+      var str = this.activity.bxh_film_path;
+      var id = str.split('?');
+      var id_id = id[1]; // 参数
+      if (id_id) {
+        // console.log(`weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`);
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}&query=${id_id}`;
+      } else {
+        // console.log(`weixin://dl/business/?appid=${appid}&path=${path}`);
+        window.location.href = `weixin://dl/business/?appid=${appid}&path=${path}`;
+      }
     },
   },
 };
@@ -45,13 +87,29 @@ export default {
 
 <style lang="scss" scoped>
 .advertisement {
-  width: 100%;
+  // width: 100%;
+  width: 94%;
+  margin: 0 auto;
   position: relative;
-  padding: 0 4%;
+  // padding: 0 4%;
   margin-top: 10px;
-  .advertisement_img {
-    width: 100%;
-    height: auto;
+  padding: 8px 5px 5px 5px;
+  display: flex;
+  align-items: center;
+  // justify-content: space-between;
+  background: #ffffff;
+  border-radius: 10px;
+  .advertisement_item {
+    width: 49%;
+    margin-right: 2%;
+    .item_img {
+      width: 100%;
+      height: 64px;
+    }
+  }
+
+  .advertisement_item:last-child {
+    margin-right: 0;
   }
 }
 </style>

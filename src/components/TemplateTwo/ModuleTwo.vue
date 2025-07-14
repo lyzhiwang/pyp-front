@@ -8,7 +8,7 @@
         alt=""
       />
       <div class="content">
-        <div v-show="activity.dianping_switch" @click="dianPing()" class="content_item">
+        <div v-if="activity.dianping_switch" @click="dianPing()" class="content_item">
           <img
             class="content_item_bg"
             src="@/assets/TemplateTwo/ModuleTwo/bg_1.png"
@@ -30,7 +30,7 @@
             />
           </div>
         </div>
-        <div v-show="activity.poi_switch" @click="poi()" class="content_item">
+        <div v-if="activity.poi_switch" @click="poi()" class="content_item">
           <img
             class="content_item_bg"
             src="@/assets/TemplateTwo/ModuleTwo/bg_2.png"
@@ -52,7 +52,7 @@
             />
           </div>
         </div>
-        <div v-show="activity.gaode_switch" @click="gaoDe()" class="content_item">
+        <div v-if="activity.gaode_switch" @click="gaoDe()" class="content_item">
           <img
             class="content_item_bg"
             src="@/assets/TemplateTwo/ModuleTwo/bg_3.png"
@@ -80,6 +80,8 @@
 </template>
 
 <script>
+import ClipboardJS from 'clipboard';
+import { Toast , Dialog} from 'vant-green';
 import { mapState } from 'vuex';
 export default {
   name: 'ModuleTwo',
@@ -155,9 +157,6 @@ export default {
       }
       this.cope(this.activity.poi_content);
       if (this.cope(this.activity.poi_content)) {
-        // MessageBox.confirm("允许复制文案到剪切板").then(() => {
-        //   window.location.href = this.activity.poi_scheme;
-        // });
         Dialog.confirm({
           // title: '标题',
           message: '允许复制文案到剪切板',
@@ -165,7 +164,6 @@ export default {
           // cancelButtonText: '取消'
         })
           .then(() => {
-            // on confirm
             window.location.href = this.activity.poi_scheme;
           })
           .catch(() => {
@@ -210,17 +208,19 @@ export default {
 <style lang="scss" scoped>
 .ModuleTwo {
   position: relative;
-  width: 92%;
+  width: 94%;
+  height: 211px;
   margin: 0 auto;
-  margin-top: 16px;
+  margin-top: 10px;
   border-radius: 8px;
   overflow: hidden;
+  // border: 1px solid red;
   .bg_img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 211px;
   }
   .content_box {
     position: relative;
@@ -233,29 +233,30 @@ export default {
     .content {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       margin-top: 10px;
       .content_item {
         width: 32%;
-        height: auto;
+        height: 133px;
         position: relative;
         text-align: center;
-        padding: 10px 10px 0px 10px;
+        margin-right: 4%;
         .content_item_bg {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
-          height: 100%;
+          height: 130px;
         }
         .content_item_box {
           position: relative;
-          height: 142px;
+          height: 133px;
           .content_item_box_top {
             display: flex;
             align-items: center;
+            justify-content: center;
+            padding-top: 6px;
             .content_item_box_top_icon {
-              width: 30px;
+              width: 28px;
               height: auto;
             }
             .content_item_box_top_name {
@@ -264,11 +265,11 @@ export default {
               font-weight: bolder;
               text-align: left;
               color: #000000;
-              margin-left: 5px;
+              margin-left: 2px;
             }
           }
           .content_item_box_down {
-            width: 88%;
+            width: 70px;
             height: auto;
             position: absolute;
             bottom: 0;
@@ -276,9 +277,13 @@ export default {
             transform: translateX(-50%);
           }
           .dp_down {
-            width: 130%;
+            width: 90px;
           }
         }
+      }
+
+      .content_item:nth-child(3n) {
+        margin-right: 0;
       }
     }
   }

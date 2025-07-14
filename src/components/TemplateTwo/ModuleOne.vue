@@ -8,7 +8,7 @@
         alt=""
       />
       <div class="content">
-        <div v-show="activity.douyin_switch" @click="douYin()" class="dy_box">
+        <div v-if="activity.douyin_switch" @click="douYin()" class="dy_box">
           <div class="dy_box_top">
             <img
               class="dy_box_top_img"
@@ -26,7 +26,8 @@
         </div>
 
         <div class="content_right">
-          <div v-show="activity.kuaishou_switch" @click="ks()" class="ks_box">
+          <!--  -->
+          <div v-if="activity.kuaishou_switch" @click="ks()" class="ks_box">
             <div class="ks_box_top">
               <img
                 class="ks_box_top_img"
@@ -68,6 +69,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import { 
+  getDy,
+  getDyTwo, 
+  getXhs, 
+  getSignature 
+} from '@/api/index';
 export default {
   name: 'ModuleOne',
   data() {
@@ -198,16 +205,18 @@ export default {
 <style lang="scss" scoped>
 .ModuleOne {
   position: relative;
-  width: 92%;
+  width: 94%;
   margin: 0 auto;
   border-radius: 8px;
   overflow: hidden;
+  // width: 350px;
+  height: 255px;
   .bg_img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 255px;
   }
   .content_box {
     position: relative;
@@ -216,18 +225,17 @@ export default {
     .content_box_title {
       width: 113px;
       height: 29px;
-      // margin-left: 20px;
-      // margin-top: 20px;
     }
     .content {
       position: relative;
       display: flex;
-      align-items: center;
+      // align-items: center;
       margin-top: 10px;
       justify-content: space-between;
+      // border: 1px solid red;
       .dy_box {
         overflow: hidden;
-        height: 200px;
+        height: 180px;
         width: 48%;
         background: linear-gradient(-54deg, #c6e0ff 0%, #f3fdff 100%);
         border-radius: 10px;
@@ -249,7 +257,7 @@ export default {
           }
         }
         .ks_box_down_img {
-          width: 100%;
+          width: 90%;
           height: auto;
           margin: 0 auto;
         }
@@ -257,12 +265,14 @@ export default {
 
       .content_right {
         width: 48%;
+        height: 180px;
         .ks_box {
           background: linear-gradient(-54deg, #ffe8c6 25%, #fffcf3 100%);
           border-radius: 8px;
           text-align: right;
           padding: 12px 0px 0px 12px;
-          height: 95px;
+          height: 85px;
+          margin-bottom: 10px;
           .ks_box_top {
             display: flex;
             align-items: center;
@@ -281,8 +291,10 @@ export default {
             }
           }
           .ks_box_down_img {
-            width: 66%;
-            height: auto;
+            // width: 66%;
+            // height: auto;
+            width: 90px;
+            height: 74px;
             margin-right: 10px;
             position: relative;
             top: -22px;
@@ -290,10 +302,9 @@ export default {
         }
 
         .xhs_box {
-          height: 95px;
+          height: 85px;
           background: linear-gradient(-54deg, #ffc6c6 0%, #fff3f3 100%);
           border-radius: 8px;
-          margin-top: 10px;
           text-align: right;
           padding: 12px 0px 0px 12px;
           .xhs_box_top {
@@ -315,8 +326,10 @@ export default {
             }
           }
           .xhs_box_down_img {
-            width: 50%;
-            height: auto;
+            // width: 50%;
+            // height: auto;
+            width: 70px;
+            height: 51px;
             position: relative;
             top: -10px;
           }

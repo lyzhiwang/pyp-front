@@ -1,7 +1,9 @@
 <template>
   <div class="home_content">
     <div class="bg_box">
-      <img class="bg_img" src="@/assets/TemplateTwo/ModuleOne/bg.png" alt="" />
+      <img v-if="activity && activity.background" class="bg_img" :src="activity.background" alt="" />
+      <img v-else class="bg_img" src="@/assets/TemplateTwo/ModuleOne/bg.png" alt="" />
+      <!-- <img class="bg_img" src="@/assets/TemplateTwo/ModuleOne/bg.png" alt="" /> -->
     </div>
     <!--  -->
     <Header />
@@ -14,13 +16,13 @@
         activity.kuaishou_switch
       "
     >
-      <ModuleOne @openCover="openCover" @openPopup="openPopup"  />
+      <ModuleOne @openCover="openCover" @openPopup="openPopup" />
     </template>
 
     <!--  -->
-    <!-- <template v-if="activity.bxh_ad_switch">
-      <AdOne @openCover="openCover" />
-    </template> -->
+    <template v-if="activity.bxh_ad_switch">
+      <AdTwo @openCover="openCover" />
+    </template>
 
     <!--  -->
     <template
@@ -39,7 +41,7 @@
         activity.shipinhao_switch
       "
     >
-      <ModuleThree @openCover="openCover" @openPopup="openPopup"  />
+      <ModuleThree @openCover="openCover" @openPopup="openPopup" />
     </template>
 
     <!--  -->
@@ -49,28 +51,27 @@
 
     <!--  -->
     <template v-if="activity.home_switch || activity.xhs_follow_switch">
-      <ModuleFive @openCover="openCover" @openPopup="openPopup"  />
+      <ModuleFive @openCover="openCover" @openPopup="openPopup" />
     </template>
 
     <!--  -->
-    <template
-      v-if="
-        activity.share_switch &&
-        activity.act_switch &&
-        activity.mini_program_switch
-      "
-    >
-      <ModuleSix @openCover="openCover" @openPopup="openPopup"  />
+    <template v-if="activity.mini_program_switch || activity.custom_url_switch">
+      <ModuleSix @openCover="openCover" @openPopup="openPopup" />
+    </template>
+
+    <!--  -->
+    <template v-if="activity.share_switch || activity.act_switch">
+      <ModuleSeven @openCover="openCover" @openPopup="openPopup" />
     </template>
 
     <!--  -->
     <template v-if="activity.wifi_switch">
-      <Wifi @openCover="openCover" @openPopup="openPopup"  />
+      <Wifi @openCover="openCover" @openPopup="openPopup" />
     </template>
 
     <!--  -->
     <template v-if="activity.set_meal_switch && activity.set_meal">
-      <Buying @openCover="openCover"  />
+      <Buying @openCover="openCover" />
     </template>
   </div>
 </template>
@@ -85,7 +86,8 @@ import ModuleThree from '@/components/TemplateTwo/ModuleThree';
 import ModuleFour from '@/components/TemplateTwo/ModuleFour';
 import ModuleFive from '@/components/TemplateTwo/ModuleFive';
 import ModuleSix from '@/components/TemplateTwo/ModuleSix';
-import AdOne from '@/components/Advertisement/AdOne';
+import ModuleSeven from '@/components/TemplateTwo/ModuleSeven';
+import AdTwo from '@/components/Advertisement/AdTwo';
 import Wifi from '@/components/TemplateTwo/Wifi';
 import Buying from '@/components/TemplateTwo/Buying';
 
@@ -98,7 +100,8 @@ export default {
     ModuleFour,
     ModuleFive,
     ModuleSix,
-    AdOne,
+    ModuleSeven,
+    AdTwo,
     Wifi,
     Buying,
   },

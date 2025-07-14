@@ -68,9 +68,9 @@ export default {
 <style lang="scss" scoped>
 .Buying {
   position: relative;
-  width: 92%;
+  width: 94%;
   margin: 0 auto;
-  margin-top: 15px;
+  margin-top: 10px;
   border-radius: 8px;
   overflow: hidden;
   .bg_img {

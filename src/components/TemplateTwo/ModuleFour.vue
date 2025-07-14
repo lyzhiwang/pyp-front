@@ -8,8 +8,8 @@
         alt=""
       />
       <div class="content">
-        <div
-          v-show="activity.meituan_switch"
+        <!-- <div
+          v-if="activity.meituan_switch"
           @click="meiTuAn()"
           class="content_item"
         >
@@ -26,7 +26,7 @@
             />
             <div class="name">美团团购</div>
           </div>
-        </div>
+        </div> -->
 
         <!-- <div class="content_item">
           <img
@@ -59,12 +59,18 @@
             <div class="name">抖音团购</div>
           </div>
         </div> -->
+
+        <!--  -->
+        <div v-if="activity.meituan_switch" class="mt_content"  @click="meiTuAn()">
+          <img class="mt_bg" src="@/assets/TemplateTwo/ModuleFour/mt_bg.png" alt="">
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ClipboardJS from 'clipboard';
 import { mapState } from 'vuex';
 export default {
   name: 'ModuleFour',
@@ -139,9 +145,10 @@ export default {
 <style lang="scss" scoped>
 .ModuleFour {
   position: relative;
-  width: 92%;
+  width: 94%;
+  height: 187px;
   margin: 0 auto;
-  margin-top: 12px;
+  margin-top: 10px;
   border-radius: 8px;
   overflow: hidden;
   padding: 0;
@@ -150,12 +157,12 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 187px;
   }
   .content_box {
     position: relative;
     text-align: left;
-    padding: 22px 15px;
+    padding: 22px 15px 10px 15px;
     .content_box_title {
       width: 90px;
       height: 30px;
@@ -163,39 +170,53 @@ export default {
     .content {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      .content_item {
-        position: relative;
-        width: 32%;
-        height: 120px;
-        .content_item_bg {
-          position: absolute;
+      margin-top: 10px;
+      // justify-content: space-between;
+      // .content_item {
+      //   position: relative;
+      //   width: 32%;
+      //   height: 120px;
+      //   margin-right: 4%;
+      //   .content_item_bg {
+      //     position: absolute;
+      //     width: 100%;
+      //     height: 100%;
+      //     left: 0;
+      //     top: 0;
+      //   }
+      //   .content_item_box {
+      //     position: absolute;
+      //     width: 100%;
+      //     height: auto;
+      //     left: 0;
+      //     bottom: 12px;
+      //     display: flex;
+      //     align-items: center;
+      //     justify-content: center;
+      //     .icon {
+      //       width: 30px;
+      //       height: auto;
+      //     }
+      //     .name {
+      //       font-size: 15px;
+      //       font-family: Microsoft YaHei, Microsoft YaHei-Bold;
+      //       font-weight: bolder;
+      //       text-align: left;
+      //       color: #000000;
+      //       margin-left: 3px;
+      //     }
+      //   }
+      // }
+
+      // .content_item:nth-child(3n) {
+      //   margin-right: 0;
+      // }
+
+      .mt_content{
+        width:  100%;
+        .mt_bg{
           width: 100%;
           height: auto;
-          left: 0;
-          top: 0;
-        }
-        .content_item_box {
-          position: absolute;
-          width: 100%;
-          height: auto;
-          left: 0;
-          bottom: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .icon {
-            width: 30px;
-            height: auto;
-          }
-          .name {
-            font-size: 15px;
-            font-family: Microsoft YaHei, Microsoft YaHei-Bold;
-            font-weight: bolder;
-            text-align: left;
-            color: #000000;
-            margin-left: 3px;
-          }
         }
       }
     }

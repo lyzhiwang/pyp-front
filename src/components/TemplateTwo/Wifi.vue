@@ -10,10 +10,10 @@
           />
         </div>
         <div class="center_box">
-          <div class="name">Wi-Fi：懒人便利店</div>
-          <div class="value">密码：123456789</div>
-          <!-- <div class="name">Wi-Fi：{{}}</div>
-          <div class="value">密码：{{}}</div> -->
+          <!-- <div class="name">Wi-Fi：懒人便利店</div>
+          <div class="value">密码：123456789</div> -->
+          <div class="name">Wi-Fi：{{ activity.wifi_name }}</div>
+          <div class="value">密码：{{ activity.wifi_password }}</div>
         </div>
       </div>
 
@@ -57,9 +57,9 @@ export default {
 <style lang="scss" scoped>
 .Wifi {
   position: relative;
-  width: 92%;
+  width: 94%;
   margin: 0 auto;
-  margin-top: 15px;
+  margin-top: 10px;
   border-radius: 8px;
   overflow: hidden;
   background: #ffffff;
@@ -73,8 +73,8 @@ export default {
       display: flex;
       align-items: center;
       .img_box {
-        width: 66px;
-        height: 66px;
+        width: 60px;
+        height: 60px;
         background: #dae8fc;
         border-radius: 10px;
         display: flex;
@@ -88,14 +88,14 @@ export default {
       .center_box {
         margin-left: 10px;
         .name {
-          font-size: 16px;
+          font-size: 15px;
           font-family: Microsoft YaHei, Microsoft YaHei-Regular;
           font-weight: 400;
           text-align: left;
           color: #333333;
         }
         .value {
-          font-size: 16px;
+          font-size: 15px;
           font-family: Microsoft YaHei, Microsoft YaHei-Regular;
           font-weight: 400;
           text-align: left;
@@ -106,7 +106,7 @@ export default {
     }
 
     .right_btn {
-      width: 81.5px;
+      width: 80px;
       height: 26px;
       background: #dae8fc;
       border-radius: 13px;
