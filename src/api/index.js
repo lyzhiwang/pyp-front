@@ -6,7 +6,7 @@ export function getActivityInfo(params) {
     return request({
         url: `/touch/activity/info/${params.id}`,
         method: "get",
-        loading: false
+        loading: true
     });
 }
 
@@ -127,5 +127,15 @@ export function PostAddScanNumber(id) {
         url: `/add/scan/number/${id}`,
         method: "post",
         loading: false
+    });
+}
+
+// 获取代驾链接
+export function getDaiJiaUrl(params) {
+    return request({
+        url: `/get/daijia/url`,
+        method: "get",
+        loading: false,
+        params
     });
 }

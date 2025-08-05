@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-
     <!-- 模板一 -->
     <TemplateOne
-      v-if="activity.template === 1 "
+      v-if="activity.template === 1"
       @openCover="openCover"
       @openPopup="openPopup"
+      @CallForAChauffeur="CallForAChauffeur"
     />
 
     <!-- 模板二 -->
@@ -13,6 +13,7 @@
       v-else-if="activity.template === 2"
       @openCover="openCover"
       @openPopup="openPopup"
+      @CallForAChauffeur="CallForAChauffeur"
     />
 
     <!--  -->
@@ -112,6 +113,39 @@
       </template>
     </van-image-preview>
 
+    <!-- 代驾弹窗 -->
+    <van-overlay :show="isShowDaiJia">
+      <div class="DaiJiaBoxContent">
+        <div class="DaiJiaBox">
+          <img class="topLogo" src="@/assets/pop/topLogo.png" alt="" />
+          <div class="phoneBox">
+            <img class="phoneLogo" src="@/assets/pop/phone.png" alt="" />
+            <input
+              class="phoneInput"
+              maxlength="11"
+              v-model="form.phone"
+              placeholder="请输入手机号"
+            />
+          </div>
+          <div class="phoneBtn">
+            <van-button
+              style="width: 265px; border-radius: 6px"
+              type="info"
+              size="middle"
+              @click="call()"
+            >
+              确认呼叫
+            </van-button>
+          </div>
+        </div>
+
+        <div class="close_btn">
+          <img class="close_icon" @click="isShowDaiJia = false" src="@/assets/pop/close.png" alt="" />
+        </div>
+      </div>
+    </van-overlay>
+
+    <!--  -->
   </div>
 </template>
 
@@ -131,17 +165,17 @@ import {
   PostAddScanNumber,
   getCode,
   postKsPublishVideo,
+  getDaiJiaUrl,
 } from '@/api/index';
 
 export default {
   components: {
     TemplateOne,
-    TemplateTwo
+    TemplateTwo,
   },
 
   data() {
     return {
-
       isShow: false, //微信中点击打开引导
       id: null,
 
@@ -160,6 +194,11 @@ export default {
       },
       isShowPreview: false, // 是否显示图片预览
       imageIndex: 0, // 图片索引
+
+      isShowDaiJia: false, // 是否显示代驾弹窗
+      form: {
+        phone: '',
+      },
     };
   },
 
@@ -432,6 +471,34 @@ export default {
       link.click();
       document.body.removeChild(link);
     },
+
+    // 打开呼叫代驾弹窗
+    CallForAChauffeur() {
+      this.isShowDaiJia = true;
+    },
+
+    // 呼叫代驾
+    call() {
+      const phoneRegex = /^1[3-9]\d{9}$/;
+      if (!this.form.phone) {
+        Toast('请输入手机号');
+        return;
+      }
+      if (!phoneRegex.test(this.form.phone)) {
+        Toast('请输入正确的手机号');
+        return;
+      }
+      getDaiJiaUrl({ phone: this.form.phone })
+        .then((res) => {
+          console.log(res);
+          this.isShowDaiJia = false;
+          window.location.href = res.data.url;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.isShowDaiJia = false;
+        });
+    },
   },
 };
 </script>
@@ -616,5 +683,64 @@ export default {
   left: 50%;
   transform: translate(-50%);
   color: #6df704;
+}
+
+.DaiJiaBoxContent {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  .DaiJiaBox {
+    position: relative;
+    width: 80%;
+    height: 200px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    .topLogo {
+      width: 150px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-45%);
+      top: -46px;
+      z-index: 100;
+    }
+    .phoneBox {
+      margin: 0 auto;
+      margin-top: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 265px;
+      height: 44px;
+      background: #f4f6f8;
+      border: 0.5px solid #e1e1e1;
+      border-radius: 7.5px;
+      .phoneLogo {
+        width: 16px;
+      }
+      .phoneInput {
+        border: none;
+        margin-left: 10px;
+        background: #f4f6f8;
+      }
+    }
+    .phoneBtn {
+      margin-top: 30px;
+    }
+  }
+
+  .close_btn {
+    position: relative;
+    width: 100%;
+    top: 50px;
+    // margin-top: 50px;
+    .close_icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
 }
 </style>

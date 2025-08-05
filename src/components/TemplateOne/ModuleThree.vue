@@ -76,7 +76,7 @@ export default {
 <style lang="scss" scoped>
 .ModuleThree {
   padding: 0 4%;
-  margin-top: 10px;
+  // margin-top: 10px;
   .ModuleThree_title {
     color: #ffffff;
     font-size: 13px;

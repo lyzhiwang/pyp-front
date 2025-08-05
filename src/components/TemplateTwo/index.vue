@@ -13,10 +13,11 @@
       v-if="
         activity.douyin_switch ||
         activity.xhs_switch ||
-        activity.kuaishou_switch
+        activity.kuaishou_switch ||
+        activity.daijia_switch
       "
     >
-      <ModuleOne @openCover="openCover" @openPopup="openPopup" />
+      <ModuleOne @openCover="openCover" @openPopup="openPopup" @CallForAChauffeur="CallForAChauffeur" />
     </template>
 
     <!--  -->
@@ -27,7 +28,10 @@
     <!--  -->
     <template
       v-if="
-        activity.dianping_switch || activity.poi_switch || activity.gaode_switch
+        activity.dianping_switch || 
+        activity.poi_switch || 
+        activity.gaode_switch || 
+        activity.xiecheng_switch
       "
     >
       <ModuleTwo @openCover="openCover" @openPopup="openPopup" />
@@ -130,6 +134,11 @@ export default {
     // 弹窗 复制文案 打开弹窗
     openPopup(item) {
       this.$emit('openPopup', item);
+    },
+
+    // 呼叫代驾
+    CallForAChauffeur() {
+      this.$emit('CallForAChauffeur');
     },
   },
 };

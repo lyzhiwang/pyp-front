@@ -17,10 +17,11 @@
         v-if="
           activity.douyin_switch ||
           activity.xhs_switch ||
-          activity.kuaishou_switch
+          activity.kuaishou_switch ||
+          activity.daijia_switch
         "
       >
-        <ModuleOne @openCover="openCover" />
+        <ModuleOne @openCover="openCover" @CallForAChauffeur="CallForAChauffeur" />
       </template>
 
       <!--  -->
@@ -33,7 +34,8 @@
         v-if="
           activity.dianping_switch ||
           activity.poi_switch ||
-          activity.gaode_switch
+          activity.gaode_switch || 
+          activity.xiecheng_switch
         "
       >
         <ModuleTwo @openCover="openCover" @openPopup="openPopup" />
@@ -131,6 +133,12 @@ export default {
     openPopup(item) {
       this.$emit('openPopup', item);
     },
+
+    // 呼叫代驾
+    CallForAChauffeur() {
+      this.$emit('CallForAChauffeur');
+    },
+
   },
 };
 </script>

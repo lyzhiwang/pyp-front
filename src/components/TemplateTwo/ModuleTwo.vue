@@ -8,7 +8,11 @@
         alt=""
       />
       <div class="content">
-        <div v-if="activity.dianping_switch" @click="dianPing()" class="content_item">
+        <div
+          v-if="activity.dianping_switch"
+          @click="dianPing()"
+          class="content_item"
+        >
           <img
             class="content_item_bg"
             src="@/assets/TemplateTwo/ModuleTwo/bg_1.png"
@@ -74,6 +78,28 @@
             />
           </div>
         </div>
+        <div v-if="activity.xiecheng_switch" @click="XieCheng()" class="content_item">
+          <img
+            class="content_item_bg"
+            src="@/assets/TemplateTwo/ModuleTwo/bg_4.png"
+            alt=""
+          />
+          <div class="content_item_box">
+            <div class="content_item_box_top">
+              <img
+                class="content_item_box_top_icon"
+                src="@/assets/TemplateTwo/ModuleTwo/xc_icon.png"
+                alt=""
+              />
+              <div class="content_item_box_top_name">携程点评</div>
+            </div>
+            <img
+              class="content_item_box_down"
+              src="@/assets/TemplateTwo/ModuleTwo/xc.png"
+              alt=""
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -81,7 +107,7 @@
 
 <script>
 import ClipboardJS from 'clipboard';
-import { Toast , Dialog} from 'vant-green';
+import { Toast, Dialog } from 'vant-green';
 import { mapState } from 'vuex';
 export default {
   name: 'ModuleTwo',
@@ -201,6 +227,36 @@ export default {
           this.$emit('openPopup', params);
         });
     },
+
+    // 携程  点评+收藏
+    XieCheng() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover');
+        return;
+      }
+
+      this.$store
+        .dispatch('activity/getActivityDetail', { id: this.activity.id })
+        .then((res) => {
+          // 新版本
+          var imgList = [];
+          for (var i = 0; i < this.activity.xiecheng_image.length; i++) {
+            imgList.push(this.activity.xiecheng_image[i].path);
+          }
+          var params = {
+            title: '点评文案', // 弹窗标题
+            content: this.activity.xiecheng_content, // 文案内容
+            imgList: imgList, // 图片列表
+            // imgList: [
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+            // ],// 图片列表
+            url: this.activity.xiecheng_scheme, // 跳转链接
+            btnText: '携程点评', // 按钮文案
+          };
+          this.$emit('openPopup', params);
+        });
+    },
   },
 };
 </script>
@@ -223,6 +279,7 @@ export default {
     height: 211px;
   }
   .content_box {
+    width: 100%;
     position: relative;
     text-align: left;
     padding: 20px 15px;
@@ -231,11 +288,16 @@ export default {
       height: 30px;
     }
     .content {
+      width: 100%;
       display: flex;
+      flex-wrap: nowrap;
       align-items: center;
-      margin-top: 10px;
+      margin-top: 5px;
+      overflow-x: auto;
+      height: 139px;
       .content_item {
-        width: 32%;
+        flex-shrink: 0;
+        width: 109px;
         height: 133px;
         position: relative;
         text-align: center;
@@ -281,10 +343,12 @@ export default {
           }
         }
       }
-
-      .content_item:nth-child(3n) {
+      .content_item:last-child {
         margin-right: 0;
       }
+      // .content_item:nth-child(3n) {
+      //   margin-right: 0;
+      // }
     }
   }
 }

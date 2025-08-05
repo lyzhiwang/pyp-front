@@ -16,6 +16,12 @@
           <div class="title">点评+收藏</div>
         </div>
       </div>
+      <div class="list_item" v-if="activity.xiecheng_switch" @click="XieCheng()">
+        <div>
+          <img class="icon" src="@/assets/home/Ctrip.png" />
+          <div class="title">携程点评</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -185,6 +191,35 @@ export default {
       //     });
       // }
     },
+
+
+    // 携程  点评+收藏
+    XieCheng() {
+      if (this.PageType === 2 || this.PageType === '2') {
+        this.$emit('openCover')
+        return;
+      }
+
+      this.$store.dispatch('activity/getActivityDetail', { id: this.activity.id }).then(res => {
+        // 新版本
+        var imgList = [];
+        for (var i = 0; i < this.activity.xiecheng_image.length; i++){
+          imgList.push(this.activity.xiecheng_image[i].path)
+        }
+        var params = {
+          title: '点评文案', // 弹窗标题
+          content: this.activity.xiecheng_content,// 文案内容
+          imgList: imgList,// 图片列表
+          // imgList: [
+          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+          // ],// 图片列表
+          url:this.activity.xiecheng_scheme, // 跳转链接
+          btnText:'携程点评', // 按钮文案
+        }
+        this.$emit('openPopup', params)
+      })
+    },
   },
 };
 </script>
@@ -192,7 +227,7 @@ export default {
 <style lang="scss" scoped>
 .ModuleTwo {
   padding: 0 4%;
-  margin-top: 10px;
+  // margin-top: 10px;
   .ModuleTwo_title {
     color: #ffffff;
     font-size: 13px;
@@ -219,6 +254,7 @@ export default {
       justify-content: center;
       flex-direction: column;
       margin-right: 5%;
+      margin-bottom: 12px;
       .icon {
         width: 35px;
         height: 35px;
@@ -230,7 +266,10 @@ export default {
         font-weight: bold;
       }
     }
-    .list_item:last-child {
+    // .list_item:last-child {
+    //   margin-right: 0;
+    // }
+    .list_item:nth-child(3n) {
       margin-right: 0;
     }
   }

@@ -95,7 +95,7 @@ export default {
       border-radius: 8px;
       padding: 8px 9px;
       align-items: center;
-      margin-top: 8px;
+      margin-top: 3px;
       .mealImg {
         width: 72.5px;
         height: 72.5px;
@@ -104,7 +104,7 @@ export default {
       .BoxCard_info {
         text-align: left;
         flex: 1;
-        height: 72.5px;
+        height: 72px;
         width: 68%;
         .title {
           font-size: 13px;

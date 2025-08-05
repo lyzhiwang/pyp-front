@@ -185,7 +185,7 @@ export default {
       height: 30px;
     }
     .content {
-      margin-top: 10px;
+      margin-top: 2px;
       display: flex;
       align-items: center;
       .content_item {
