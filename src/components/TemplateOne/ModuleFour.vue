@@ -1,6 +1,11 @@
 <template>
   <div class="ModuleFour">
-    <div class="ModuleFour_title">商家团购/朋友圈/小程序</div>
+    <!-- <div class="ModuleFour_title">商家团购/朋友圈/小程序</div> -->
+
+    <div class="title_box">
+      <img class="title_icon" src="@/assets/home/title/title_4.png" alt="" />
+    </div>
+
     <div class="ModuleFour_list">
       <div class="list_item" v-if="activity.meituan_switch" @click="meiTuAn()">
         <img class="icon" src="@/assets/home/meituan.png" />
@@ -210,15 +215,28 @@ export default {
 <style lang="scss" scoped>
 .ModuleFour {
   padding: 0 4%;
-  margin-top: 10px;
+  margin-top: 15px;
   .ModuleFour_title {
     color: #ffffff;
     font-size: 13px;
     text-align: left;
     margin: 6px 0 2px 0;
+    font-weight: bolder;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 10px rgba(255, 255, 255, 0.3);
   }
+
+  .title_box {
+    text-align: left;
+    .title_icon {
+      // width: 111px;
+      width: 96px;
+      height: auto;
+    }
+  }
+
   .ModuleFour_list {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     // justify-content: space-between;
     flex-wrap: wrap;

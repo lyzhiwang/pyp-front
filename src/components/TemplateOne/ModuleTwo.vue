@@ -1,8 +1,16 @@
 <template>
   <div class="ModuleTwo">
-    <div class="ModuleTwo_title">打卡点评</div>
+    <!-- <div class="ModuleTwo_title">打卡点评</div> -->
+    <div class="title_box">
+      <img class="title_icon" src="@/assets/home/title/title_2.png" alt="" />
+    </div>
+
     <div class="ModuleTwo_list">
-      <div class="list_item" v-if="activity.dianping_switch" @click="dianPing()">
+      <div
+        class="list_item"
+        v-if="activity.dianping_switch"
+        @click="dianPing()"
+      >
         <img class="icon" src="@/assets/home/dzdp.png" />
         <div class="title">去点评+打卡</div>
       </div>
@@ -16,7 +24,11 @@
           <div class="title">点评+收藏</div>
         </div>
       </div>
-      <div class="list_item" v-if="activity.xiecheng_switch" @click="XieCheng()">
+      <div
+        class="list_item"
+        v-if="activity.xiecheng_switch"
+        @click="XieCheng()"
+      >
         <div>
           <img class="icon" src="@/assets/home/Ctrip.png" />
           <div class="title">携程点评</div>
@@ -28,8 +40,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import ClipboardJS from "clipboard";
-import { Toast , Dialog} from 'vant-green';
+import ClipboardJS from 'clipboard';
+import { Toast, Dialog } from 'vant-green';
 export default {
   name: 'ModuleTwo',
   data() {
@@ -41,7 +53,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
-      PageType: (state) => state.activity.PageType
+      PageType: (state) => state.activity.PageType,
     }),
   },
 
@@ -50,19 +62,19 @@ export default {
   methods: {
     // 剪切板
     cope(value) {
-      var clipboard = new ClipboardJS("body", {
+      var clipboard = new ClipboardJS('body', {
         text: function () {
           return value;
         },
       });
-      clipboard.on("success", function (e) {
+      clipboard.on('success', function (e) {
         clipboard.destroy();
         e.clearSelection();
         return e.text;
       });
 
-      clipboard.on("error", function () {
-        console.log("复制失败");
+      clipboard.on('error', function () {
+        console.log('复制失败');
       });
       return value;
     },
@@ -70,28 +82,30 @@ export default {
     // 去点评+打卡
     dianPing() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
-      this.$store.dispatch('activity/getActivityDetail', { id: this.activity.id }).then(res => {
-        // 新版本
-        var imgList = [];
-        for (var i = 0; i < this.activity.dianping_image.length; i++){
-          imgList.push(this.activity.dianping_image[i].path)
-        }
-        var params = {
-          title: '点评文案', // 弹窗标题
-          content: this.activity.dianping_content,// 文案内容
-          imgList: imgList,// 图片列表
-          // imgList: [
-          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
-          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
-          // ],// 图片列表
-          url:this.activity.dianping_scheme, // 跳转链接
-          btnText:'大众点评', // 按钮文案
-        }
-        this.$emit('openPopup', params)
-      })
+      this.$store
+        .dispatch('activity/getActivityDetail', { id: this.activity.id })
+        .then((res) => {
+          // 新版本
+          var imgList = [];
+          for (var i = 0; i < this.activity.dianping_image.length; i++) {
+            imgList.push(this.activity.dianping_image[i].path);
+          }
+          var params = {
+            title: '点评文案', // 弹窗标题
+            content: this.activity.dianping_content, // 文案内容
+            imgList: imgList, // 图片列表
+            // imgList: [
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+            // ],// 图片列表
+            url: this.activity.dianping_scheme, // 跳转链接
+            btnText: '大众点评', // 按钮文案
+          };
+          this.$emit('openPopup', params);
+        });
 
       // // 旧版本
       // this.cope(this.activity.dianping_content);
@@ -118,7 +132,7 @@ export default {
     // 去点评+收藏
     poi() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
       this.cope(this.activity.poi_content);
@@ -145,31 +159,31 @@ export default {
     // 点评+收藏
     gaoDe() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
 
-      this.$store.dispatch('activity/getActivityDetail', { id: this.activity.id }).then(res => {
-        // 新版本
-        var imgList = [];
-        for (var i = 0; i < this.activity.gaode_image.length; i++){
-          imgList.push(this.activity.gaode_image[i].path)
-        }
-        var params = {
-          title: '点评文案', // 弹窗标题
-          content: this.activity.gaode_content,// 文案内容
-          imgList: imgList,// 图片列表
-          // imgList: [
-          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
-          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
-          // ],// 图片列表
-          url:this.activity.gaode_scheme, // 跳转链接
-          btnText:'高德点评', // 按钮文案
-        }
-        this.$emit('openPopup', params)
-      })
-
-
+      this.$store
+        .dispatch('activity/getActivityDetail', { id: this.activity.id })
+        .then((res) => {
+          // 新版本
+          var imgList = [];
+          for (var i = 0; i < this.activity.gaode_image.length; i++) {
+            imgList.push(this.activity.gaode_image[i].path);
+          }
+          var params = {
+            title: '点评文案', // 弹窗标题
+            content: this.activity.gaode_content, // 文案内容
+            imgList: imgList, // 图片列表
+            // imgList: [
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+            // ],// 图片列表
+            url: this.activity.gaode_scheme, // 跳转链接
+            btnText: '高德点评', // 按钮文案
+          };
+          this.$emit('openPopup', params);
+        });
 
       // this.cope(this.activity.gaode_content);
       // if (this.cope(this.activity.gaode_content)) {
@@ -192,33 +206,34 @@ export default {
       // }
     },
 
-
     // 携程  点评+收藏
     XieCheng() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
 
-      this.$store.dispatch('activity/getActivityDetail', { id: this.activity.id }).then(res => {
-        // 新版本
-        var imgList = [];
-        for (var i = 0; i < this.activity.xiecheng_image.length; i++){
-          imgList.push(this.activity.xiecheng_image[i].path)
-        }
-        var params = {
-          title: '点评文案', // 弹窗标题
-          content: this.activity.xiecheng_content,// 文案内容
-          imgList: imgList,// 图片列表
-          // imgList: [
-          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
-          //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
-          // ],// 图片列表
-          url:this.activity.xiecheng_scheme, // 跳转链接
-          btnText:'携程点评', // 按钮文案
-        }
-        this.$emit('openPopup', params)
-      })
+      this.$store
+        .dispatch('activity/getActivityDetail', { id: this.activity.id })
+        .then((res) => {
+          // 新版本
+          var imgList = [];
+          for (var i = 0; i < this.activity.xiecheng_image.length; i++) {
+            imgList.push(this.activity.xiecheng_image[i].path);
+          }
+          var params = {
+            title: '点评文案', // 弹窗标题
+            content: this.activity.xiecheng_content, // 文案内容
+            imgList: imgList, // 图片列表
+            // imgList: [
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+            // ],// 图片列表
+            url: this.activity.xiecheng_scheme, // 跳转链接
+            btnText: '携程点评', // 按钮文案
+          };
+          this.$emit('openPopup', params);
+        });
     },
   },
 };
@@ -233,9 +248,22 @@ export default {
     font-size: 13px;
     text-align: left;
     margin: 6px 0 2px 0;
+    font-weight: bolder;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 10px rgba(255, 255, 255, 0.3);
   }
+
+  .title_box {
+    text-align: left;
+    .title_icon {
+      // width: 109px;
+      width: 95px;
+      height: auto;
+    }
+  }
+
   .ModuleTwo_list {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     // justify-content: space-between;
     flex-wrap: wrap;

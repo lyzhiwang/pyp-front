@@ -1,12 +1,17 @@
 <template>
   <div class="ModuleThree">
-    <div class="ModuleThree_title">关注/加微信</div>
+    <!-- <div class="ModuleThree_title">关注/加微信</div> -->
+
+    <div class="title_box">
+      <img class="title_icon" src="@/assets/home/title/title_3.png" alt="" />
+    </div>
+
     <div class="ModuleThree_list">
-      <div class="list_item" v-if="activity.home_switch" @click="home_dy()"  >
+      <div class="list_item" v-if="activity.home_switch" @click="home_dy()">
         <img class="icon" src="@/assets/home/dy.png" />
         <div class="title">关注抖音</div>
       </div>
-      <div class="list_item" v-if="activity.wechat_switch" @click="wx()" >
+      <div class="list_item" v-if="activity.wechat_switch" @click="wx()">
         <img class="icon" src="@/assets/home/wx.png" />
         <div class="title">加微信</div>
       </div>
@@ -32,7 +37,7 @@ export default {
   computed: {
     ...mapState({
       activity: (state) => state.activity.form,
-      PageType: (state) => state.activity.PageType
+      PageType: (state) => state.activity.PageType,
     }),
   },
 
@@ -42,7 +47,7 @@ export default {
     // 关注抖音
     home_dy() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
       window.location.href = this.activity.home_scheme;
@@ -51,7 +56,7 @@ export default {
     // 加微信
     wx() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wixin&query=id=${this.activity.id}`;
@@ -60,13 +65,13 @@ export default {
     // 视频号
     sph() {
       if (this.PageType === 2 || this.PageType === '2') {
-        this.$emit('openCover')
+        this.$emit('openCover');
         return;
       }
       this.$router.push({
-        path: '/video?id='+this.activity.id,
-        replace: true
-      })
+        path: '/video?id=' + this.activity.id,
+        replace: true,
+      });
       // this.$router.push({ path: "/video", query: { id: this.activity.id } });
     },
   },
@@ -76,15 +81,28 @@ export default {
 <style lang="scss" scoped>
 .ModuleThree {
   padding: 0 4%;
-  // margin-top: 10px;
+  margin-top: 5px;
   .ModuleThree_title {
     color: #ffffff;
     font-size: 13px;
     text-align: left;
     margin: 6px 0 2px 0;
+    font-weight: bolder;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 10px rgba(255, 255, 255, 0.3);
   }
+
+  .title_box {
+    text-align: left;
+    .title_icon {
+      // width: 150px;
+      width: 135px;
+      height: auto;
+    }
+  }
+
   .ModuleThree_list {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     // justify-content: space-between;
     flex-wrap: wrap;

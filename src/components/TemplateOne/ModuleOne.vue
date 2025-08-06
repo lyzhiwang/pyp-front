@@ -1,6 +1,10 @@
 <template>
   <div class="ModuleOne">
-    <div class="ModuleOne_title">发视频/种草</div>
+    <!-- <div class="ModuleOne_title">发视频/种草</div> -->
+
+    <div class="title_box">
+      <img class="title_icon" src="@/assets/home/title/title_1.png" alt="" />
+    </div>
     <div class="ModuleOne_list">
       <div class="list_item" v-if="activity.douyin_switch" @click="douYin()">
         <img class="icon" src="@/assets/home/dy.png" />
@@ -19,7 +23,11 @@
         </div>
       </div>
 
-      <div class="list_item" v-if="activity.daijia_switch" @click="ProxyDriving()">
+      <div
+        class="list_item"
+        v-if="activity.daijia_switch"
+        @click="ProxyDriving()"
+      >
         <div>
           <img class="icon" src="@/assets/home/ProxyDriving.png" />
           <div class="title">呼叫代驾</div>
@@ -161,13 +169,13 @@ export default {
     },
 
     // 呼叫代驾
-    ProxyDriving(){
+    ProxyDriving() {
       if (this.PageType === 2 || this.PageType === '2') {
         this.$emit('openCover');
         return;
       }
       this.$emit('CallForAChauffeur');
-    }
+    },
   },
 };
 </script>
@@ -181,9 +189,25 @@ export default {
     font-size: 13px;
     text-align: left;
     margin: 6px 0 2px 0;
+    font-weight: bolder;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 10px rgba(255, 255, 255, 0.3);
   }
+
+  .title_box {
+    text-align: left;
+    .title_icon {
+      // width: 150px;
+      width: 135px;
+      height: auto;
+      // transform: scale(0.9);
+      // position: relative;
+      // left: -10px;
+    }
+  }
+
   .ModuleOne_list {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     // justify-content: space-between;
     flex-wrap: wrap;
@@ -216,7 +240,7 @@ export default {
     }
     // .list_item:last-child {
     //   margin-right: 0;
-    // } 
+    // }
     .list_item:nth-child(3n) {
       margin-right: 0;
     }

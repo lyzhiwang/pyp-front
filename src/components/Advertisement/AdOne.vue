@@ -84,7 +84,8 @@ export default {
   width: 100%;
   position: relative;
   padding: 0 4%;
-  margin-top: 10px;
+  // margin-top: 10px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
