@@ -10,7 +10,7 @@
         @click="play()"
       ></video>
 
-        <!-- disablePictureInPicture
+      <!-- disablePictureInPicture
         controlsList="nodownload nofullscreen noremoteplayback" -->
       <div v-if="is_stop" class="play" @click.stop="play()"></div>
       <div class="computed">
@@ -127,13 +127,76 @@ export default {
       });
     },
 
+    // 时间格式化
+    parseTime(time, cFormat) {
+      if (arguments.length === 0 || !time) {
+        return null;
+      }
+      const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
+      let date;
+      if (typeof time === 'object') {
+        date = time;
+      } else {
+        // 兼容苹果手机
+        if (
+          typeof time === 'string' &&
+          /^(\d{4})-(\d{2})-(\d{2}) (([0-2][0-3])|([0-1][0-9])):[0-5][0-9]:[0-5][0-9]$/.test(
+            time
+          )
+        ) {
+          time = time.replace(/-/g, '/');
+        } else if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
+          time = parseInt(time);
+        } else if (typeof time === 'number' && time.toString().length === 10) {
+          time = time * 1000;
+        }
+        date = new Date(time);
+      }
+      const formatObj = {
+        y: date.getFullYear(),
+        m: date.getMonth() + 1,
+        d: date.getDate(),
+        h: date.getHours(),
+        i: date.getMinutes(),
+        s: date.getSeconds(),
+        a: date.getDay(),
+      };
+      const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+        let value = formatObj[key];
+        // Note: getDay() returns 0 on Sunday
+        if (key === 'a') {
+          return ['日', '一', '二', '三', '四', '五', '六'][value];
+        }
+        if (result.length > 0 && value < 10) {
+          value = '0' + value;
+        }
+        return value || 0;
+      });
+      return time_str;
+    },
+
+    // 
+    getRandomString() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      const length = Math.floor(Math.random() * 6) + 5;
+      let result = '';
+
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * characters.length)
+        );
+      }
+
+      return result + '-video.mp4';
+    },
+
     // 下载视频
     download(row) {
       console.log(row, 'row');
       if (!row) {
         // MessageBox("提示", "已无视频");
       } else {
-        var name = 'download';
+        var name = this.getRandomString();
         var url = row;
         // var suffix = url.substring(url.lastIndexOf("."), url.length);
         //跳过浏览直接下载
@@ -208,6 +271,9 @@ export default {
 
     // 下载视频
     async downloadVideo(row) {
+      // console.log('row', this.parseTime(new Date(), null) + '-video.mp4');
+
+      // return
       if (this.isDownloading) return;
 
       this.isDownloading = true;
@@ -271,7 +337,9 @@ export default {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'video.mp4';
+      const name = this.getRandomString();
+      a.download = name;
+
       document.body.appendChild(a);
       a.click();
 

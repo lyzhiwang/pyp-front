@@ -70,7 +70,7 @@
         <!--  -->
         <div
           v-if="activity.custom_url_switch"
-          @click="Customize()"
+          @click="tuCustom()"
           class="content_item"
         >
           <img
