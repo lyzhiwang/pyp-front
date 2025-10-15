@@ -190,6 +190,7 @@ export default {
         content: '', // 文案内容
         imgList: [], // 图片列表
         url: '', // 链接
+        type: 1, // 类型
         btnText: '', // 按钮文案
       },
       isShowPreview: false, // 是否显示图片预览
@@ -207,7 +208,7 @@ export default {
       activity: (state) => state.activity.form,
       PageType: (state) => state.activity.PageType,
     }),
-    // ...mapActions('activity', ['getActivityDetail']),
+    // 
   },
 
   created() {
@@ -219,6 +220,7 @@ export default {
 
   methods: {
     ...mapMutations('activity', ['SET_OPEN_ID']),
+    ...mapActions('activity', ['getTouchData']),
 
     //初始化
     init() {
@@ -383,6 +385,7 @@ export default {
           //快手授权页
           getKsAuthorizeLink({ id: this.activity.id }).then((res) => {
             // sessionStorage.setItem("kuaishouurl", res.data.url);
+            this.getTouchData({id: this.activity.id, type: 2 })
             window.location.href = res.data.url;
           });
         })
@@ -434,6 +437,7 @@ export default {
 
     // 跳转
     jumpTo() {
+      this.getTouchData({id: this.activity.id, type: this.copyData.type })
       window.location.href = this.copyData.url;
     },
 
@@ -462,11 +466,27 @@ export default {
       this.isShowPreview = false;
     },
 
+    // 获取随机字符串
+    getRandomString() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      const length = Math.floor(Math.random() * 6) + 5;
+      let result = '';
+
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * characters.length)
+        );
+      }
+
+      return result + '-image.png';
+    },
+
     // 下载图片
     downloadImage() {
       const link = document.createElement('a');
       link.href = this.copyData.imgList[this.imageIndex];
-      link.download = 'image.png'; // 设置下载后的文件名
+      // link.download = 'image.png'; // 设置下载后的文件名
+      link.download = this.getRandomString(); // 设置下载后的文件名
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -490,6 +510,7 @@ export default {
       }
       getDaiJiaUrl({ phone: this.form.phone })
         .then((res) => {
+          this.getTouchData({id: this.activity.id, type: 16 })
           console.log(res);
           this.isShowDaiJia = false;
           window.location.href = res.data.url;

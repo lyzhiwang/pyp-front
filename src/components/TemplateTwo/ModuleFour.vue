@@ -132,6 +132,7 @@ export default {
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
             // ],// 图片列表
+            type: 8, // 弹窗类型
             url: this.activity.meituan_scheme, // 跳转链接
             btnText: '团购+好评', // 按钮文案
           };

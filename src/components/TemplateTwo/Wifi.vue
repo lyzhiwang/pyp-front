@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState , mapActions} from 'vuex';
 export default {
   name: 'Wifi',
   data() {
@@ -42,12 +42,14 @@ export default {
   created() {},
 
   methods: {
+    ...mapActions('activity', ['getTouchData']),
     // WIFI
     wifi() {
       if (this.PageType === 2 || this.PageType === '2') {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 15 })
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wifi&query=id=${this.activity.id}`;
     },
   },

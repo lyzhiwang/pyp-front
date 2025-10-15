@@ -108,7 +108,7 @@
 <script>
 import ClipboardJS from 'clipboard';
 import { Toast, Dialog } from 'vant-green';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
   name: 'ModuleTwo',
   data() {
@@ -127,6 +127,7 @@ export default {
   created() {},
 
   methods: {
+    ...mapActions('activity', ['getTouchData']),
     // 剪切板
     cope(value) {
       var clipboard = new ClipboardJS('body', {
@@ -168,6 +169,7 @@ export default {
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
             // ],// 图片列表
+            type: 7, // 类型
             url: this.activity.dianping_scheme, // 跳转链接
             btnText: '大众点评', // 按钮文案
           };
@@ -183,6 +185,7 @@ export default {
       }
       this.cope(this.activity.poi_content);
       if (this.cope(this.activity.poi_content)) {
+        this.getTouchData({id: this.activity.id, type: 12 })
         Dialog.confirm({
           // title: '标题',
           message: '允许复制文案到剪切板',
@@ -221,6 +224,7 @@ export default {
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
             // ],// 图片列表
+            type: 9, // 类型
             url: this.activity.gaode_scheme, // 跳转链接
             btnText: '高德点评', // 按钮文案
           };
@@ -251,6 +255,7 @@ export default {
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
             // ],// 图片列表
+            type: 10, // 类型
             url: this.activity.xiecheng_scheme, // 跳转链接
             btnText: '携程点评', // 按钮文案
           };

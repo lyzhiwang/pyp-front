@@ -139,3 +139,19 @@ export function getDaiJiaUrl(params) {
         params
     });
 }
+
+// 获取碰一碰数据
+export function getAddTouchData(data) {
+    return request({
+        url: `/add/touch/data/${data.id}`,
+        method: "get",
+        loading: false,
+        params:{ type:data.type }
+    });
+    // 1:douyin_click_number 2:kuaishou_click_number 3:xiaohongshu_click_number 4:shipinhao_click_number
+    // 5:friend_number 6:xhs_image_number
+    // 7:dianping_number 8:meituan_number 9:gaode_number 10:xiecheng_number
+    // 11:douyin_follow_number 12:douyin_poi_follow_number 13:xhs_follow_number 14:wechat_number
+    // 15:wifi_number 16:daijia_number
+}
+

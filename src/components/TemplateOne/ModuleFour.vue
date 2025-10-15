@@ -74,7 +74,6 @@ export default {
         this.$emit('openCover');
         return;
       }
-
       this.$store
         .dispatch('activity/getActivityDetail', { id: this.activity.id })
         .then((res) => {
@@ -91,6 +90,7 @@ export default {
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
             // ],// 图片列表
+            type: 8, // 类型
             url: this.activity.meituan_scheme, // 跳转链接
             btnText: '团购+好评', // 按钮文案
           };
@@ -142,6 +142,7 @@ export default {
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
             // ],// 图片列表
+            type: 5, // 类型
             url: this.activity.friend_scheme, // 跳转链接
             btnText: '朋友圈', // 按钮文案
           };

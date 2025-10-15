@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: '',
@@ -44,12 +44,14 @@ export default {
   created() {},
 
   methods: {
+    ...mapActions('activity', ['getTouchData']),
     // 关注抖音
     home_dy() {
       if (this.PageType === 2 || this.PageType === '2') {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 11 })
       window.location.href = this.activity.home_scheme;
     },
 
@@ -59,6 +61,7 @@ export default {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 14 })
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wixin&query=id=${this.activity.id}`;
     },
 
@@ -68,6 +71,7 @@ export default {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 4 })
       this.$router.push({
         path: '/video?id=' + this.activity.id,
         replace: true,

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
   name: 'ModuleSeven',
   data() {
@@ -54,6 +54,7 @@ export default {
   created() {},
 
   methods: {
+      ...mapActions('activity', ['getTouchData']),
     // 分享短视频
     addDsp() {
       if (this.PageType === 2 || this.PageType === '2') {

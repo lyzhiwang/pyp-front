@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { getImageXhs, getSignature } from '@/api/index';
 export default {
   name: '',
@@ -73,6 +73,7 @@ export default {
   created() {},
 
   methods: {
+    ...mapActions('activity', ['getTouchData']),
     // 分享短视频
     addDsp() {
       if (this.PageType === 2 || this.PageType === '2') {
@@ -97,19 +98,21 @@ export default {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 15 })
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wifi&query=id=${this.activity.id}`;
     },
 
-    //
+    // 关注小红书
     addXhs() {
       if (this.PageType === 2 || this.PageType === '2') {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 13 })
       window.location.href = this.activity.xhs_follow_url;
     },
 
-    // 发小红书
+    // 发小红书图文
     xhs() {
       if (this.PageType === 2 || this.PageType === '2') {
         this.$emit('openCover');
@@ -118,6 +121,7 @@ export default {
       getImageXhs({ id: this.activity.id }).then((res) => {
         if (res.data) {
           this.xhs_data = res.data;
+          this.getTouchData({id: this.activity.id, type: 6 })
           getSignature().then((res) => {
             this.signature = res.data;
             this.info = {

@@ -47,7 +47,7 @@
 
 <script>
 import ClipboardJS from 'clipboard';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
   name: 'ModuleThree',
   data() {
@@ -66,6 +66,7 @@ export default {
   created() {},
 
   methods: {
+    ...mapActions('activity', ['getTouchData']),
     // 剪切板
     cope(value) {
       var clipboard = new ClipboardJS('body', {
@@ -108,6 +109,7 @@ export default {
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
             //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
             // ],// 图片列表
+            type: 5, // 弹窗类型
             url: this.activity.friend_scheme, // 跳转链接
             btnText: '朋友圈', // 按钮文案
           };
@@ -142,6 +144,7 @@ export default {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 14 })
       window.location.href = `weixin://dl/business/?appid=${this.activity.appid}&path=pagesub/touch/wixin&query=id=${this.activity.id}`;
     },
 
@@ -151,6 +154,7 @@ export default {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 4 })
       this.$router.push({
         path: '/video?id=' + this.activity.id,
         replace: true,

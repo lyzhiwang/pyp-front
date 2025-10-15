@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState , mapActions} from 'vuex';
 import { getDy, getDyTwo, getXhs, getSignature } from '@/api/index';
 export default {
   name: 'ModuleOne',
@@ -171,12 +171,14 @@ export default {
   created() {},
 
   methods: {
+    ...mapActions('activity', ['getTouchData']),
     // 发抖音
     douYin() {
       if (this.PageType === 2 || this.PageType === '2') {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 1 })
       if (
         this.activity &&
         this.activity.is_redpacket === true &&
@@ -204,6 +206,7 @@ export default {
       getXhs({ id: this.activity.id }).then((res) => {
         if (res.data) {
           this.xhs_data = res.data;
+          this.getTouchData({id: this.activity.id, type: 3 })
           getSignature().then((res) => {
             this.signature = res.data;
             if (
@@ -256,6 +259,7 @@ export default {
         this.$emit('openCover');
         return;
       }
+      this.getTouchData({id: this.activity.id, type: 2 })
       window.location.href = this.activity.kuaishou_url;
     },
 

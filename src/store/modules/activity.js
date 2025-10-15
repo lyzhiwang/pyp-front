@@ -2,7 +2,7 @@
 // import { setToken, removeToken } from '@/utils/auth'
 
 // import { getActivityInfo } from '../../api/index.js';
-import { getActivityInfo } from '@/api/index';
+import { getActivityInfo, getAddTouchData } from '@/api/index';
 
 const state = {
     form: {
@@ -133,10 +133,10 @@ const actions = {
         return new Promise((resolve, reject) => {
             getActivityInfo(param).then(response => {
                 const { data } = response
-                if(data.template){
+                if (data.template) {
 
                 } else {
-                   data.template = 1
+                    data.template = 1
                 }
 
                 // data.template = 2
@@ -148,6 +148,16 @@ const actions = {
         })
     },
 
+    // 获取碰一碰数据
+    getTouchData({ commit, state }, param) {
+        return new Promise((resolve, reject) => {
+            getAddTouchData(param).then(response => {
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
 }
 
 export default {
