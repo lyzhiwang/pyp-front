@@ -77,7 +77,7 @@
           <div class="copy_btn" @click="cope(copyData.content)">点击复制</div>
         </div>
 
-        <div class="copy_img">
+        <div v-if="copyData.imgList && copyData.imgList.length > 0" class="copy_img">
           <div class="copy_img_title">评论图片</div>
           <div class="copy_img_list">
             <img

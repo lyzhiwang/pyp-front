@@ -183,22 +183,44 @@ export default {
         this.$emit('openCover');
         return;
       }
-      this.cope(this.activity.poi_content);
-      if (this.cope(this.activity.poi_content)) {
-        this.getTouchData({id: this.activity.id, type: 12 })
-        Dialog.confirm({
-          // title: '标题',
-          message: '允许复制文案到剪切板',
-          // confirmButtonText: '确认',
-          // cancelButtonText: '取消'
-        })
-          .then(() => {
-            window.location.href = this.activity.poi_scheme;
-          })
-          .catch(() => {
-            // on cancel
-          });
-      }
+      this.$store
+        .dispatch('activity/getActivityDetail', { id: this.activity.id })
+        .then((res) => {
+          // 新版本
+          var imgList = [];
+          for (var i = 0; i < this.activity.poi_image.length; i++) {
+            imgList.push(this.activity.poi_image[i].path);
+          }
+          var params = {
+            title: '点评文案', // 弹窗标题
+            content: this.activity.poi_content, // 文案内容
+            imgList: imgList, // 图片列表
+            // imgList: [
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399',
+            //   'https://img0.baidu.com/it/u=2191392668,814349101&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1399'
+            // ],// 图片列表
+            type: 12, // 类型
+            url: this.activity.poi_scheme, // 跳转链接
+            btnText: '抖音点评', // 按钮文案
+          };
+          this.$emit('openPopup', params);
+        });
+      // this.cope(this.activity.poi_content);
+      // if (this.cope(this.activity.poi_content)) {
+      //   this.getTouchData({id: this.activity.id, type: 12 })
+      //   Dialog.confirm({
+      //     // title: '标题',
+      //     message: '允许复制文案到剪切板',
+      //     // confirmButtonText: '确认',
+      //     // cancelButtonText: '取消'
+      //   })
+      //     .then(() => {
+      //       window.location.href = this.activity.poi_scheme;
+      //     })
+      //     .catch(() => {
+      //       // on cancel
+      //     });
+      // }
     },
 
     // 点评+收藏

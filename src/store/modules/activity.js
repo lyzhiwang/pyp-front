@@ -18,31 +18,41 @@ const state = {
         dianping_content: "",
         dianping_scheme: "",
         dianping_switch: false,
+
         douyin_switch: false,
+
         friend_content: "",
         friend_scheme: "",
         friend_switch: false,
+
         gaode_content: "",
         gaode_scheme: "",
         gaode_switch: false,
+
         home_scheme: "",
         home_switch: false,
         id: null,
         is_redpacket: false,
         kuaishou_switch: false,
         kuaishou_url: "",
+
         meituan_content: "",
         meituan_scheme: "",
         meituan_switch: false,
+
         mini_program_appid: "",
         mini_program_icon_path: "",
         mini_program_name: "",
         mini_program_path: "",
         mini_program_switch: false,
+
         name: "",
+
         poi_content: "",
         poi_scheme: "",
         poi_switch: false,
+        poi_image:[],
+        
         set_meal: {
             // activity_id: 178,
             // average_price: 109,
@@ -80,8 +90,10 @@ const state = {
         set_meal_act_id: null,
         set_meal_id: null,
         set_meal_switch: false,
+
         share_activity_id: null,
         share_switch: false,
+
         shipinhao_switch: false,
         store: {
             // address: "河南省洛阳市西工区王城大道111号",
@@ -101,6 +113,7 @@ const state = {
             // phone: "13525491185",
             // per_capita: "100",
         },
+
         wechat_switch: false,
         wifi_switch: false,
         xhs_switch: false,
