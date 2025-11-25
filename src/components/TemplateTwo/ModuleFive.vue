@@ -45,7 +45,7 @@
         </div> -->
 
         <div
-          v-if="activity.xhs_follow_switch"
+          v-if="activity.xhs_image_switch"
           class="content_item"
           @click="releaseXhs()"
         >

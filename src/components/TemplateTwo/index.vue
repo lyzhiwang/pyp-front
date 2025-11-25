@@ -54,7 +54,7 @@
     </template>
 
     <!--  -->
-    <template v-if="activity.home_switch || activity.xhs_follow_switch">
+    <template v-if="activity.home_switch || activity.xhs_image_switch || activity.xhs_follow_switch">
       <ModuleFive @openCover="openCover" @openPopup="openPopup" />
     </template>
 
