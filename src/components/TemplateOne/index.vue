@@ -78,6 +78,11 @@
       </template>
 
       <!--  -->
+      <template v-if="activity.wifi_switch">
+        <Wifi @openCover="openCover" />
+      </template>
+
+      <!--  -->
       <template v-if="activity.set_meal_switch && activity.set_meal">
         <ModuleSix @openCover="openCover" />
       </template>
@@ -86,7 +91,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 import Header from '@/components/TemplateOne/Header';
 import ModuleOne from '@/components/TemplateOne/ModuleOne';
@@ -96,6 +101,7 @@ import ModuleFour from '@/components/TemplateOne/ModuleFour';
 import ModuleFive from '@/components/TemplateOne/ModuleFive';
 import ModuleSix from '@/components/TemplateOne/ModuleSix';
 import AdOne from '@/components/Advertisement/AdOne';
+import Wifi from '@/components/TemplateOne/Wifi';
 export default {
   components: {
     Header,
@@ -106,6 +112,7 @@ export default {
     ModuleFive,
     ModuleSix,
     AdOne,
+    Wifi
   },
 
   data() {

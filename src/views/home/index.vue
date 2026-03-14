@@ -233,15 +233,26 @@ export default {
         getCode({ code: this.$route.query.code }).then((res) => {
           if (res.data) {
             this.id = res.data.touch_activity_id;
+
+            // console.log('this.id');
+            // console.log(this.id);
+            // return
             // 将touch_activity_id添加到url
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.set('touch_activity_id', this.id);
             history.pushState({}, document.title, newUrl.toString());
+
+            // // 删除 code 参数
+            // newUrl.searchParams.delete('code');
+            // history.pushState({}, document.title, newUrl.toString());
+
             PostAddScanNumber(this.id).then((res) => {
               // 增加扫码次数
               // console.log('增加扫码次数')
               // console.log(res)
             });
+            console.log('window.location.href');
+            console.log(window.location.href);
             this.PageJudgment();
           }
         });
@@ -307,10 +318,15 @@ export default {
           // 微信网页判断
           if (this.PageType === 2 || this.PageType === '2') {
             console.log('进入2222');
-            if (this.$route.query.code && !this.$route.query.openid) {
+            console.log(this.$route.query);
+            // return
+            // if (this.$route.query.code && this.$route.query.code.length == 32 && !this.$route.query.openid)
+            // && (this.$route.query.code.length == 2 || this.$route.query.code.length == 32) 
+            if ( ((this.$route.query.code && this.$route.query.code.length == 2) || (this.$route.query.code && this.$route.query.code.length == 32)) && !this.$route.query.openid) {
               console.log('进入3333');
+              const temporaryCode = this.$route.query.code && this.$route.query.code.length == 2 ? this.$route.query.code[1] : this.$route.query.code;
               // code存在换取openid
-              getCodeToOpenid({ code: this.$route.query.code }).then((res) => {
+              getCodeToOpenid({ code: temporaryCode}).then((res) => {
                 console.log('code存在换取openid并存储');
                 console.log(res);
                 this.SET_OPEN_ID(res.data.openid);
@@ -328,7 +344,8 @@ export default {
                 newUrl.searchParams.delete('state');
                 history.pushState({}, document.title, newUrl.toString());
               });
-            } else if (!this.$route.query.openid) {
+              // (!this.$route.query.code || (this.$route.query.code && this.$route.query.code.length == 33))  && 
+            } else if ((!this.$route.query.code || (this.$route.query.code && this.$route.query.code.length == 33))  && !this.$route.query.openid) {
               console.log('进入4444');
               this.$store
                 .dispatch('user/refreshLink', this.activity)
@@ -336,6 +353,7 @@ export default {
                   // code不存在 跳转授权
                   console.log('code不存在 跳转授权');
                   console.log(link);
+                  // return
                   window.location.href = link;
                 });
             }

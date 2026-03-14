@@ -342,6 +342,9 @@ export default {
 
       document.body.appendChild(a);
       a.click();
+      postDownload(this.list.id).then((res) => {
+        console.log('78888', res);
+      });
 
       // 清理
       window.URL.revokeObjectURL(url);

@@ -19,10 +19,10 @@
         <img class="icon" src="@/assets/home/xhs.png" />
         <div class="title">关注小红书</div>
       </div>
-      <div class="list_item" v-if="activity.wifi_switch" @click="wifi()">
+      <!-- <div class="list_item" v-if="activity.wifi_switch" @click="wifi()">
         <img class="icon" src="@/assets/home/WIFI.png" />
         <div class="title">连WIFI</div>
-      </div>
+      </div> -->
       <div class="list_item" v-if="activity.act_switch" @click="addCard()">
         <img class="icon" src="@/assets/home/yhq.png" />
         <div class="title">领劵活动</div>
