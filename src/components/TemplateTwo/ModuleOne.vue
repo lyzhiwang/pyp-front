@@ -260,7 +260,17 @@ export default {
         return;
       }
       this.getTouchData({id: this.activity.id, type: 2 })
-      window.location.href = this.activity.kuaishou_url;
+      var url = this.activity.kuaishou_url;
+      if (this.$route.query.openid) {
+        url = url + '&openid=' + this.$route.query.openid;
+      }
+      console.log(this.$route.query);
+      if(this.$route.query && this.$route.query.platform && this.$route.query.platform === 'ks') {
+        this.$emit('releaseKs');
+      } else {
+        url = url + '&platform=ks';
+        window.location.href = url;
+      }
     },
 
     // 呼叫代驾

@@ -5,6 +5,7 @@
       v-if="activity.template === 1"
       @openCover="openCover"
       @openPopup="openPopup"
+      @releaseKs="faBuKs"
       @CallForAChauffeur="CallForAChauffeur"
     />
 
@@ -13,6 +14,7 @@
       v-else-if="activity.template === 2"
       @openCover="openCover"
       @openPopup="openPopup"
+      @releaseKs="faBuKs"
       @CallForAChauffeur="CallForAChauffeur"
     />
 
@@ -38,8 +40,9 @@
     <van-dialog
       v-model="popupVisible"
       title="提示"
-      show-cancel-button
+      :show-confirm-button="publish_type === 2 ? true : false"
       confirm-button-color="#e57cff"
+      @confirm="confirmKs"
     >
       <div class="Popup_box" v-if="publish_type == 1">
         <div class="load">
@@ -365,7 +368,7 @@ export default {
         });
     },
 
-    //快手授权成功之后
+    // 快手授权成功之后 发视频
     urlKs() {
       this.popupVisible = true;
       this.id = JSON.parse(this.$route.query.state).touch_activity_id;
@@ -374,12 +377,16 @@ export default {
       console.log(window.location.href);
       console.log(this.$route.query);
       console.log('快手');
+      var params = {
+        code: this.$route.query.code
+      }
+      if(JSON.parse(this.$route.query.state) &&JSON.parse(this.$route.query.state).openid){
+        params.openid = JSON.parse(this.$route.query.state).openid
+      }
       // 快手发视频
       postKsPublishVideo(
         JSON.parse(this.$route.query.state).touch_activity_id,
-        {
-          code: this.$route.query.code,
-        }
+        params
       )
         .then((res) => {
           this.publish_type = 2;
@@ -390,7 +397,7 @@ export default {
         });
     },
 
-    // 发布快手
+    // 快手获取授权
     faBuKs() {
       Dialog.confirm({
         title: '提示',
@@ -399,9 +406,13 @@ export default {
         // cancelButtonText: '取消'
       })
         .then(() => {
-          // on confirm
-          //快手授权页
-          getKsAuthorizeLink({ id: this.activity.id }).then((res) => {
+          var params = {
+            id: this.activity.id
+          }
+          if(this.$route.query.openid){
+            params.openid = this.$route.query.openid
+          }
+          getKsAuthorizeLink(params).then((res) => {
             // sessionStorage.setItem("kuaishouurl", res.data.url);
             this.getTouchData({id: this.activity.id, type: 2 })
             window.location.href = res.data.url;
@@ -409,7 +420,13 @@ export default {
         })
         .catch(() => {
           // on cancel
+          // window.location.href = 'kwai://home/';
         });
+    },
+
+    // 返回快手首页
+    confirmKs() {
+      window.location.href = 'kwai://home/';
     },
 
     // 打开遮罩层

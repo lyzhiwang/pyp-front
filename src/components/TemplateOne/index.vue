@@ -21,7 +21,11 @@
           activity.daijia_switch
         "
       >
-        <ModuleOne @openCover="openCover" @CallForAChauffeur="CallForAChauffeur" />
+        <ModuleOne
+          @openCover="openCover"
+          @CallForAChauffeur="CallForAChauffeur"
+          @releaseKs="releaseKs"
+        />
       </template>
 
       <!--  -->
@@ -34,7 +38,7 @@
         v-if="
           activity.dianping_switch ||
           activity.poi_switch ||
-          activity.gaode_switch || 
+          activity.gaode_switch ||
           activity.xiecheng_switch
         "
       >
@@ -86,7 +90,11 @@
       <template v-if="activity.set_meal_switch && activity.set_meal">
         <ModuleSix @openCover="openCover" />
       </template>
+
+      <!-- <div style="color: #000; z-index: 9999">{{ this.$route.query }}</div> -->
     </div>
+
+    <!-- <div style="color: #000; z-index: 9999">{{ this.$route.query }}</div> -->
   </div>
 </template>
 
@@ -112,7 +120,7 @@ export default {
     ModuleFive,
     ModuleSix,
     AdOne,
-    Wifi
+    Wifi,
   },
 
   data() {
@@ -146,6 +154,10 @@ export default {
       this.$emit('CallForAChauffeur');
     },
 
+    // 发布快手
+    releaseKs() {
+      this.$emit('releaseKs');
+    },
   },
 };
 </script>

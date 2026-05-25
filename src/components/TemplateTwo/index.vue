@@ -1,8 +1,18 @@
 <template>
   <div class="home_content">
     <div class="bg_box">
-      <img v-if="activity && activity.background" class="bg_img" :src="activity.background" alt="" />
-      <img v-else class="bg_img" src="@/assets/TemplateTwo/ModuleOne/bg.png" alt="" />
+      <img
+        v-if="activity && activity.background"
+        class="bg_img"
+        :src="activity.background"
+        alt=""
+      />
+      <img
+        v-else
+        class="bg_img"
+        src="@/assets/TemplateTwo/ModuleOne/bg.png"
+        alt=""
+      />
       <!-- <img class="bg_img" src="@/assets/TemplateTwo/ModuleOne/bg.png" alt="" /> -->
     </div>
     <!--  -->
@@ -17,7 +27,12 @@
         activity.daijia_switch
       "
     >
-      <ModuleOne @openCover="openCover" @openPopup="openPopup" @CallForAChauffeur="CallForAChauffeur" />
+      <ModuleOne
+        @openCover="openCover"
+        @openPopup="openPopup"
+        @CallForAChauffeur="CallForAChauffeur"
+        @releaseKs="releaseKs"
+      />
     </template>
 
     <!--  -->
@@ -28,9 +43,9 @@
     <!--  -->
     <template
       v-if="
-        activity.dianping_switch || 
-        activity.poi_switch || 
-        activity.gaode_switch || 
+        activity.dianping_switch ||
+        activity.poi_switch ||
+        activity.gaode_switch ||
         activity.xiecheng_switch
       "
     >
@@ -54,7 +69,13 @@
     </template>
 
     <!--  -->
-    <template v-if="activity.home_switch || activity.xhs_image_switch || activity.xhs_follow_switch">
+    <template
+      v-if="
+        activity.home_switch ||
+        activity.xhs_image_switch ||
+        activity.xhs_follow_switch
+      "
+    >
       <ModuleFive @openCover="openCover" @openPopup="openPopup" />
     </template>
 
@@ -139,6 +160,11 @@ export default {
     // 呼叫代驾
     CallForAChauffeur() {
       this.$emit('CallForAChauffeur');
+    },
+
+    // 发布快手
+    releaseKs() {
+      this.$emit('releaseKs');
     },
   },
 };

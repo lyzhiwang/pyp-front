@@ -86,10 +86,11 @@ export function getCode(params) {
 }
 
 // 快手授权
-export function getKsAuthorizeLink({ id }) {
+export function getKsAuthorizeLink(params) {
     return request({
-        url: `/get/kuaishou/authorize/link/${id}`,
+        url: `/get/kuaishou/authorize/link/${params.id}`,
         method: "get",
+        params:{openid:params.openid}
     })
 }
 
