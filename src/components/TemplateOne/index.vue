@@ -29,9 +29,9 @@
       </template>
 
       <!--  -->
-      <template v-if="activity.bxh_ad_switch">
+      <!-- <template v-if="activity.bxh_ad_switch">
         <AdOne @openCover="openCover" />
-      </template>
+      </template> -->
 
       <!--  -->
       <template
